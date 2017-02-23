@@ -991,10 +991,10 @@ public class Solution {
 	 *  You may assume no duplicates in the array.
 	 *  
 	 *  Here are few examples.
-	 *  [1,3,5,6], 5 → 2
-	 *  [1,3,5,6], 2 → 1
-	 *  [1,3,5,6], 7 → 4
-	 *  [1,3,5,6], 0 → 0
+	 *  [1,3,5,6], 5 -> 2
+	 *  [1,3,5,6], 2 -> 1
+	 *  [1,3,5,6], 7 -> 4
+	 *  [1,3,5,6], 0 -> 0
 	 */
 	public int searchInsert(int[] nums, int target) {
 		int i = 0;
@@ -1896,7 +1896,7 @@ public class Solution {
 	 *  
 	 *  Note:
 	 *  Given m, n satisfy the following condition:
-	 *  1 ≤ m ≤ n ≤ length of list.
+	 *  1 <= m <= n <= length of list.
 	 */
 	public ListNode reverseBetween(ListNode head, int m, int n) {
 		ListNode thead = new ListNode(-1);
@@ -3944,24 +3944,24 @@ public class Solution {
      *     "Sieve of Eratosthenes Animation" by SKopp is licensed under CC BY 2.0.
      *     
      *     We start off with a table of n numbers. Let's look at the first number, 2. We know all multiples of 2 must not be primes, 
-     *     so we mark them off as non-primes. Then we look at the next number, 3. Similarly, all multiples of 3 such as 3 脳 2 = 6, 
-     *     3 脳 3 = 9, ... must not be primes, so we mark them off as well. Now we look at the next number, 4, 
+     *     so we mark them off as non-primes. Then we look at the next number, 3. Similarly, all multiples of 3 such as 3 x 2 = 6, 
+     *     3 x 3 = 9, ... must not be primes, so we mark them off as well. Now we look at the next number, 4, 
      *     which was already marked off. What does this tell you? Should you mark off all multiples of 4 as well?
      *     
      *  5. 4 is not a prime because it is divisible by 2, which means all multiples of 4 must also be divisible by 2 
      *     and were already marked off. So we can skip 4 immediately and go to the next number, 5. 
-     *     Now, all multiples of 5 such as 5 脳 2 = 10, 5 脳 3 = 15, 5 脳 4 = 20, 5 脳 5 = 25, ... can be marked off. 
-     *     There is a slight optimization here, we do not need to start from 5 脳 2 = 10. Where should we start marking off?
+     *     Now, all multiples of 5 such as 5 x 2 = 10, 5 x 3 = 15, 5 x 4 = 20, 5 x 5 = 25, ... can be marked off. 
+     *     There is a slight optimization here, we do not need to start from 5 x 2 = 10. Where should we start marking off?
      *     
-     *  6. In fact, we can mark off multiples of 5 starting at 5 脳 5 = 25, because 5 脳 2 = 10 was already marked off by multiple of 2, 
-     *     similarly 5 脳 3 = 15 was already marked off by multiple of 3. Therefore, if the current number is p, 
+     *  6. In fact, we can mark off multiples of 5 starting at 5 x 5 = 25, because 5 x 2 = 10 was already marked off by multiple of 2, 
+     *     similarly 5 x 3 = 15 was already marked off by multiple of 3. Therefore, if the current number is p, 
      *     we can always mark off multiples of p starting at p2, then in increments of p: p2 + p, p2 + 2p, ... 
      *     Now what should be the terminating loop condition?
      *     
      *  7. It is easy to say that the terminating loop condition is p < n, which is certainly correct but not efficient. 
      *     Do you still remember Hint #3?
      *     
-     *  8. Yes, the terminating loop condition can be p < 鈭歯, as all non-primes 鈮� 鈭歯 must have already been marked off. 
+     *  8. Yes, the terminating loop condition can be p < sqrt(n), as all non-primes >= sqrt(n) must have already been marked off. 
      *     When the loop terminates, all the numbers in the table that are non-marked are prime.
      *     The Sieve of Eratosthenes uses an extra O(n) memory and its runtime complexity is O(n log log n). 
      *     For the more mathematically inclined readers, you can read more about its algorithm complexity on Wikipedia.
@@ -4412,8 +4412,8 @@ public class Solution {
      *  #235. Lowest Common Ancestor of a Binary Search Tree
      *  
      *  Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
-     *  According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w 
-     *  as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+     *  According to the definition of LCA on Wikipedia: "The lowest common ancestor is defined between two nodes v and w 
+     *  as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself)."
      *  
      *          _______6______
      *         /              \
@@ -4768,7 +4768,7 @@ public class Solution {
     /**
      *  [Easy]
      *  #303. Range Sum Query - Immutable
-     *  Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.
+     *  Given an integer array nums, find the sum of the elements between indices i and j (i <= j), inclusive.
      *  
      *  Example:
      *  Given nums = [-2, 0, 3, -5, 2, -1]
@@ -4836,7 +4836,7 @@ public class Solution {
      *  [Medium]
      *  #338. Counting Bits
      *  Given a non negative integer number num. 
-     *  For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+     *  For every numbers i in the range 0 <= i <= num calculate the number of 1's in their binary representation and return them as an array.
      *  
      *  Example:
      *  For num = 5 you should return [0,1,1,2,1,2].
@@ -5410,7 +5410,7 @@ public class Solution {
      *  [Easy]
      *  #405. Convert a Number to Hexadecimal
      *  
-     *  Given an integer, write an algorithm to convert it to hexadecimal. For negative integer, two’s complement method is used.
+     *  Given an integer, write an algorithm to convert it to hexadecimal. For negative integer, two's complement method is used.
      *  
      *  Note:
      *  All letters in hexadecimal (a-f) must be in lowercase.
@@ -5520,8 +5520,8 @@ public class Solution {
      *  #412. Fizz Buzz
      *  
      *  Write a program that outputs the string representation of numbers from 1 to n.
-     *  But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. 
-     *  For numbers which are multiples of both three and five output “FizzBuzz”.
+     *  But for multiples of three it should output "Fizz" instead of the number and for the multiples of five output "Buzz". 
+     *  For numbers which are multiples of both three and five output "FizzBuzz".
      *  
      *  Example:
      *  
@@ -6026,9 +6026,9 @@ public class Solution {
      *  n = 5
      *  
      *  The coins can form the following rows:
-     *  ¤
-     *  ¤ ¤
-     *  ¤ ¤
+     *  o
+     *  o o
+     *  o o
      *  
      *  Because the 3rd row is incomplete, we return 2.
      *  
@@ -6036,10 +6036,10 @@ public class Solution {
      *  n = 8
      *  
      *  The coins can form the following rows:
-     *  ¤
-     *  ¤ ¤
-     *  ¤ ¤ ¤
-     *  ¤ ¤
+     *  o
+     *  o o
+     *  o o o
+     *  o o
      *  
      *  Because the 4th row is incomplete, we return 3.
      */
@@ -6152,7 +6152,7 @@ public class Solution {
     /**
      *  [Easy]
      *  #448. Find All Numbers Disappeared in an Array
-     *  Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
+     *  Given an array of integers where 1 <= a[i] <= n (n = size of array), some elements appear twice and others appear once.
      *  
      *  Find all the elements of [1, n] inclusive that do not appear in this array.
      *  
@@ -6383,7 +6383,7 @@ public class Solution {
      *  Given two integers x and y, calculate the Hamming distance.
      *  
      *  Note:
-     *  0 ≤ x, y < 2^31.
+     *  0 <= x, y < 2^31.
      *  
      *  Example:
 
@@ -6394,7 +6394,7 @@ public class Solution {
      *  Explanation:
      *  1   (0 0 0 1)
      *  4   (0 1 0 0)
-     *         ↑   ↑
+     *         ^   ^
      *  
      *  The above arrows point to positions where the corresponding bits are different.
      */
