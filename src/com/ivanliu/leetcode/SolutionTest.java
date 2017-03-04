@@ -1826,4 +1826,11 @@ public class SolutionTest {
 		assertEquals(0, solution.findComplement(-1));
 		assertEquals(Integer.MAX_VALUE, solution.findComplement(Integer.MIN_VALUE));
 	}
+	
+	@Test
+	public void test500() {
+		String[] inputs = {"Hello", "Alaska", "Dad", "Peace"};
+		String[] outputs = {"Alaska", "Dad"};
+		assertArrayEquals(outputs, solution.findWords(inputs));
+	}
 }

@@ -6518,4 +6518,63 @@ public class Solution {
         int mask = factor - 1;
         return num ^ mask;
     }
+    
+    /**
+     *  [Easy]
+     *  #500. Keyboard Row
+     *  Given a List of words, return the words that can be typed using letters of alphabet 
+     *  on only one row's of American keyboard like the image below.
+     *  
+     *  Example 1:
+     *  Input: ["Hello", "Alaska", "Dad", "Peace"]
+     *  Output: ["Alaska", "Dad"]
+     *  
+     *  Note:
+     *  You may use one character in the keyboard more than once.
+     *  You may assume the input string will only contain letters of alphabet.
+     */
+    public String[] findWords(String[] words) {
+    	Map<Character, Integer> map = new HashMap<>();
+    	map.put('Q', 1);
+    	map.put('W', 1);
+    	map.put('E', 1);
+    	map.put('R', 1);
+    	map.put('T', 1);
+    	map.put('Y', 1);
+    	map.put('U', 1);
+    	map.put('I', 1);
+    	map.put('O', 1);
+    	map.put('P', 1);
+    	map.put('A', 2);
+    	map.put('S', 2);
+    	map.put('D', 2);
+    	map.put('F', 2);
+    	map.put('G', 2);
+    	map.put('H', 2);
+    	map.put('J', 2);
+    	map.put('K', 2);
+    	map.put('L', 2);
+    	map.put('Z', 3);
+    	map.put('X', 3);
+    	map.put('C', 3);
+    	map.put('V', 3);
+    	map.put('B', 3);
+    	map.put('N', 3);
+    	map.put('M', 3);
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < words.length; ++i) {
+        	String word = words[i].toUpperCase();
+        	int row = map.get(word.charAt(0));
+        	int j = 1;
+        	for (; j < word.length(); ++j) {
+        		if (row != map.get(word.charAt(j))) {
+        			break;
+        		}
+        	}
+        	if (j >= word.length()) {
+        		result.add(words[i]);
+        	}
+        }
+        return result.toArray(new String[]{});
+    }
 }
