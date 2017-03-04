@@ -1,5 +1,8 @@
 package com.ivanliu.utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sorting {
 	
 	private static void swap(int[] data, int i, int j) {
@@ -175,5 +178,86 @@ public class Sorting {
 			data[i] = keyValue;
 			return i;
 		}
+	}
+	
+	public static int[] mergeSort(int[] array) {
+		mergeSort(array, 0, array.length - 1);
+		return array;
+	}
+	
+	private static void mergeSort(int[] array, int low, int high) {
+		if (low < high) {
+			int middle = (low + high) / 2;
+			mergeSort(array, low, middle);
+			mergeSort(array, middle + 1, high);
+			merge(array, low, middle, high);
+		}
+	}
+	
+	private static void merge(int[] array, int low, int middle, int high) {
+		int[] tempArray = new int[array.length];
+		int i = low;
+		int j = middle + 1;
+		int k = low;
+		while (i <= middle && j <= high) {
+			if (array[i] <= array[j]) {
+				tempArray[k++] = array[i++];
+			} else {
+				tempArray[k++] = array[j++];
+			}
+		}
+		while (i <= middle) {
+			tempArray[k++] = array[i++];
+		}
+		while (j <= high) {
+			tempArray[k++] = array[j++];
+		}
+		System.arraycopy(tempArray, low, array, low, high - low + 1);
+	}
+	
+	public static int[] radixSort(int[] array) {
+		int maxValue = getMaxValue(array);
+		int numOfDigits = getNumOfDigits(maxValue);
+		List<List<Integer>> llist = new ArrayList<>();
+		for (int n = 0; n < 10; ++n) {
+			llist.add(new ArrayList<Integer>());
+		}
+		int factor = 1;
+		for (int n = 0; n < numOfDigits; ++n) {
+			for (int i = 0; i < array.length; ++i) {
+				int digit = array[i] / factor % 10;
+				llist.get(digit).add(array[i]);
+			}
+			int index = 0;
+			for (int j = 0; j < 10; ++j) {
+				List<Integer> list = llist.get(j);
+				for (int k = 0; k < list.size(); ++k) {
+					array[index++] = list.get(k);
+				}
+				list.clear();
+			}
+			factor *= 10;
+		}
+		return array;
+	}
+	
+	private static int getMaxValue(int[] array) {
+		if (array == null || array.length == 0) return 0;
+		int maxValue = array[0];
+		for (int i = 1; i < array.length; ++i) {
+			if (maxValue < array[i]) {
+				maxValue = array[i];
+			}
+		}
+		return maxValue;
+	}
+	
+	private static int getNumOfDigits(int maxValue) {
+		int numOfDigits = 0;
+		while (maxValue > 0) {
+			maxValue /= 10;
+			++numOfDigits;
+		}
+		return numOfDigits;
 	}
 }

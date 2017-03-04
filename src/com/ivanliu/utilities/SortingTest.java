@@ -12,8 +12,8 @@ public class SortingTest extends Sorting {
 
 	@Before
 	public void before() {
-		input  = new int[] {11,3,5,1,9,7,6,2,8};
-		output = new int[] {1,2,3,5,6,7,8,9,11};
+		input  = new int[] {11,3,5,10,9,107,6,2,8};
+		output = new int[] {2,3,5,6,8,9,10,11,107};
 	}
 	
 	@Test
@@ -49,5 +49,15 @@ public class SortingTest extends Sorting {
 	@Test
 	public void testQuickSort() {
 		assertArrayEquals(output, ChangeSort.quickSort(input));
+	}
+	
+	@Test
+	public void testMergeSort() {
+		assertArrayEquals(output, Sorting.mergeSort(input));
+	}
+	
+	@Test
+	public void testRadixSort() {
+		assertArrayEquals(output, Sorting.radixSort(input));
 	}
 }
