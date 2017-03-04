@@ -1813,4 +1813,14 @@ public class SolutionTest {
 		assertEquals(16, solution.islandPerimeter(new int[][]{{0,1,0,0},{1,1,1,0},{0,1,1,0},{1,1,0,0}}));
 		assertEquals(20, solution.islandPerimeter(new int[][]{{0,1,0,0,0},{1,1,1,1,1},{0,1,1,0,0},{1,1,0,0,0}}));
 	}
+	
+	@Test
+	public void test476() {
+		assertEquals(2, solution.findComplement(5));
+		assertEquals(0, solution.findComplement(1));
+		assertEquals(34, solution.findComplement(93));
+		assertEquals(0, solution.findComplement(Integer.MAX_VALUE));
+		assertEquals(0, solution.findComplement(-1));
+		assertEquals(Integer.MAX_VALUE, solution.findComplement(Integer.MIN_VALUE));
+	}
 }
