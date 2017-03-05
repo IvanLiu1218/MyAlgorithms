@@ -1825,6 +1825,16 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test485() {
+		int[] input = new int[] {1,1,0,1,1,1};
+		assertEquals(3, solution.findMaxConsecutiveOnes(input));
+		input = new int[] {1,1,1,0,1,1};
+		assertEquals(3, solution.findMaxConsecutiveOnes(input));
+		input = new int[] {1,1,1,1,1,1};
+		assertEquals(6, solution.findMaxConsecutiveOnes(input));
+	}
+	
+	@Test
 	public void test496() {
 		int[] findNums = new int[] {4,1,2};
 		int[] nums = new int[] {1,3,4,2};
