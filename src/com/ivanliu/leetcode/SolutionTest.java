@@ -1825,6 +1825,17 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test496() {
+		int[] findNums = new int[] {4,1,2};
+		int[] nums = new int[] {1,3,4,2};
+		assertArrayEquals(new int[] {-1,3,-1}, solution.nextGreaterElement(findNums, nums));
+		
+		findNums = new int[] {2,4};
+		nums = new int[] {1,2,3,4};
+		assertArrayEquals(new int[] {3,-1}, solution.nextGreaterElement(findNums, nums));
+	}
+	
+	@Test
 	public void test500() {
 		String[] inputs = {"Hello", "Alaska", "Dad", "Peace"};
 		String[] outputs = {"Alaska", "Dad"};
