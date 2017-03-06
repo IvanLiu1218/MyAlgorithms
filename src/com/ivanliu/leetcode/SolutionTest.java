@@ -125,7 +125,10 @@ public class SolutionTest {
 	public void test014() {
 		assertEquals("ab", solution.longestCommonPrefix(new String[] {"abc","ab","abcd"}));
 		assertEquals("a", solution.longestCommonPrefix(new String[] {"abc","ad","abcd"}));
+		assertEquals("", solution.longestCommonPrefix(new String[] {"abc","bd","abcd"}));
 		assertEquals("", solution.longestCommonPrefix(new String[] {}));
+		// Wrong answer:
+		assertEquals("", solution.longestCommonPrefix(new String[] {"a","b"}));
 	}
 	
 	@Test
