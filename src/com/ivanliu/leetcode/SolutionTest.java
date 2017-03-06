@@ -1894,4 +1894,17 @@ public class SolutionTest {
 		root.left = new TreeNode(1);
 		assertEquals(1, solution.findBottomLeftValue(root));
 	}
+	
+	@Test
+	public void test520() {
+		assertEquals( true, solution.detectCapitalUse("USA"));
+		assertEquals( true, solution.detectCapitalUse("leetcode"));
+		assertEquals( true, solution.detectCapitalUse("Google"));
+		assertEquals(false, solution.detectCapitalUse("FlaG"));
+		assertEquals( true, solution.detectCapitalUse("A"));
+		assertEquals( true, solution.detectCapitalUse("Ab"));
+		assertEquals( true, solution.detectCapitalUse("AB"));
+		// wrong answer:
+		assertEquals( true, solution.detectCapitalUse("g"));
+	}
 }
