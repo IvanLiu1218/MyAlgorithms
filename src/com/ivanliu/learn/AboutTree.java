@@ -98,4 +98,34 @@ public class AboutTree {
 		}
 		return total;
 	}
+	
+	private static List<List<TreeNode<Integer>>> findPathIf_llist = null;
+	public static List<List<TreeNode<Integer>>> findPathIf(TreeNode<Integer> root, int total) {
+		findPathIf_llist = new ArrayList<>();
+		List<TreeNode<Integer>> path = new ArrayList<>();
+		findPathIf(root, 0, total, path);
+		return findPathIf_llist;
+	}
+	
+	private static void findPathIf(TreeNode<Integer> node, int value, int total, List<TreeNode<Integer>> path) {
+		if (node.left == null && node.right == null) {
+			value += node.value;
+			if (value == total) {
+				path.add(node);
+				findPathIf_llist.add(new ArrayList<>(path));  // add copy to llist
+				path.remove(path.size() - 1);  // go back to its parent node
+			}
+			return;
+		} else {
+			value += node.value;
+			path.add(node);
+			if (node.left != null) {
+				findPathIf(node.left, value, total, path);
+			}
+			if (node.right != null) {
+				findPathIf(node.right, value, total, path);
+			}
+			path.remove(path.size() - 1); // go back to its parent node
+		}
+	}
 }
