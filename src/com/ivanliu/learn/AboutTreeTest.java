@@ -118,6 +118,7 @@ public class AboutTreeTest {
 	public void testGetTotal() {
 		/*
 		 *         1
+		 *        / \
 		 *       /   \
 		 *      0     7
 		 *     / \   / \
@@ -131,5 +132,65 @@ public class AboutTreeTest {
 		node.right.left = new TreeNode<>("5");
 		node.right.right = new TreeNode<>("4");
 		assertEquals(551, AboutTree.getTotal(node));
+	}
+	
+	@Test
+	public void testFindPathIf() {
+		/*
+		 *          5
+		 *        /  \
+		 *       /    \
+		 *      -2    -3
+		 *     / \    / \
+		 *    4   6  7   8
+		 *   /   /  / \   \
+		 *  3   1  2   5   4
+		 *                  \
+		 *                   0
+		 *  
+		 *  10: 5->-2->4->3 / 5->-2->6->1
+		 *  11: 5->-3->7->2
+		 *  14: 5->-3->7->5 / 5->-3->8->4->0 
+		 */
+		TreeNode<Integer> root = new TreeNode<>(5);
+		root.left = new TreeNode<>(-2);
+		root.left.left = new TreeNode<>(4);
+		root.left.left.left = new TreeNode<>(3);
+		root.left.right = new TreeNode<>(6);
+		root.left.right.left = new TreeNode<>(1);
+		root.right = new TreeNode<>(-3);
+		root.right.left = new TreeNode<>(7);
+		root.right.left.left = new TreeNode<>(2);
+		root.right.left.right = new TreeNode<>(5);
+		root.right.right = new TreeNode<>(8);
+		root.right.right.right = new TreeNode<>(4);
+		root.right.right.right.right = new TreeNode<>(0);
+		
+		List<List<TreeNode<Integer>>> llist = AboutTree.findPathIf(root, 10);
+		assertEquals(2, llist.size());
+		assertEquals("5->-2->4->3", toString(llist.get(0)));
+		assertEquals("5->-2->6->1", toString(llist.get(1)));
+		
+		llist = AboutTree.findPathIf(root, 11);
+		assertEquals(1, llist.size());
+		assertEquals("5->-3->7->2", toString(llist.get(0)));
+		
+		llist = AboutTree.findPathIf(root, 14);
+		assertEquals(2, llist.size());
+		assertEquals("5->-3->7->5", toString(llist.get(0)));
+		assertEquals("5->-3->8->4->0", toString(llist.get(1)));
+		
+		llist = AboutTree.findPathIf(root, 15);
+		assertEquals(0, llist.size());
+	}
+	
+	private <T> String toString(List<TreeNode<T>> list) {
+		if (list == null || list.size() == 0) return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(list.get(0).value);
+		for (int i = 1; i < list.size(); ++i) {
+			sb.append("->" + list.get(i).value);
+		}
+		return sb.toString();
 	}
 }
