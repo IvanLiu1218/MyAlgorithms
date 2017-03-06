@@ -291,7 +291,7 @@ public class Solution {
 			boolean flag = false;
 			while (l < s.length()) {
 				sb.append(s.charAt(l));
-				if (r % (numRows - 1) == 0) {
+				if (r % (numRows - 1) == 0) {  // the first and last lines
 					l += delta;
 				} else if (flag) {
 					l += r * 2;
@@ -334,7 +334,7 @@ public class Solution {
 			num *= -1;
 			isNegative = true;
 		}
-		long result = 0;
+		long result = 0;  // define result as long type to check if overflow
 		while (num > 0) {
 			result *= 10;
 			int left = num % 10;
@@ -540,10 +540,7 @@ public class Solution {
 		int prev = -1;
 		for (int i = s.length() - 1; i >= 0; --i) {
 			int val = romanMap.get(s.charAt(i));
-			if (prev == -1) {
-				prev = val;
-			}
-			else if (val < prev) {
+			if (val < prev) {
 				val *= -1;
 			}
 			result += val;
@@ -559,6 +556,36 @@ public class Solution {
 	 *  Write a function to find the longest common prefix string amongst an array of strings.
 	 */
 	public String longestCommonPrefix(String[] strs) {
+		return longestCommonPrefix_solution1(strs);  // more efficient
+		//return longestCommonPrefix_solution2(strs);
+	}
+	public String longestCommonPrefix_solution2(String[] strs) {
+		if (strs.length == 0) return "";
+		int minLength = Integer.MAX_VALUE;
+		int index = 0;
+		for (int i = 0; i < strs.length; ++i) {
+			if (strs[i].length() < minLength) {
+				minLength = strs[i].length();
+				index = i;
+			}
+		}
+		String prefix = strs[index]; 
+		int i = 0; // index of prefix
+		while (i < prefix.length()) {
+			char c1 = prefix.charAt(i);
+			int j = 0; // index of String array
+			while (j < strs.length) {
+				char c2 = strs[j].charAt(i);
+				if (c1 != c2) break;
+				++j;
+			}
+			if (j >= strs.length) ++i;
+			else break;
+		}
+		return prefix.substring(0, i);
+	}
+	
+	public String longestCommonPrefix_solution1(String[] strs) {
 		if (strs.length == 0) return "";
 		int minLength = Integer.MAX_VALUE;
 		int index = 0;
