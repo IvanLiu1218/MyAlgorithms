@@ -1828,9 +1828,51 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test485() {
+		int[] input = new int[] {1,1,0,1,1,1};
+		assertEquals(3, solution.findMaxConsecutiveOnes(input));
+		input = new int[] {1,1,1,0,1,1};
+		assertEquals(3, solution.findMaxConsecutiveOnes(input));
+		input = new int[] {1,1,1,1,1,1};
+		assertEquals(6, solution.findMaxConsecutiveOnes(input));
+	}
+	
+	@Test
+	public void test496() {
+		int[] findNums = new int[] {4,1,2};
+		int[] nums = new int[] {1,3,4,2};
+		assertArrayEquals(new int[] {-1,3,-1}, solution.nextGreaterElement(findNums, nums));
+		
+		findNums = new int[] {2,4};
+		nums = new int[] {1,2,3,4};
+		assertArrayEquals(new int[] {3,-1}, solution.nextGreaterElement(findNums, nums));
+	}
+	
+	@Test
 	public void test500() {
 		String[] inputs = {"Hello", "Alaska", "Dad", "Peace"};
 		String[] outputs = {"Alaska", "Dad"};
 		assertArrayEquals(outputs, solution.findWords(inputs));
+	}
+	
+	@Test
+	public void test513() {
+		TreeNode root = new TreeNode(2);
+		root.left = new TreeNode(1);
+		root.right = new TreeNode(3);
+		assertEquals(1, solution.findBottomLeftValue(root));
+		
+		root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(4);
+		root.right = new TreeNode(3);
+		root.right.left = new TreeNode(5);
+		root.right.left.left = new TreeNode(7);
+		root.right.right = new TreeNode(6);
+		assertEquals(7, solution.findBottomLeftValue(root));
+		
+		root = new TreeNode(1);
+		root.left = new TreeNode(1);
+		assertEquals(1, solution.findBottomLeftValue(root));
 	}
 }
