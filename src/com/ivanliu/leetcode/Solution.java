@@ -5497,7 +5497,9 @@ public class Solution {
      *  [Medium]
      *  #406. Queue Reconstruction by Height
      *  
-     *  Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
+     *  Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), 
+     *  where h is the height of the person and k is the number of people in front of this person who have a height 
+     *  greater than or equal to h. Write an algorithm to reconstruct the queue.
      *  
      *  Note:
      *  The number of people is less than 1,100.
@@ -5511,7 +5513,40 @@ public class Solution {
      *  [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
      */
     public int[][] reconstructQueue(int[][] people) {
-        return null;
+    	for (int i = 0; i < people.length; ++i) {
+    		for (int j = i + 1; j < people.length; ++j) {
+    			if (reconstructQueue_greater(people[i], people[j])) {
+    				reconstructQueue_swap(people, i, j);
+    			}
+    		}
+    	}
+    	for (int i = 1; i < people.length; ++i) {
+    		int count = 0;
+    		for (int j = 0; j < i; ++j) {
+    			if (people[j][0] >= people[i][0]) ++count;
+    			if (count > people[i][1]) {
+    				reconstructQueue_move(people, i, j);
+    				break;
+    			}
+    		}
+    	}
+        return people;
+    }
+    private boolean reconstructQueue_greater(int[] p1, int[] p2) {
+    	return (p1[1] > p2[1]) || (p1[1] == p2[1] && p1[0] > p2[0]);
+    }
+    private void reconstructQueue_swap(int[][] people, int x, int y) {
+    	int[] temp = people[x];
+    	people[x] = people[y];
+    	people[y] = temp;
+    }
+    private void reconstructQueue_move(int[][] people, int from, int to) {
+    	if (from == to) return;
+    	int[] temp = people[from];
+    	for (int i = from - 1; i >= to; --i) {
+    		people[i + 1] = people[i];
+    	}
+    	people[to] = temp;
     }
     
     /**

@@ -1647,6 +1647,25 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test406() {
+		int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+		int[][] result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0},{4,4},{7,1},{5,2},{6,1},{5,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[7, 0]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0},{5,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0]]", Arrays.deepToString(result));
+	}
+	
+	@Test
 	public void test409() {
 		assertEquals(7, solution.longestPalindrome("abccccdd"));
 		// Wrong Answer
