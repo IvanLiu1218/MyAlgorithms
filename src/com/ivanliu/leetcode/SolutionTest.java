@@ -1896,6 +1896,24 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test515() {
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(3);
+		root.left.left = new TreeNode(5);
+		root.left.right = new TreeNode(3);
+		root.right = new TreeNode(2);
+		root.right.right = new TreeNode(9);
+		assertEquals("[1, 3, 9]", Arrays.toString(solution.largestValues(root).toArray()));
+		
+		root = new TreeNode(1);
+		root.left = new TreeNode(3);
+		root.left.left = new TreeNode(5);
+		root.left.right = new TreeNode(3);
+		root.right = new TreeNode(2);
+		assertEquals("[1, 3, 5]", Arrays.toString(solution.largestValues(root).toArray()));
+	}
+	
+	@Test
 	public void test520() {
 		assertEquals( true, solution.detectCapitalUse("USA"));
 		assertEquals( true, solution.detectCapitalUse("leetcode"));

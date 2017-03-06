@@ -6761,6 +6761,47 @@ public class Solution {
     }
     
     /**
+     *  {Medium]
+     *  #515. Find Largest Value in Each Tree Row
+     *  
+     *  You need to find the largest value in each row of a binary tree.
+     *  
+     *  Example:
+     *  Input: 
+     *  
+     *            1
+     *           / \
+     *          3   2
+     *         / \   \  
+     *        5   3   9 
+     *  
+     *  Output: [1, 3, 9]
+     *  Subscribe to see which companies asked this question.
+     */
+    public List<Integer> largestValues(TreeNode root) {
+    	List<Integer> result = new ArrayList<>();
+    	if (root == null) return result;
+    	Deque<TreeNode> queue = new ArrayDeque<>();
+    	TreeNode flag = new TreeNode(Integer.MIN_VALUE);
+    	queue.offerLast(root);
+    	queue.offerLast(flag);
+    	int maxInRow = Integer.MIN_VALUE;
+    	while (queue.size() > 0) {
+    		TreeNode node = queue.pollFirst();
+    		if (node == flag) {
+    			result.add(maxInRow);
+    			maxInRow = Integer.MIN_VALUE;
+    			if (queue.size() != 0) queue.offerLast(flag);
+    		} else {
+    			if (node.val > maxInRow) maxInRow = node.val;
+    			if (node.left != null) queue.offerLast(node.left);
+    			if (node.right != null) queue.offerLast(node.right);
+    		}
+    	}
+        return result;
+    }
+    
+    /**
      *  [Easy]
      *  #520. Detect Capital
      *  
