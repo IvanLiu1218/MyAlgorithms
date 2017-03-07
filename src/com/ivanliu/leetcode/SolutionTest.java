@@ -1946,4 +1946,38 @@ public class SolutionTest {
 		// wrong answer:
 		assertEquals( true, solution.detectCapitalUse("g"));
 	}
+	
+	@Test
+	public void test529() {
+		char[][] board = new char[][] {{'E', 'E', 'E', 'E', 'E'},
+			                           {'E', 'E', 'M', 'E', 'E'},
+			                           {'E', 'E', 'E', 'E', 'E'},
+			                           {'E', 'E', 'E', 'E', 'E'}};
+	    int[] click = new int[] {3,0};
+	    char[][] result = new char[][] {{'B', '1', 'E', '1', 'B'},
+                                        {'B', '1', 'M', '1', 'B'},
+                                        {'B', '1', '1', '1', 'B'},
+                                        {'B', 'B', 'B', 'B', 'B'}};
+        assertArrayEquals(result, solution.updateBoard(board, click));
+        
+        board = new char[][] {{'B', '1', 'E', '1', 'B'},
+                              {'B', '1', 'M', '1', 'B'},
+                              {'B', '1', '1', '1', 'B'},
+                              {'B', 'B', 'B', 'B', 'B'}};
+        click = new int[] {1,2};
+        result = new char[][] {{'B', '1', 'E', '1', 'B'},
+                               {'B', '1', 'X', '1', 'B'},
+                               {'B', '1', '1', '1', 'B'},
+                               {'B', 'B', 'B', 'B', 'B'}};
+        assertArrayEquals(result, solution.updateBoard(board, click));
+        
+        // Time Limit Exceeded
+        /* ["EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+         *   ...
+         *  "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", X 48
+         *  ...
+         *  "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"]
+         */
+        // [29,2]
+	}
 }
