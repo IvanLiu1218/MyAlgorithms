@@ -1857,6 +1857,18 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test495() {
+		assertEquals(4, solution.findPoisonedDuration(new int[]{1,4}, 2));
+		assertEquals(3, solution.findPoisonedDuration(new int[]{1,2}, 2));
+		assertEquals(4, solution.findPoisonedDuration(new int[]{1,2}, 3));
+		// Runtime Error
+		// [], 100000
+		assertEquals(0, solution.findPoisonedDuration(new int[]{}, 100000));
+		assertEquals(0, solution.findPoisonedDuration(new int[]{1,4}, 0));
+		// Time Limit Exceeded
+	}
+	
+	@Test
 	public void test496() {
 		int[] findNums = new int[] {4,1,2};
 		int[] nums = new int[] {1,3,4,2};
