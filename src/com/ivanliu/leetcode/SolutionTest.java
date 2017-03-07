@@ -1875,6 +1875,27 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test508() {
+		TreeNode root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(-3);
+		assertEquals("[2, -3, 4]", Arrays.toString(solution.findFrequentTreeSum(root)));
+		
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(-5);
+		assertEquals("[2]", Arrays.toString(solution.findFrequentTreeSum(root)));
+		
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(3);
+		root.left.right = new TreeNode(-1);
+		root.right = new TreeNode(-5);
+		root.right.right = new TreeNode(4);
+		assertEquals("[-1, 4]", Arrays.toString(solution.findFrequentTreeSum(root)));
+	}
+	
+	@Test
 	public void test513() {
 		TreeNode root = new TreeNode(2);
 		root.left = new TreeNode(1);
