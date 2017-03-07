@@ -6911,4 +6911,130 @@ public class Solution {
     private boolean detectCapitalUse_isUppercase(char c) {
     	return  ('A' <= c && c <= 'Z');
     }
+    
+    /**
+     *  [Medium]
+     *  #529. Minesweeper
+     *  
+     *  Let's play the minesweeper game (Wikipedia, online game)!
+     *  
+     *  You are given a 2D char matrix representing the game board. 'M' represents an unrevealed mine, 
+     *  'E' represents an unrevealed empty square, 
+     *  'B' represents a revealed blank square that has no adjacent (above, below, left, right, and all 4 diagonals) mines, 
+     *  digit ('1' to '8') represents how many mines are adjacent to this revealed square, 
+     *  and finally 'X' represents a revealed mine.
+     *  
+     *  Now given the next click position (row and column indices) among all the unrevealed squares ('M' or 'E'), 
+     *  return the board after revealing this position according to the following rules:
+     *  
+     *  If a mine ('M') is revealed, then the game is over - change it to 'X'.
+     *  If an empty square ('E') with no adjacent mines is revealed, then change it to revealed blank ('B') 
+     *  and all of its adjacent unrevealed squares should be revealed recursively.
+     *  If an empty square ('E') with at least one adjacent mine is revealed, 
+     *  then change it to a digit ('1' to '8') representing the number of adjacent mines.
+     *  Return the board when no more squares will be revealed.
+     *  
+     *  Example 1:
+     *  Input: 
+     *  
+     *  [['E', 'E', 'E', 'E', 'E'],
+     *   ['E', 'E', 'M', 'E', 'E'],
+     *   ['E', 'E', 'E', 'E', 'E'],
+     *   ['E', 'E', 'E', 'E', 'E']]
+     *  
+     *  Click : [3,0]
+     *  
+     *  Output: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'M', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *   
+     *  Example 2:
+     *  Input: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'M', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *  
+     *  Click : [1,2]
+     *  
+     *  Output: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'X', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *   
+     *  Note:
+     *  - The range of the input matrix's height and width is [1,50].
+     *  - The click position will only be an unrevealed square ('M' or 'E'), 
+     *    which also means the input board contains at least one clickable square.
+     *  - The input board won't be a stage when game is over (some mines have been revealed).
+     *  - For simplicity, not mentioned rules should be ignored in this problem. For example, 
+     *    you don't need to reveal all the unrevealed mines when the game is over, 
+     *    consider any cases that you will win the game or flag any squares.
+     */
+    public char[][] updateBoard(char[][] board, int[] click) {
+    	int x = click[0];
+    	int y = click[1];
+    	if (board[x][y] == 'M') {
+    		board[x][y] = 'X';
+    	} else if (board[x][y] == 'E') {
+    		board = updateBoard_setNumOfMines(board, click);
+    		Deque<List<Integer>> queue = new ArrayDeque<>();
+    		List<Integer> plist = new ArrayList<>();
+    		plist.add(x);
+    		plist.add(y);
+    		queue.offerLast(plist);
+    		while (queue.size() > 0) {
+    			plist = queue.pollFirst();
+    			int[] point = plist.stream().mapToInt(i -> i).toArray();
+    			if (board[point[0]][point[1]] == 'B') {
+    				int[][] range = updateBoard_getPointRange(board, point);
+    				for (int i = range[0][0]; i <= range[0][1]; ++i) {
+    		    		for (int j = range[1][0]; j <= range[1][1]; ++j) {
+    		    			if (board[i][j] == 'E') {
+    		    				board = updateBoard_setNumOfMines(board, new int[]{i,j});
+    		    				plist = new ArrayList<>();
+    		    				plist.add(i);
+    		    				plist.add(j);
+    		    				queue.offerLast(plist);
+    		    			}
+    		    		}
+    		    	}
+    			}
+    		}
+    	}
+        return board;
+    }
+    private char[][] updateBoard_setNumOfMines(char[][] board, int[] point) {
+    	int x1 = point[0];
+    	int y1 = point[1];
+    	int[][] range = updateBoard_getPointRange(board, point);
+    	int numOfMines = 0;
+    	for (int i = range[0][0]; i <= range[0][1]; ++i) {
+    		for (int j = range[1][0]; j <= range[1][1]; ++j) {
+    			if (board[i][j] == 'M' && (i != x1 || j != y1)) {
+    				++numOfMines;
+    			}
+    		}
+    	}
+    	if (numOfMines == 0) board[x1][y1] = 'B';
+    	else board[x1][y1] = (char) ('0' + numOfMines);
+    	return board;
+    }
+    private int[][] updateBoard_getPointRange(char[][] board, int[] point) {
+    	int height = board.length;
+    	int width  = board[0].length;
+    	int x1 = point[0];
+    	int x0 = x1 - 1 >= 0 ? x1 - 1 : 0;
+    	int x2 = x1 + 1 < height ? x1 + 1 : height - 1;
+    	int y1 = point[1];
+    	int y0 = y1 - 1 >= 0 ? y1 - 1 : 0;
+    	int y2 = y1 + 1 < width ? y1 + 1 : width - 1;
+    	return new int[][] {{x0, x2}, {y0, y2}};
+    }
 }
