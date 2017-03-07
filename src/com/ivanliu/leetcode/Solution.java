@@ -6716,6 +6716,75 @@ public class Solution {
     }
     
     /**
+     *  [Medium]
+     *  #508. Most Frequent Subtree Sum
+     *  
+     *  Given the root of a tree, you are asked to find the most frequent subtree sum. The subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself). So what is the most frequent subtree sum value? If there is a tie, return all the values with the highest frequency in any order.
+     *  
+     *  Examples 1
+     *  Input:
+     *  
+     *    5
+     *   /  \
+     *  2   -3
+     *  return [2, -3, 4], since all the values happen only once, return all of them in any order.
+     *  
+     *  Examples 2
+     *  Input:
+     *  
+     *    5
+     *   /  \
+     *  2   -5
+     *  return [2], since 2 happens twice, however -5 only occur once.
+     *  Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
+     */
+    private Map<Integer, Integer> findFrequentTreeSum_iiMap = null;
+    public int[] findFrequentTreeSum(TreeNode root) {
+    	List<Integer> result = new ArrayList<>();
+    	if (root != null) {
+    		findFrequentTreeSum_iiMap = new HashMap<>();
+    		findFrequentTreeSum_getSum(root);
+    		Iterator<Integer> it = findFrequentTreeSum_iiMap.keySet().iterator();
+    		int maxCount = 0;
+    		while (it.hasNext()) {
+    			int sum = it.next();
+    			int count = findFrequentTreeSum_iiMap.get(sum);
+    			if (count > maxCount) {
+    				result.clear();
+    				maxCount = count;
+    				result.add(sum);
+    			} else if (count == maxCount) {
+    				result.add(sum);
+    			}
+    		}
+    	}
+    	return result.stream().mapToInt((Integer i) -> i.intValue()).toArray();
+    }
+    private int findFrequentTreeSum_getSum(TreeNode node) {
+    	if (node.left == null && node.right == null) {
+    		findFrequentTreeSum_putToMap(node.val);
+    		return node.val;
+    	}
+    	int sum = node.val;
+    	if (node.left != null) {
+    		sum += findFrequentTreeSum_getSum(node.left);
+    	}
+    	if (node.right != null) {
+    		sum += findFrequentTreeSum_getSum(node.right);
+    	}
+    	findFrequentTreeSum_putToMap(sum);
+    	return sum;
+    }
+    private void findFrequentTreeSum_putToMap(int val) {
+    	if (findFrequentTreeSum_iiMap.containsKey(val)) {
+    		int count = findFrequentTreeSum_iiMap.get(val);
+    		findFrequentTreeSum_iiMap.put(val, ++count);
+    	} else {
+    		findFrequentTreeSum_iiMap.put(val, 1);
+    	}
+    }
+    
+    /**
      *  [Easy]
      *  #513. Find Bottom Left Tree Value
      *  
