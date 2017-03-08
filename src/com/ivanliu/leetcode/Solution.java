@@ -6640,7 +6640,19 @@ public class Solution {
      *  You may assume the numbers in the Teemo's attacking time series and his poisoning time duration per attacking are non-negative integers, which won't exceed 10,000,000.
      */
     public int findPoisonedDuration(int[] timeSeries, int duration) {
-    	int count = 0;
+    	if (timeSeries == null || timeSeries.length == 0) return 0;
+    	int count = duration;
+    	int prev = timeSeries[0] + duration - 1;
+    	for (int i = 1; i < timeSeries.length; ++i) {
+    		if (timeSeries[i] == prev) {
+    			count += duration - 1;
+    		} else if (timeSeries[i] < prev) {
+    			count += duration - (prev - timeSeries[i] + 1);
+    		} else {  // timeSeries[i] > prev
+    			count += duration;
+    		}
+    		prev = timeSeries[i] + duration - 1;
+    	}
         return count;
     }
     private int findPoisonedDuration_TimeLimitExceeded(int[] timeSeries, int duration) {

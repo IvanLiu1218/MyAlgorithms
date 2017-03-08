@@ -1861,6 +1861,10 @@ public class SolutionTest {
 		assertEquals(4, solution.findPoisonedDuration(new int[]{1,4}, 2));
 		assertEquals(3, solution.findPoisonedDuration(new int[]{1,2}, 2));
 		assertEquals(4, solution.findPoisonedDuration(new int[]{1,2}, 3));
+		assertEquals(7, solution.findPoisonedDuration(new int[]{1,2}, 6));
+		assertEquals(12, solution.findPoisonedDuration(new int[]{1,8}, 6));
+		assertEquals(12, solution.findPoisonedDuration(new int[]{1,7}, 6));
+		assertEquals(11, solution.findPoisonedDuration(new int[]{1,6}, 6));
 		// Runtime Error
 		// [], 100000
 		assertEquals(0, solution.findPoisonedDuration(new int[]{}, 100000));
