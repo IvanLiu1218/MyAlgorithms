@@ -1838,6 +1838,13 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test462() {
+		assertEquals(2, solution.minMoves2(new int[]{1,2,3}));
+		assertEquals(3, solution.minMoves2(new int[]{1,3,4}));
+		assertEquals(7, solution.minMoves2(new int[]{1,3,4,7}));
+	}
+	
+	@Test
 	public void test463() {
 		assertEquals(16, solution.islandPerimeter(new int[][]{{0,1,0,0},{1,1,1,0},{0,1,0,0},{1,1,0,0}}));
 		assertEquals(16, solution.islandPerimeter(new int[][]{{0,1,0,0},{1,1,1,0},{0,1,1,0},{1,1,0,0}}));
