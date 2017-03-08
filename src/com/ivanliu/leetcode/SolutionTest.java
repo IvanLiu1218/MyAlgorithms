@@ -1784,6 +1784,14 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test451() {
+		assertEquals("eert", solution.frequencySort("tree"));
+		assertEquals("aaaccc", solution.frequencySort("cccaaa"));
+		assertEquals("bbAa", solution.frequencySort("bbAa"));
+		// Time Limit Exceeded
+	}
+	
+	@Test
 	public void test453() {
 		assertEquals(1, solution.minMoves(new int[] {1,2}));
 		assertEquals(3, solution.minMoves(new int[] {1,2,3}));

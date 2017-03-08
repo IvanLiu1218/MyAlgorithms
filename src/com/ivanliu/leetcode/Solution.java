@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import com.ivanliu.leetcode.Utility.ListNode;
 import com.ivanliu.leetcode.Utility.TreeLinkNode;
@@ -6259,6 +6260,67 @@ public class Solution {
         	if (nums[i] > 0) list.add(i + 1);
         }
         return list;
+    }
+    
+    /**
+     *  [Medium]
+     *  #451. Sort Characters By Frequency
+     *  
+     *  Given a string, sort it in decreasing order based on the frequency of characters.
+     *  
+     *  Example 1:
+     *  
+     *  Input:  "tree"
+     *  Output: "eert"
+     *  
+     *  Explanation:
+     *  'e' appears twice while 'r' and 't' both appear once.
+     *  So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+     *  
+     *  Example 2:
+     *  
+     *  Input:  "cccaaa"
+     *  Output: "cccaaa"
+     *  
+     *  Explanation:
+     *  Both 'c' and 'a' appear three times, so "aaaccc" is also a valid answer.
+     *  Note that "cacaca" is incorrect, as the same characters must be together.
+     *  
+     *  Example 3:
+     *  
+     *  Input:  "Aabb"
+     *  Output:  "bbAa"
+     *  
+     *  Explanation:
+     *  "bbaA" is also a valid answer, but "Aabb" is incorrect.
+     *  Note that 'A' and 'a' are treated as two different characters.
+     */
+    public String frequencySort(String s) {
+    	Map<Character, StringBuilder> map1 = new HashMap<>();
+        for (int i = 0; i < s.length(); ++i) {
+        	char c = s.charAt(i);
+        	if (map1.containsKey(c)) {
+        		map1.put(c, map1.get(c).append(c));
+        	} else {
+        		map1.put(c, new StringBuilder().append(c));
+        	}
+        }
+        Iterator<Character> it1 = map1.keySet().iterator();
+        Map<Integer, StringBuilder> map2 = new TreeMap<>((a, b) -> (a - b) * -1);
+        while (it1.hasNext()) {
+        	StringBuilder sb = map1.get(it1.next());
+        	if (map2.containsKey(sb.length())) {
+        		map2.put(sb.length(), map2.get(sb.length()).append(sb));
+        	} else {
+        		map2.put(sb.length(), new StringBuilder().append(sb));
+        	}
+        }
+        StringBuilder sb = new StringBuilder();
+        Iterator<Integer> it2 = map2.keySet().iterator();
+        while (it2.hasNext()) {
+        	sb.append(map2.get(it2.next()));
+        }
+        return sb.toString();
     }
     
     /**
