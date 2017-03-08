@@ -1872,6 +1872,20 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test492() {
+		int[] result = solution.constructRectangle(4);
+		assertEquals(2, result[0]);
+		assertEquals(2, result[1]);
+		result = solution.constructRectangle(12);
+		assertEquals(4, result[0]);
+		assertEquals(3, result[1]);
+		// Wrong Answer
+		result = solution.constructRectangle(3);
+		assertEquals(3, result[0]);
+		assertEquals(1, result[1]);
+	}
+	
+	@Test
 	public void test495() {
 		assertEquals(4, solution.findPoisonedDuration(new int[]{1,4}, 2));
 		assertEquals(3, solution.findPoisonedDuration(new int[]{1,2}, 2));
