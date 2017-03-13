@@ -303,10 +303,10 @@ public class SolutionTest {
 		assertEquals("[8, 9, 4]", Arrays.toString(matrix[1]));
 		assertEquals("[7, 6, 5]", Arrays.toString(matrix[2]));
 		matrix = solution.generateMatrix(4);
-		assertEquals("[1, 2, 3, 4]", Arrays.toString(matrix[0]));
+		assertEquals("[1,   2,  3, 4]", Arrays.toString(matrix[0]));
 		assertEquals("[12, 13, 14, 5]", Arrays.toString(matrix[1]));
 		assertEquals("[11, 16, 15, 6]", Arrays.toString(matrix[2]));
-		assertEquals("[10, 9, 8, 7]", Arrays.toString(matrix[3]));
+		assertEquals("[10,  9,  8, 7]", Arrays.toString(matrix[3]));
 	}
 	
 	@Test
