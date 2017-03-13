@@ -1647,6 +1647,25 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test406() {
+		int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+		int[][] result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0},{4,4},{7,1},{5,2},{6,1},{5,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[7, 0]]", Arrays.deepToString(result));
+		
+		people = new int[][] {{7,0},{5,0}};
+		result = solution.reconstructQueue(people);
+		assertEquals("[[5, 0], [7, 0]]", Arrays.deepToString(result));
+	}
+	
+	@Test
 	public void test409() {
 		assertEquals(7, solution.longestPalindrome("abccccdd"));
 		// Wrong Answer
@@ -1765,6 +1784,14 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test451() {
+		assertEquals("eert", solution.frequencySort("tree"));
+		assertEquals("aaaccc", solution.frequencySort("cccaaa"));
+		assertEquals("bbAa", solution.frequencySort("bbAa"));
+		// Time Limit Exceeded
+	}
+	
+	@Test
 	public void test453() {
 		assertEquals(1, solution.minMoves(new int[] {1,2}));
 		assertEquals(3, solution.minMoves(new int[] {1,2,3}));
@@ -1811,6 +1838,13 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test462() {
+		assertEquals(2, solution.minMoves2(new int[]{1,2,3}));
+		assertEquals(3, solution.minMoves2(new int[]{1,3,4}));
+		assertEquals(7, solution.minMoves2(new int[]{1,3,4,7}));
+	}
+	
+	@Test
 	public void test463() {
 		assertEquals(16, solution.islandPerimeter(new int[][]{{0,1,0,0},{1,1,1,0},{0,1,0,0},{1,1,0,0}}));
 		assertEquals(16, solution.islandPerimeter(new int[][]{{0,1,0,0},{1,1,1,0},{0,1,1,0},{1,1,0,0}}));
@@ -1838,6 +1872,36 @@ public class SolutionTest {
 	}
 	
 	@Test
+	public void test492() {
+		int[] result = solution.constructRectangle(4);
+		assertEquals(2, result[0]);
+		assertEquals(2, result[1]);
+		result = solution.constructRectangle(12);
+		assertEquals(4, result[0]);
+		assertEquals(3, result[1]);
+		// Wrong Answer
+		result = solution.constructRectangle(3);
+		assertEquals(3, result[0]);
+		assertEquals(1, result[1]);
+	}
+	
+	@Test
+	public void test495() {
+		assertEquals(4, solution.findPoisonedDuration(new int[]{1,4}, 2));
+		assertEquals(3, solution.findPoisonedDuration(new int[]{1,2}, 2));
+		assertEquals(4, solution.findPoisonedDuration(new int[]{1,2}, 3));
+		assertEquals(7, solution.findPoisonedDuration(new int[]{1,2}, 6));
+		assertEquals(12, solution.findPoisonedDuration(new int[]{1,8}, 6));
+		assertEquals(12, solution.findPoisonedDuration(new int[]{1,7}, 6));
+		assertEquals(11, solution.findPoisonedDuration(new int[]{1,6}, 6));
+		// Runtime Error
+		// [], 100000
+		assertEquals(0, solution.findPoisonedDuration(new int[]{}, 100000));
+		assertEquals(0, solution.findPoisonedDuration(new int[]{1,4}, 0));
+		// Time Limit Exceeded
+	}
+	
+	@Test
 	public void test496() {
 		int[] findNums = new int[] {4,1,2};
 		int[] nums = new int[] {1,3,4,2};
@@ -1853,6 +1917,27 @@ public class SolutionTest {
 		String[] inputs = {"Hello", "Alaska", "Dad", "Peace"};
 		String[] outputs = {"Alaska", "Dad"};
 		assertArrayEquals(outputs, solution.findWords(inputs));
+	}
+	
+	@Test
+	public void test508() {
+		TreeNode root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(-3);
+		assertEquals("[2, -3, 4]", Arrays.toString(solution.findFrequentTreeSum(root)));
+		
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(-5);
+		assertEquals("[2]", Arrays.toString(solution.findFrequentTreeSum(root)));
+		
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(3);
+		root.left.right = new TreeNode(-1);
+		root.right = new TreeNode(-5);
+		root.right.right = new TreeNode(4);
+		assertEquals("[-1, 4]", Arrays.toString(solution.findFrequentTreeSum(root)));
 	}
 	
 	@Test
@@ -1874,5 +1959,70 @@ public class SolutionTest {
 		root = new TreeNode(1);
 		root.left = new TreeNode(1);
 		assertEquals(1, solution.findBottomLeftValue(root));
+	}
+	
+	@Test
+	public void test515() {
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(3);
+		root.left.left = new TreeNode(5);
+		root.left.right = new TreeNode(3);
+		root.right = new TreeNode(2);
+		root.right.right = new TreeNode(9);
+		assertEquals("[1, 3, 9]", Arrays.toString(solution.largestValues(root).toArray()));
+		
+		root = new TreeNode(1);
+		root.left = new TreeNode(3);
+		root.left.left = new TreeNode(5);
+		root.left.right = new TreeNode(3);
+		root.right = new TreeNode(2);
+		assertEquals("[1, 3, 5]", Arrays.toString(solution.largestValues(root).toArray()));
+	}
+	
+	@Test
+	public void test520() {
+		assertEquals( true, solution.detectCapitalUse("USA"));
+		assertEquals( true, solution.detectCapitalUse("leetcode"));
+		assertEquals( true, solution.detectCapitalUse("Google"));
+		assertEquals(false, solution.detectCapitalUse("FlaG"));
+		assertEquals( true, solution.detectCapitalUse("A"));
+		assertEquals( true, solution.detectCapitalUse("Ab"));
+		assertEquals( true, solution.detectCapitalUse("AB"));
+		// wrong answer:
+		assertEquals( true, solution.detectCapitalUse("g"));
+	}
+	
+	@Test
+	public void test529() {
+		char[][] board = new char[][] {{'E', 'E', 'E', 'E', 'E'},
+			                           {'E', 'E', 'M', 'E', 'E'},
+			                           {'E', 'E', 'E', 'E', 'E'},
+			                           {'E', 'E', 'E', 'E', 'E'}};
+	    int[] click = new int[] {3,0};
+	    char[][] result = new char[][] {{'B', '1', 'E', '1', 'B'},
+                                        {'B', '1', 'M', '1', 'B'},
+                                        {'B', '1', '1', '1', 'B'},
+                                        {'B', 'B', 'B', 'B', 'B'}};
+        assertArrayEquals(result, solution.updateBoard(board, click));
+        
+        board = new char[][] {{'B', '1', 'E', '1', 'B'},
+                              {'B', '1', 'M', '1', 'B'},
+                              {'B', '1', '1', '1', 'B'},
+                              {'B', 'B', 'B', 'B', 'B'}};
+        click = new int[] {1,2};
+        result = new char[][] {{'B', '1', 'E', '1', 'B'},
+                               {'B', '1', 'X', '1', 'B'},
+                               {'B', '1', '1', '1', 'B'},
+                               {'B', 'B', 'B', 'B', 'B'}};
+        assertArrayEquals(result, solution.updateBoard(board, click));
+        
+        // Time Limit Exceeded
+        /* ["EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+         *   ...
+         *  "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", X 48
+         *  ...
+         *  "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"]
+         */
+        // [29,2]
 	}
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import com.ivanliu.leetcode.Utility.ListNode;
 import com.ivanliu.leetcode.Utility.TreeLinkNode;
@@ -5494,6 +5495,62 @@ public class Solution {
     }
     
     /**
+     *  [Medium]
+     *  #406. Queue Reconstruction by Height
+     *  
+     *  Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), 
+     *  where h is the height of the person and k is the number of people in front of this person who have a height 
+     *  greater than or equal to h. Write an algorithm to reconstruct the queue.
+     *  
+     *  Note:
+     *  The number of people is less than 1,100.
+     *  
+     *  Example
+     *  
+     *  Input:
+     *  [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+     *  
+     *  Output:
+     *  [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+     */
+    public int[][] reconstructQueue(int[][] people) {
+    	for (int i = 0; i < people.length; ++i) {
+    		for (int j = i + 1; j < people.length; ++j) {
+    			if (reconstructQueue_greater(people[i], people[j])) {
+    				reconstructQueue_swap(people, i, j);
+    			}
+    		}
+    	}
+    	for (int i = 1; i < people.length; ++i) {
+    		int count = 0;
+    		for (int j = 0; j < i; ++j) {
+    			if (people[j][0] >= people[i][0]) ++count;
+    			if (count > people[i][1]) {
+    				reconstructQueue_move(people, i, j);
+    				break;
+    			}
+    		}
+    	}
+        return people;
+    }
+    private boolean reconstructQueue_greater(int[] p1, int[] p2) {
+    	return (p1[1] > p2[1]) || (p1[1] == p2[1] && p1[0] > p2[0]);
+    }
+    private void reconstructQueue_swap(int[][] people, int x, int y) {
+    	int[] temp = people[x];
+    	people[x] = people[y];
+    	people[y] = temp;
+    }
+    private void reconstructQueue_move(int[][] people, int from, int to) {
+    	if (from == to) return;
+    	int[] temp = people[from];
+    	for (int i = from - 1; i >= to; --i) {
+    		people[i + 1] = people[i];
+    	}
+    	people[to] = temp;
+    }
+    
+    /**
      *  [Easy]
      *  #409. Longest Palindrome
      *  
@@ -6206,6 +6263,67 @@ public class Solution {
     }
     
     /**
+     *  [Medium]
+     *  #451. Sort Characters By Frequency
+     *  
+     *  Given a string, sort it in decreasing order based on the frequency of characters.
+     *  
+     *  Example 1:
+     *  
+     *  Input:  "tree"
+     *  Output: "eert"
+     *  
+     *  Explanation:
+     *  'e' appears twice while 'r' and 't' both appear once.
+     *  So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+     *  
+     *  Example 2:
+     *  
+     *  Input:  "cccaaa"
+     *  Output: "cccaaa"
+     *  
+     *  Explanation:
+     *  Both 'c' and 'a' appear three times, so "aaaccc" is also a valid answer.
+     *  Note that "cacaca" is incorrect, as the same characters must be together.
+     *  
+     *  Example 3:
+     *  
+     *  Input:  "Aabb"
+     *  Output:  "bbAa"
+     *  
+     *  Explanation:
+     *  "bbaA" is also a valid answer, but "Aabb" is incorrect.
+     *  Note that 'A' and 'a' are treated as two different characters.
+     */
+    public String frequencySort(String s) {
+    	Map<Character, StringBuilder> map1 = new HashMap<>();
+        for (int i = 0; i < s.length(); ++i) {
+        	char c = s.charAt(i);
+        	if (map1.containsKey(c)) {
+        		map1.put(c, map1.get(c).append(c));
+        	} else {
+        		map1.put(c, new StringBuilder().append(c));
+        	}
+        }
+        Iterator<Character> it1 = map1.keySet().iterator();
+        Map<Integer, StringBuilder> map2 = new TreeMap<>((a, b) -> (a - b) * -1);
+        while (it1.hasNext()) {
+        	StringBuilder sb = map1.get(it1.next());
+        	if (map2.containsKey(sb.length())) {
+        		map2.put(sb.length(), map2.get(sb.length()).append(sb));
+        	} else {
+        		map2.put(sb.length(), new StringBuilder().append(sb));
+        	}
+        }
+        StringBuilder sb = new StringBuilder();
+        Iterator<Integer> it2 = map2.keySet().iterator();
+        while (it2.hasNext()) {
+        	sb.append(map2.get(it2.next()));
+        }
+        return sb.toString();
+    }
+    
+    /**
      *  [Easy]
      *  #453. Minimum Moves to Equal Array Elements
      *  
@@ -6436,6 +6554,57 @@ public class Solution {
     }
     
     /**
+     *  [Medium]
+     *  #462. Minimum Moves to Equal Array Elements II
+     *  
+     *  Given a non-empty integer array, find the minimum number of moves required to make all array elements equal, where a move is incrementing a selected element by 1 or decrementing a selected element by 1.
+     *  
+     *  You may assume the array's length is at most 10,000.
+     *  
+     *  Example:
+     *  
+     *  Input:  [1,2,3]
+     *  
+     *  Output: 2
+     *  
+     *  Explanation:
+     *  Only two moves are needed (remember each move increments or decrements one element):
+     *  
+     *  [1,2,3]  =>  [2,2,3]  =>  [2,2,2]
+     */
+    public int minMoves2(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int length = nums.length;
+        int mid = length / 2;
+        minMoves2_quickSort(nums, 0, length - 1);
+        int midValue = nums[mid];
+        int steps = 0;
+        for (int i = 0; i < length; ++i) {
+        	steps += Math.abs(nums[i] - midValue);
+        }
+        return steps;
+    }
+    private int minMoves2_getFlagIndex(int[] nums, int low, int high) {
+    	int i = low;
+    	int j = high;
+    	int flag = nums[i];
+    	while (i < j) {
+    		while (i < j && flag <= nums[j]) --j;
+    		nums[i] = nums[j];
+    		while (i < j && nums[i] <= flag) ++i;
+    		nums[j] = nums[i];
+    	}
+    	nums[i] = flag;
+    	return i;
+    }
+    private void minMoves2_quickSort(int[] nums, int low, int high) {
+    	if (low > high) return;
+    	int index = minMoves2_getFlagIndex(nums, low, high);
+        minMoves2_quickSort(nums, low, index - 1);
+        minMoves2_quickSort(nums, index + 1, high);
+    }
+    
+    /**
      *  [Easy]
      *  #463. Island Perimeter
      *  
@@ -6549,6 +6718,114 @@ public class Solution {
     	if (num > max) max = num;
         return max;
     }
+    
+    /**
+     *  [Easy]
+     *  #492. Construct the Rectangle
+     *  
+     *  For a web developer, it is very important to know how to design a web page's size. 
+     *  So, given a specific rectangular web page’s area, your job by now is to design a rectangular web page, 
+     *  whose length L and width W satisfy the following requirements:
+     *  
+     *  1. The area of the rectangular web page you designed must equal to the given target area.
+     *  2. The width W should not be larger than the length L, which means L >= W.
+     *  3. The difference between length L and width W should be as small as possible.
+     *  
+     *  You need to output the length L and the width W of the web page you designed in sequence.
+     *  
+     *  Example:
+     *  Input: 4
+     *  Output: [2, 2]
+     *  Explanation: The target area is 4, and all the possible ways to construct it are [1,4], [2,2], [4,1]. 
+     *  But according to requirement 2, [1,4] is illegal; according to requirement 3,  [4,1] is not optimal compared to [2,2]. So the length L is 2, and the width W is 2.
+     *  
+     *  Note:
+     *  The given area won't exceed 10,000,000 and is a positive integer
+     *  The web page's width and length you designed must be positive integers.
+     */
+    public int[] constructRectangle(int area) {
+        int[] result = new int[2];
+        double d = area;
+        int len = (int) Math.ceil(Math.sqrt(d));
+        while (area % len != 0) {
+        	--len;
+        }
+        int a = len;
+        int b = area / len;
+        result[0] = Math.max(a, b);
+        result[1] = Math.min(a, b);
+        return result;
+    }
+    
+    /**
+     *  [Medium]
+     *  #495. Teemo Attacking
+     *  
+     *  In LLP world, there is a hero called Teemo and his attacking can make his enemy Ashe be in poisoned condition. 
+     *  Now, given the Teemo's attacking ascending time series towards Ashe 
+     *  and the poisoning time duration per Teemo's attacking, 
+     *  you need to output the total time that Ashe is in poisoned condition.
+     *  
+     *  You may assume that Teemo attacks at the very beginning of a specific time point, 
+     *  and makes Ashe be in poisoned condition immediately.
+     *  
+     *  Example 1:
+     *  Input: [1,4], 2
+     *  Output: 4
+     *  Explanation: At time point 1, Teemo starts attacking Ashe and makes Ashe be poisoned immediately. 
+     *  This poisoned status will last 2 seconds until the end of time point 2. 
+     *  And at time point 4, Teemo attacks Ashe again, and causes Ashe to be in poisoned status for another 2 seconds. 
+     *  So you finally need to output 4.
+     *  
+     *  Example 2:
+     *  Input: [1,2], 2
+     *  Output: 3
+     *  Explanation: At time point 1, Teemo starts attacking Ashe and makes Ashe be poisoned. 
+     *  This poisoned status will last 2 seconds until the end of time point 2. 
+     *  However, at the beginning of time point 2, Teemo attacks Ashe again who is already in poisoned status. 
+     *  Since the poisoned status won't add up together, though the second poisoning attack will still work at time point 2, it will stop at the end of time point 3. 
+     *  So you finally need to output 3.
+     *  
+     *  Note:
+     *  You may assume the length of given time series array won't exceed 10000.
+     *  You may assume the numbers in the Teemo's attacking time series and his poisoning time duration per attacking are non-negative integers, which won't exceed 10,000,000.
+     */
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+    	if (timeSeries == null || timeSeries.length == 0) return 0;
+    	int count = duration;
+    	int prev = timeSeries[0] + duration - 1;
+    	for (int i = 1; i < timeSeries.length; ++i) {
+    		if (timeSeries[i] == prev) {
+    			count += duration - 1;
+    		} else if (timeSeries[i] < prev) {
+    			count += duration - (prev - timeSeries[i] + 1);
+    		} else {  // timeSeries[i] > prev
+    			count += duration;
+    		}
+    		prev = timeSeries[i] + duration - 1;
+    	}
+        return count;
+    }
+    private int findPoisonedDuration_TimeLimitExceeded(int[] timeSeries, int duration) {
+    	if (timeSeries == null || timeSeries.length == 0) return 0;
+    	if (duration == 0) return 0;
+    	int size = timeSeries[timeSeries.length - 1] + duration;
+    	boolean[] maskTable = new boolean[size];
+    	for (int i = 0; i < size; ++i) {
+    		maskTable[i] = false;
+    	}
+    	for (int i = 0; i < timeSeries.length; ++i) {
+    		int offset = timeSeries[i];
+    		for (int j = 0; j < duration; ++j) {
+    			maskTable[j + offset] = true;
+    		}
+    	}
+    	int count = 0;
+    	for (int i = 0; i < size; ++i) {
+    		if (maskTable[i]) ++count;
+    	}
+        return count;
+    }
 
     /**
      *  [Easy]
@@ -6660,6 +6937,75 @@ public class Solution {
     }
     
     /**
+     *  [Medium]
+     *  #508. Most Frequent Subtree Sum
+     *  
+     *  Given the root of a tree, you are asked to find the most frequent subtree sum. The subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself). So what is the most frequent subtree sum value? If there is a tie, return all the values with the highest frequency in any order.
+     *  
+     *  Examples 1
+     *  Input:
+     *  
+     *    5
+     *   /  \
+     *  2   -3
+     *  return [2, -3, 4], since all the values happen only once, return all of them in any order.
+     *  
+     *  Examples 2
+     *  Input:
+     *  
+     *    5
+     *   /  \
+     *  2   -5
+     *  return [2], since 2 happens twice, however -5 only occur once.
+     *  Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
+     */
+    private Map<Integer, Integer> findFrequentTreeSum_iiMap = null;
+    public int[] findFrequentTreeSum(TreeNode root) {
+    	List<Integer> result = new ArrayList<>();
+    	if (root != null) {
+    		findFrequentTreeSum_iiMap = new HashMap<>();
+    		findFrequentTreeSum_getSum(root);
+    		Iterator<Integer> it = findFrequentTreeSum_iiMap.keySet().iterator();
+    		int maxCount = 0;
+    		while (it.hasNext()) {
+    			int sum = it.next();
+    			int count = findFrequentTreeSum_iiMap.get(sum);
+    			if (count > maxCount) {
+    				result.clear();
+    				maxCount = count;
+    				result.add(sum);
+    			} else if (count == maxCount) {
+    				result.add(sum);
+    			}
+    		}
+    	}
+    	return result.stream().mapToInt((Integer i) -> i.intValue()).toArray();
+    }
+    private int findFrequentTreeSum_getSum(TreeNode node) {
+    	if (node.left == null && node.right == null) {
+    		findFrequentTreeSum_putToMap(node.val);
+    		return node.val;
+    	}
+    	int sum = node.val;
+    	if (node.left != null) {
+    		sum += findFrequentTreeSum_getSum(node.left);
+    	}
+    	if (node.right != null) {
+    		sum += findFrequentTreeSum_getSum(node.right);
+    	}
+    	findFrequentTreeSum_putToMap(sum);
+    	return sum;
+    }
+    private void findFrequentTreeSum_putToMap(int val) {
+    	if (findFrequentTreeSum_iiMap.containsKey(val)) {
+    		int count = findFrequentTreeSum_iiMap.get(val);
+    		findFrequentTreeSum_iiMap.put(val, ++count);
+    	} else {
+    		findFrequentTreeSum_iiMap.put(val, 1);
+    	}
+    }
+    
+    /**
      *  [Easy]
      *  #513. Find Bottom Left Tree Value
      *  
@@ -6702,5 +7048,214 @@ public class Solution {
     		if (node.left != null) queue.offerLast(node.left);
     	}
         return queue.pollFirst().val;
+    }
+    
+    /**
+     *  {Medium]
+     *  #515. Find Largest Value in Each Tree Row
+     *  
+     *  You need to find the largest value in each row of a binary tree.
+     *  
+     *  Example:
+     *  Input: 
+     *  
+     *            1
+     *           / \
+     *          3   2
+     *         / \   \  
+     *        5   3   9 
+     *  
+     *  Output: [1, 3, 9]
+     *  Subscribe to see which companies asked this question.
+     */
+    public List<Integer> largestValues(TreeNode root) {
+    	List<Integer> result = new ArrayList<>();
+    	if (root == null) return result;
+    	Deque<TreeNode> queue = new ArrayDeque<>();
+    	TreeNode flag = new TreeNode(Integer.MIN_VALUE);
+    	queue.offerLast(root);
+    	queue.offerLast(flag);
+    	int maxInRow = Integer.MIN_VALUE;
+    	while (queue.size() > 0) {
+    		TreeNode node = queue.pollFirst();
+    		if (node == flag) {
+    			result.add(maxInRow);
+    			maxInRow = Integer.MIN_VALUE;
+    			if (queue.size() != 0) queue.offerLast(flag);
+    		} else {
+    			if (node.val > maxInRow) maxInRow = node.val;
+    			if (node.left != null) queue.offerLast(node.left);
+    			if (node.right != null) queue.offerLast(node.right);
+    		}
+    	}
+        return result;
+    }
+    
+    /**
+     *  [Easy]
+     *  #520. Detect Capital
+     *  
+     *  Given a word, you need to judge whether the usage of capitals in it is right or not.
+     *  
+     *  We define the usage of capitals in a word to be right when one of the following cases holds:
+     *  
+     *  1. All letters in this word are capitals, like "USA".
+     *  2. All letters in this word are not capitals, like "leetcode".
+     *  3. Only the first letter in this word is capital if it has more than one letter, like "Google".
+     *  Otherwise, we define that this word doesn't use capitals in a right way.
+     *  
+     *  Example 1:
+     *  Input: "USA"
+     *  Output: True
+     *  
+     *  Example 2:
+     *  Input: "FlaG"
+     *  Output: False
+     *  
+     *  Note: The input will be a non-empty word consisting of uppercase and lowercase latin letters.
+     */
+    public boolean detectCapitalUse(String word) {
+    	if (word == null || word.length() == 0) return false;
+    	if (word.length() == 1) return true;
+    	char fchar = word.charAt(0);
+    	if (detectCapitalUse_isUppercase(fchar)) {
+    		fchar = word.charAt(1);
+    	}
+    	boolean flag = detectCapitalUse_isUppercase(fchar);
+    	for (int i = 1; i < word.length(); ++i) {
+    		if (flag != detectCapitalUse_isUppercase(word.charAt(i))) {
+    			return false;
+    		}
+    	}
+        return true;
+    }
+    private boolean detectCapitalUse_isUppercase(char c) {
+    	return  ('A' <= c && c <= 'Z');
+    }
+    
+    /**
+     *  [Medium]
+     *  #529. Minesweeper
+     *  
+     *  Let's play the minesweeper game (Wikipedia, online game)!
+     *  
+     *  You are given a 2D char matrix representing the game board. 'M' represents an unrevealed mine, 
+     *  'E' represents an unrevealed empty square, 
+     *  'B' represents a revealed blank square that has no adjacent (above, below, left, right, and all 4 diagonals) mines, 
+     *  digit ('1' to '8') represents how many mines are adjacent to this revealed square, 
+     *  and finally 'X' represents a revealed mine.
+     *  
+     *  Now given the next click position (row and column indices) among all the unrevealed squares ('M' or 'E'), 
+     *  return the board after revealing this position according to the following rules:
+     *  
+     *  If a mine ('M') is revealed, then the game is over - change it to 'X'.
+     *  If an empty square ('E') with no adjacent mines is revealed, then change it to revealed blank ('B') 
+     *  and all of its adjacent unrevealed squares should be revealed recursively.
+     *  If an empty square ('E') with at least one adjacent mine is revealed, 
+     *  then change it to a digit ('1' to '8') representing the number of adjacent mines.
+     *  Return the board when no more squares will be revealed.
+     *  
+     *  Example 1:
+     *  Input: 
+     *  
+     *  [['E', 'E', 'E', 'E', 'E'],
+     *   ['E', 'E', 'M', 'E', 'E'],
+     *   ['E', 'E', 'E', 'E', 'E'],
+     *   ['E', 'E', 'E', 'E', 'E']]
+     *  
+     *  Click : [3,0]
+     *  
+     *  Output: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'M', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *   
+     *  Example 2:
+     *  Input: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'M', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *  
+     *  Click : [1,2]
+     *  
+     *  Output: 
+     *  
+     *  [['B', '1', 'E', '1', 'B'],
+     *   ['B', '1', 'X', '1', 'B'],
+     *   ['B', '1', '1', '1', 'B'],
+     *   ['B', 'B', 'B', 'B', 'B']]
+     *   
+     *  Note:
+     *  - The range of the input matrix's height and width is [1,50].
+     *  - The click position will only be an unrevealed square ('M' or 'E'), 
+     *    which also means the input board contains at least one clickable square.
+     *  - The input board won't be a stage when game is over (some mines have been revealed).
+     *  - For simplicity, not mentioned rules should be ignored in this problem. For example, 
+     *    you don't need to reveal all the unrevealed mines when the game is over, 
+     *    consider any cases that you will win the game or flag any squares.
+     */
+    public char[][] updateBoard(char[][] board, int[] click) {
+    	int x = click[0];
+    	int y = click[1];
+    	if (board[x][y] == 'M') {
+    		board[x][y] = 'X';
+    	} else if (board[x][y] == 'E') {
+    		board = updateBoard_setNumOfMines(board, click);
+    		Deque<List<Integer>> queue = new ArrayDeque<>();
+    		List<Integer> plist = new ArrayList<>();
+    		plist.add(x);
+    		plist.add(y);
+    		queue.offerLast(plist);
+    		while (queue.size() > 0) {
+    			plist = queue.pollFirst();
+    			int[] point = plist.stream().mapToInt(i -> i).toArray();
+    			if (board[point[0]][point[1]] == 'B') {
+    				int[][] range = updateBoard_getPointRange(board, point);
+    				for (int i = range[0][0]; i <= range[0][1]; ++i) {
+    		    		for (int j = range[1][0]; j <= range[1][1]; ++j) {
+    		    			if (board[i][j] == 'E') {
+    		    				board = updateBoard_setNumOfMines(board, new int[]{i,j});
+    		    				plist = new ArrayList<>();
+    		    				plist.add(i);
+    		    				plist.add(j);
+    		    				queue.offerLast(plist);
+    		    			}
+    		    		}
+    		    	}
+    			}
+    		}
+    	}
+        return board;
+    }
+    private char[][] updateBoard_setNumOfMines(char[][] board, int[] point) {
+    	int x1 = point[0];
+    	int y1 = point[1];
+    	int[][] range = updateBoard_getPointRange(board, point);
+    	int numOfMines = 0;
+    	for (int i = range[0][0]; i <= range[0][1]; ++i) {
+    		for (int j = range[1][0]; j <= range[1][1]; ++j) {
+    			if (board[i][j] == 'M' && (i != x1 || j != y1)) {
+    				++numOfMines;
+    			}
+    		}
+    	}
+    	if (numOfMines == 0) board[x1][y1] = 'B';
+    	else board[x1][y1] = (char) ('0' + numOfMines);
+    	return board;
+    }
+    private int[][] updateBoard_getPointRange(char[][] board, int[] point) {
+    	int height = board.length;
+    	int width  = board[0].length;
+    	int x1 = point[0];
+    	int x0 = x1 - 1 >= 0 ? x1 - 1 : 0;
+    	int x2 = x1 + 1 < height ? x1 + 1 : height - 1;
+    	int y1 = point[1];
+    	int y0 = y1 - 1 >= 0 ? y1 - 1 : 0;
+    	int y2 = y1 + 1 < width ? y1 + 1 : width - 1;
+    	return new int[][] {{x0, x2}, {y0, y2}};
     }
 }
