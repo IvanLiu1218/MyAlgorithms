@@ -916,11 +916,11 @@ public class Solution {
 		int i = 0;
 		int j = length - 1;
 		while (i <= j && i < nums.length && 0 <= j) {
-			while (0 <= j && nums[j] == val) {
+			while (0 <= j && nums[j] == val) { // find the 1st num which does not equal to the val from the tail of nums
 				--length;
 				--j;
 			}
-			if (i < j && nums[i] == val) {
+			if (i < j && nums[i] == val) { // swap the nums[i] with nums[j] if nums[i] equals to val
 				int temp = nums[i];
 				nums[i] = nums[j];
 				nums[j] = temp;
@@ -1144,7 +1144,6 @@ public class Solution {
 		
 		List<Integer> range = new LinkedList<Integer>();
 		for (int i = 0; i < nums.length; ++i) {
-			
 			range.add(nums[i]);
 		}
 		List<Integer> list = new ArrayList<Integer>();
