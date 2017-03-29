@@ -63,14 +63,21 @@ public class SolutionTest {
 	
 	@Test
 	public void test004() {
-		// odd
-//		assertEquals(2, solution.findMedianSortedArrays(new int[]{1,3}, new int[] {2}), 0);
-//		assertEquals(3, solution.findMedianSortedArrays(new int[]{1,3,5,6}, new int[] {2}), 0);
-//		assertEquals(5, solution.findMedianSortedArrays(new int[]{1,3,5,6}, new int[] {2,7,8}), 0);
-		// even
-//		assertEquals(2.5d, solution.findMedianSortedArrays(new int[]{1,3}, new int[] {2,4}), 0);
-//		assertEquals(3.5d, solution.findMedianSortedArrays(new int[]{1,3,5,6}, new int[] {2,4}), 0);
-//		assertEquals(4d, solution.findMedianSortedArrays(new int[]{1,3,5,6,7}, new int[] {2}), 0);
+		int[] nums1 = {1,2,3,4,5};
+		int[] nums2 = {6,7,8,9};
+		assertEquals(5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {1,2,3,4,5};
+		nums2 = new int[] {6,7,8,9,10};
+		assertEquals(5.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {1,2,3,7,10};
+		nums2 = new int[] {4,6,8,9,11};
+		assertEquals(6.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {1,3};
+		nums2 = new int[] {2};
+		assertEquals(2d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {1,2};
+		nums2 = new int[] {3,4};
+		assertEquals(2.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
 	}
 	
 	@Test
