@@ -252,8 +252,46 @@ public class Solution {
 	 *  The median is (2 + 3)/2 = 2.5
 	 */
 	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        return 0;
-    }
+		int totalLength = nums1.length + nums2.length;
+		int mid = totalLength / 2;
+		int[] allNums = new int[totalLength];
+		System.arraycopy(nums1, 0, allNums, 0, nums1.length);
+		System.arraycopy(nums2, 0, allNums, nums1.length, nums2.length);
+
+		int from = 0, to = totalLength - 1;
+		int index = findMedianSortedArrays_getFlagValueIndex(allNums, from, to);
+		while (index != mid) {
+			if (index < mid) {
+				index = findMedianSortedArrays_getFlagValueIndex(allNums, index + 1, to);
+			} else {
+				index = findMedianSortedArrays_getFlagValueIndex(allNums, from, index - 1);
+			}
+		}
+		if (totalLength % 2 == 1) return allNums[mid];
+
+		index = findMedianSortedArrays_getFlagValueIndex(allNums, from, to);
+		while (index != mid - 1) {
+			if (index < mid - 1) {
+				index = findMedianSortedArrays_getFlagValueIndex(allNums, index + 1, to);
+			} else {
+				index = findMedianSortedArrays_getFlagValueIndex(allNums, from, index - 1);
+			}
+		}
+		return (allNums[mid - 1] + allNums[mid]) / 2.0;
+	}
+
+	private int findMedianSortedArrays_getFlagValueIndex(int[] nums, int from, int to) {
+		int flag = nums[from];
+		int i = from, j = to;
+		while (i < j) {
+			while (i < j && nums[j] >= flag) --j;
+			nums[i] = nums[j];
+			while (i < j && nums[i] <= flag) ++i;
+			nums[j] = nums[i];
+		}
+		nums[i] = flag;
+		return i;
+	}
 	
 	/**
 	 *  [Medium]
