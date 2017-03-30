@@ -301,9 +301,36 @@ public class Solution {
 	 *  You may assume that the maximum length of S is 1000, 
 	 *  and there exists one unique longest palindromic substring.
 	 */
-//	public String longestPalindrome(String s) {
-//        return null;
-//    }
+	public String longestPalindrome005(String s) {
+		int maxLength = 1;
+		int startIndex = 0;
+		for (int k = 1; k < s.length(); ++k) {
+			int i = k - 1;
+			while (0 <= i && s.charAt(i) == s.charAt(k)) --i;
+			int j = k + 1;
+			while (j < s.length() && s.charAt(j) == s.charAt(k)) ++j;
+			while (0 <= i && j < s.length()) {
+				if (s.charAt(i) == s.charAt(j)) {
+					--i;
+					++j;
+				}
+				else {
+					if (j - i - 1 > maxLength) {
+						maxLength = j - i - 1;
+						startIndex = i + 1;
+					}
+					break;
+				}
+			}
+			if (i < 0 || j >= s.length()) {
+				if (j - i - 1 > maxLength) {
+					maxLength = j - i - 1;
+					startIndex = i + 1;
+				}
+			}
+		}
+		return s.substring(startIndex, startIndex + maxLength);
+	}
 	
 	/**
 	 *  [Easy]

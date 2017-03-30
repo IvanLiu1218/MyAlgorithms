@@ -66,9 +66,9 @@ public class SolutionTest {
 		int[] nums1 = {1,2,3,4,5};
 		int[] nums2 = {6,7,8,9};
 		assertEquals(5d, solution.findMedianSortedArrays(nums1, nums2), 0);
-		nums1 = new int[] {1,2,3,4,5};
-		nums2 = new int[] {6,7,8,9,10};
-		assertEquals(5.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {1,2,3,4};
+		nums2 = new int[] {5,6,7,8};
+		assertEquals(4.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
 		nums1 = new int[] {1,2,3,7,10};
 		nums2 = new int[] {4,6,8,9,11};
 		assertEquals(6.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
@@ -78,6 +78,26 @@ public class SolutionTest {
 		nums1 = new int[] {1,2};
 		nums2 = new int[] {3,4};
 		assertEquals(2.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {5,6,7,8};
+		nums2 = new int[] {1,2,3,4};
+		assertEquals(4.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+		nums1 = new int[] {2,5,6};
+		nums2 = new int[] {1,3,4,9,10};
+		assertEquals(4.5d, solution.findMedianSortedArrays(nums1, nums2), 0);
+	}
+
+	@Test
+	public void test005() {
+		assertEquals("baab", solution.longestPalindrome005("baab"));
+		assertEquals("baaab", solution.longestPalindrome005("baaab"));
+		assertEquals("a", solution.longestPalindrome005("abc"));
+		assertEquals("bcb", solution.longestPalindrome005("abcb"));
+		assertEquals("abcba", solution.longestPalindrome005("abcba"));
+		assertEquals("abcba", solution.longestPalindrome005("abcbac"));
+		assertEquals("abcba", solution.longestPalindrome005("eabcba"));
+		assertEquals("aaaa", solution.longestPalindrome005("aaaa"));
+		assertEquals("aacaa", solution.longestPalindrome005("aacaa"));
+		assertEquals("aaa", solution.longestPalindrome005("aaaca"));
 	}
 	
 	@Test
