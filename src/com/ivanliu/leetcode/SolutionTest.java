@@ -132,6 +132,12 @@ public class SolutionTest {
 		assertEquals(true, solution.isPalindrome(1234554321));
 		assertEquals(true, solution.isPalindrome(123454321));
 	}
+
+	@Test
+	public void test011() {
+		assertEquals(6, solution.maxArea(new int[]{2,1,3,2,1}));
+		assertEquals(4, solution.maxArea(new int[]{2,1,3,1,1}));
+	}
 	
 	@Test
 	public void test012() {
