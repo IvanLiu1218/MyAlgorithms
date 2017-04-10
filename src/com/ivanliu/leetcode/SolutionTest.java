@@ -2058,4 +2058,11 @@ public class SolutionTest {
          */
         // [29,2]
 	}
+
+	@Test
+	public void test557() {
+		assertEquals("s'teL ekat edoCteeL tsetnoc", solution.reverseWordsIII("Let's take LeetCode contest"));
+		assertEquals("olleH dlroW", solution.reverseWordsIII("Hello World"));
+		assertEquals("yM emaN si reteP", solution.reverseWordsIII("My Name is Peter"));
+	}
 }
