@@ -7346,6 +7346,57 @@ public class Solution {
     }
 
 	/**
+	 *  [Medium]
+	 *  #537 Complex Number Multiplication
+	 *
+	 *  Given two strings representing two complex numbers.
+	 *  You need to return a string representing their multiplication. Note i2 = -1 according to the definition.
+	 *
+	 *  Example 1:
+	 *  Input: "1+1i", "1+1i"
+	 *  Output: "0+2i"
+	 *  Explanation: (1 + i) * (1 + i) = 1 + i^2 + 2 * i = 2i, and you need convert it to the form of 0+2i.
+	 *
+	 *  Example 2:
+	 *  Input: "1+-1i", "1+-1i"
+	 *  Output: "0+-2i"
+	 *  Explanation: (1 - i) * (1 - i) = 1 + i^2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.
+	 *
+	 *  Note:
+	 *  The input strings will not have extra blank.
+	 *  The input strings will be given in the form of a+bi, where the integer a and b will both belong to the range of
+	 *  [-100, 100]. And the output should be also in this form.
+	 */
+	public class ComplexNumber {
+		private int a;
+		private int b;
+		public ComplexNumber(int a, int b) {
+			this.a = a;
+			this.b = b;
+		}
+		public ComplexNumber(String str) {
+			int i = str.indexOf('+');
+			this.a = Integer.parseInt(str.substring(0, i));
+			this.b = Integer.parseInt(str.substring(i + 1, str.length() - 1));
+		}
+		public String toString() {
+			return String.format("%d+%di", a, b);
+		}
+		public ComplexNumber multiply(ComplexNumber cn) {
+			int a = this.a * cn.a + this.b * cn.b * -1;
+			int b = this.a * cn.b + this.b * cn.a;
+			this.a = a;
+			this.b = b;
+			return this;
+		}
+	}
+	public String complexNumberMultiply(String a, String b) {
+		ComplexNumber cn1 = new ComplexNumber(a);
+		ComplexNumber cn2 = new ComplexNumber(b);
+		return cn1.multiply(cn2).toString();
+	}
+
+	/**
 	 *  [Easy]
 	 *  #557 Reverse Words in a String III
 	 *

@@ -2060,6 +2060,13 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test537() {
+		assertEquals("0+2i", solution.complexNumberMultiply("1+1i", "1+1i"));
+		assertEquals("0+-2i", solution.complexNumberMultiply("1+-1i", "1+-1i"));
+	}
+
+
+	@Test
 	public void test557() {
 		assertEquals("s'teL ekat edoCteeL tsetnoc", solution.reverseWordsIII("Let's take LeetCode contest"));
 		assertEquals("olleH dlroW", solution.reverseWordsIII("Hello World"));
