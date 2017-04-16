@@ -1798,6 +1798,12 @@ public class SolutionTest {
 		assertEquals(2, solution.arrangeCoins(5));
 		assertEquals(3, solution.arrangeCoins(8));
 	}
+
+	@Test
+	public void test442() {
+		List<Integer> result = solution.findDuplicates(new int[] {4,3,2,7,8,2,3,1});
+		assertEquals("[2, 3]", Arrays.toString(result.stream().mapToInt(i -> i.intValue()).toArray()));
+	}
 	
 	@Test
 	public void test447() {
