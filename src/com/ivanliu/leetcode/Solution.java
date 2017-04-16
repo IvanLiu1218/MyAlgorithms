@@ -6254,7 +6254,7 @@ public class Solution {
 				result.add(nums[i]);
 			}
 		}
-		Collections.sort(result);
+		//Collections.sort(result);  // order is not necessary
 		return result;
 	}
 
