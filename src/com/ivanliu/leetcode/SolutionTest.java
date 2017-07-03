@@ -2078,4 +2078,38 @@ public class SolutionTest {
 		assertEquals("olleH dlroW", solution.reverseWordsIII("Hello World"));
 		assertEquals("yM emaN si reteP", solution.reverseWordsIII("My Name is Peter"));
 	}
+
+	@Test
+	public void test617() {
+		TreeNode t1 = new TreeNode(1);
+		t1.left = new TreeNode(3);
+		t1.right = new TreeNode(2);
+		t1.left.left = new TreeNode(5);
+		TreeNode t2 = new TreeNode(2);
+		t2.left = new TreeNode(1);
+		t2.right = new TreeNode(3);
+		t2.left.right = new TreeNode(4);
+		t2.right.right = new TreeNode(7);
+		TreeNode r = solution.mergeTrees(t1, t2);
+		assertEquals(3, r.val);
+		assertEquals(4, r.left.val);
+		assertEquals(5, r.right.val);
+		assertEquals(5, r.left.left.val);
+		assertEquals(4, r.left.right.val);
+		assertEquals(7, r.right.right.val);
+
+		// Wrong answer:
+		t1 = new TreeNode(1);
+		t1.left = new TreeNode(2);
+		t1.left.left = new TreeNode(3);
+		t2 = new TreeNode(1);
+		t2.right = new TreeNode(2);
+		t2.right.right = new TreeNode(3);
+		r = solution.mergeTrees(t1, t2);
+		assertEquals(2, r.val);
+		assertEquals(2, r.left.val);
+		assertEquals(3, r.left.left.val);
+		assertEquals(2, r.right.val);
+		assertEquals(3, r.right.right.val);
+	}
 }
