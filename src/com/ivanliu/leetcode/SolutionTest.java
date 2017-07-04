@@ -2080,6 +2080,16 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test561() {
+		int[] inputs = new int[] {1,4,3,2};
+		assertEquals(4, solution.arrayPairSum(inputs));
+
+		inputs = new int[] {6,1,4,3,2,5};
+		assertEquals(9, solution.arrayPairSum(inputs));
+
+	}
+
+	@Test
 	public void test617() {
 		TreeNode t1 = new TreeNode(1);
 		t1.left = new TreeNode(3);
