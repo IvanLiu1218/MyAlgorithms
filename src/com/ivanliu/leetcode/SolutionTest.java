@@ -2122,4 +2122,16 @@ public class SolutionTest {
 		assertEquals(2, r.right.val);
 		assertEquals(3, r.right.right.val);
 	}
+
+	@Test
+	public void test566() {
+		int[][] nums1 = {{1,2},{3,4}};
+		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 1, 4)));
+		assertEquals("[[1, 2], [3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 2, 4)));
+		int[][] nums2 = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
+		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums2, 1, 4)));
+		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8]]", Arrays.deepToString(solution.matrixReshape(nums2, 2, 4)));
+		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]",
+				Arrays.deepToString(solution.matrixReshape(nums2, 3, 4)));
+	}
 }
