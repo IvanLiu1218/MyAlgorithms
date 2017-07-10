@@ -2090,6 +2090,18 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test566() {
+		int[][] nums1 = {{1,2},{3,4}};
+		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 1, 4)));
+		assertEquals("[[1, 2], [3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 2, 4)));
+		int[][] nums2 = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
+		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums2, 1, 4)));
+		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8]]", Arrays.deepToString(solution.matrixReshape(nums2, 2, 4)));
+		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]",
+				Arrays.deepToString(solution.matrixReshape(nums2, 3, 4)));
+	}
+
+	@Test
 	public void test617() {
 		TreeNode t1 = new TreeNode(1);
 		t1.left = new TreeNode(3);
@@ -2124,14 +2136,13 @@ public class SolutionTest {
 	}
 
 	@Test
-	public void test566() {
-		int[][] nums1 = {{1,2},{3,4}};
-		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 1, 4)));
-		assertEquals("[[1, 2], [3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 2, 4)));
-		int[][] nums2 = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
-		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums2, 1, 4)));
-		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8]]", Arrays.deepToString(solution.matrixReshape(nums2, 2, 4)));
-		assertEquals("[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]",
-				Arrays.deepToString(solution.matrixReshape(nums2, 3, 4)));
+	public void test637() {
+		TreeNode root = new TreeNode(3);
+		root.left = new TreeNode(9);
+		root.right = new TreeNode(20);
+		root.right.left = new TreeNode(15);
+		root.right.right = new TreeNode(7);
+		double[] result = solution.averageOfLevels(root).stream().mapToDouble(d -> d.doubleValue()).toArray();
+		assertEquals("[3.0, 14.5, 11.0]", Arrays.toString(result));
 	}
 }
