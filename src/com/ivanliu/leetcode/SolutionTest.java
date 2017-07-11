@@ -2102,6 +2102,14 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test575() {
+		int[] candies = new int[] {1,1,2,2,3,3};
+		assertEquals(3, solution.distributeCandies(candies));
+		candies = new int[] {1,1,2,3};
+		assertEquals(2, solution.distributeCandies(candies));
+	}
+
+	@Test
 	public void test617() {
 		TreeNode t1 = new TreeNode(1);
 		t1.left = new TreeNode(3);
