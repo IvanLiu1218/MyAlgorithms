@@ -6224,8 +6224,47 @@ public class Solution {
     	}
         return result;
     }
-    
-    /**
+
+	/**
+	 *  [Medium]
+	 *  #442. Find All Duplicates in an Array
+	 *  Given an array of integers, 1 <= a[i] <= n (n = size of array), some elements appear twice and others appear once.
+	 *
+	 *  Find all the elements that appear twice in this array.
+	 *
+	 *  Could you do it without extra space and in O(n) runtime?
+	 *
+	 *  Example:
+	 *  Input:  [4,3,2,7,8,2,3,1]
+	 *  Output: [2,3]
+	 */
+	public List<Integer> findDuplicates(int[] nums) {
+		for (int i = 0; i < nums.length; ++i) {
+			while (i != nums[i] - 1) {
+				if (nums[i] != nums[nums[i] - 1]) {
+					findDuplicates_swap(nums, i, nums[i] - 1);
+				} else {
+					break;
+				}
+			}
+		}
+		List<Integer> result = new ArrayList<>();
+		for (int i = 0; i < nums.length; ++i) {
+			if (i != nums[i] - 1) {
+				result.add(nums[i]);
+			}
+		}
+		//Collections.sort(result);  // order is not necessary
+		return result;
+	}
+
+	private void findDuplicates_swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+
+	/**
      *  [Easy]
      *  #447. Number of Boomerangs
      *  
@@ -7458,5 +7497,243 @@ public class Solution {
 			result.insert(0, sb.toString());
 		}
 		return result.toString();
+	}
+
+	/**
+	 *  [easy]
+	 *  #561. Array Partition I
+	 *
+	 *  Given an array of 2n integers, your task is to group these integers into n pairs of integer,
+	 *  say (a1, b1), (a2, b2), ..., (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.
+	 *
+	 *  Example 1:
+	 *  Input: [1,4,3,2]
+	 *  Output: 4
+	 *  Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).
+	 *
+	 *  Note:
+	 *  n is a positive integer, which is in the range of [1, 10000].
+	 *  All the integers in the array will be in the range of [-10000, 10000].
+	 */
+	public int arrayPairSum(int[] nums) {
+		arrayPairSum_quickSort(nums, 0, nums.length - 1);
+		int sum = 0;
+		for (int i = 0; i < nums.length; i += 2) {
+			sum += nums[i];
+		}
+		return sum;
+	}
+
+	private void arrayPairSum_quickSort(int[] nums, int start, int end) {
+		if (start >= end) return;
+		int index = arrayPairSum_getIndex(nums, start, end);
+		arrayPairSum_quickSort(nums, start, index - 1);
+		arrayPairSum_quickSort(nums, index + 1, end);
+	}
+
+	private int arrayPairSum_getIndex(int[] nums, int start, int end) {
+		int i = start;
+		int j = end;
+		int f = nums[i];
+		while (i < j) {
+			while (i < j && nums[j] >= f) --j;
+			nums[i] = nums[j];
+			while (i < j && nums[i] <= f) ++i;
+			nums[j] = nums[i];
+		}
+		nums[i] = f;
+		return i;
+	}
+
+	/**
+	 *  [easy]
+	 *  #566. Reshape the Matrix
+	 *  In MATLAB, there is a very useful function called 'reshape', which can reshape a matrix into a new one with
+	 *  different size but keep its original data.
+	 *  You're given a matrix represented by a two-dimensional array, and two positive integers r and c
+	 *  representing the row number and column number of the wanted reshaped matrix, respectively.
+	 *  The reshaped matrix need to be filled with all the elements of the original matrix in the same row-traversing
+	 *  order as they were.
+	 *  If the 'reshape' operation with given parameters is possible and legal, output the new reshaped matrix;
+	 *  Otherwise, output the original matrix.
+	 *
+	 *  Example 1:
+	 *  Input:
+	 *  nums =
+	 *  [[1,2],
+	 *  [3,4]]
+	 *  r = 1, c = 4
+	 *  Output:
+	 *  [[1,2,3,4]]
+	 *  Explanation:
+	 *  The row-traversing of nums is [1,2,3,4]. The new reshaped matrix is a 1 * 4 matrix,
+	 *  fill it row by row by using the previous list.
+	 *
+	 *  Example 2:
+	 *  Input:
+	 *  nums =
+	 *  [[1,2],
+	 *  [3,4]]
+	 *  r = 2, c = 4
+	 *  Output:
+	 *  [[1,2],
+	 *  [3,4]]
+	 *  Explanation:
+	 *  There is no way to reshape a 2 * 2 matrix to a 2 * 4 matrix. So output the original matrix.
+	 *
+	 * Note:
+	 * The height and width of the given matrix is in range [1, 100].
+	 * The given r and c are all positive.
+	 */
+	public int[][] matrixReshape(int[][] nums, int r, int c) {
+		int r0 = nums.length;
+		int c0 = nums[0].length;
+		int size = r0 * c0;
+		int count = r * c;
+		if (size < count) return nums;
+		int[][] result = new int[r][c];
+		int i = 0;
+		while (i < count) {
+			result[i/c][i%c] = nums[i/c0][i%c0];
+			++i;
+		}
+		return result;
+	}
+
+	/**
+	 *  [easy]
+	 *  #575. Distribute Candies
+	 *  Given an integer array with even length, where different numbers in this array represent different kinds of candies.
+	 *  Each number means one candy of the corresponding kind. You need to distribute these candies equally in number
+	 *  to brother and sister. Return the maximum number of kinds of candies the sister could gain.
+	 *  Example 1:
+	 *  Input: candies = [1,1,2,2,3,3]
+	 *  Output: 3
+	 *  Explanation:
+	 *  There are three different kinds of candies (1, 2 and 3), and two candies for each kind.
+	 *  Optimal distribution: The sister has candies [1,2,3] and the brother has candies [1,2,3], too.
+	 *  The sister has three different kinds of candies.
+	 *
+	 *  Example 2:
+	 *  Input: candies = [1,1,2,3]
+	 *  Output: 2
+	 *  Explanation: For example, the sister has candies [2,3] and the brother has candies [1,1].
+	 *  The sister has two different kinds of candies, the brother has only one kind of candies.
+	 *
+	 *  Note:
+	 *  The length of the given array is in range [2, 10,000], and will be even.
+	 *  The number in given array is in range [-100,000, 100,000].
+	 */
+	public int distributeCandies(int[] candies) {
+		int num = candies.length / 2;
+		Set<Integer> kindsSet = new HashSet<>();
+		for (int c : candies) {
+			kindsSet.add(c);
+		}
+		return Math.min(num, kindsSet.size());
+	}
+
+	/**
+	 *  [easy]
+	 *  #617. Merge Two Binary Trees
+	 *
+	 *  Given two binary trees and imagine that when you put one of them to cover the other,
+	 *  some nodes of the two trees are overlapped while the others are not.
+	 *  You need to merge them into a new binary tree. The merge rule is that if two nodes overlap,
+	 *  then sum node values up as the new value of the merged node. Otherwise,
+	 *  the NOT null node will be used as the node of new tree.
+	 *
+	 *  Example 1:
+	 *  Input:
+	 *  Tree 1                     Tree 2
+	 *      1                         2
+	 *     / \                       / \
+	 *    3   2                     1   3
+	 *   /                           \   \
+	 *  5                             4   7
+	 *
+	 *  Output:
+	 *  Merged tree:
+	 *       3
+	 *      / \
+	 *     4   5
+	 *    / \   \
+	 *  5   4   7
+	 *  Note: The merging process must start from the root nodes of both trees.
+	 */
+	public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+		TreeNode root = null;
+		if (t1 == null && t2 == null) return root;
+		else if (t1 == null) {
+			root = new TreeNode(t2.val);
+			root.left = t2.left;
+			root.right = t2.right;
+		}
+		else if (t2 == null) {
+			root = new TreeNode(t1.val);
+			root.left = t1.left;
+			root.right = t1.right;
+		}
+		else {
+			root = mergeTrees_merge(t1, t2);
+			root.left = mergeTrees(t1.left, t2.left);
+			root.right = mergeTrees(t1.right, t2.right);
+		}
+		return root;
+	}
+
+	private TreeNode mergeTrees_merge(TreeNode node1, TreeNode node2) {
+		int sum = 0;
+		if (node1 != null) sum += node1.val;
+		if (node2 != null) sum += node2.val;
+		return new TreeNode(sum);
+	}
+
+	/**
+	 *  [easy]
+	 *  #637. Average of Levels in Binary Tree
+	 *  Given a non-empty binary tree, return the average value of the nodes on each level in the form of an array.
+	 *  Example 1:
+	 *  Input:
+	 *    3
+	 *   / \
+	 *  9  20
+	 *     /  \
+	 *    15   7
+	 *  Output: [3, 14.5, 11]
+	 *  Explanation:
+	 *  The average value of nodes on level 0 is 3,  on level 1 is 14.5, and on level 2 is 11. Hence return [3, 14.5, 11].
+	 *
+	 *  Note:
+	 *  The range of node's value is in the range of 32-bit signed integer.
+	 */
+	public List<Double> averageOfLevels(TreeNode root) {
+		List<Double> result = new ArrayList<>();
+		Deque<TreeNode> queue1 = new ArrayDeque<>();
+		Deque<TreeNode> queue2 = new ArrayDeque<>();
+		queue1.addLast(root);
+		while (queue1.size() != 0 || queue2.size() != 0) {
+			double sum = 0;
+			double count = 0;
+			while (queue1.size() != 0) {
+				TreeNode node = queue1.pollFirst();
+				sum += node.val;
+				++count;
+				if (node.left != null) queue2.addLast(node.left);
+				if (node.right != null) queue2.addLast(node.right);
+			}
+			if (count != 0) result.add(sum / count);
+			sum = 0;
+			count = 0;
+			while (queue2.size() != 0) {
+				TreeNode node = queue2.pollFirst();
+				sum += node.val;
+				++count;
+				if (node.left != null) queue1.addLast(node.left);
+				if (node.right != null) queue1.addLast(node.right);
+			}
+			if (count != 0) result.add(sum / count);
+		}
+		return result;
 	}
 }
