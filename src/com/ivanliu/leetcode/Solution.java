@@ -7263,10 +7263,10 @@ public class Solution {
 	 *  #526 Beautiful Arragement
 	 *
 	 *  Suppose you have N integers from 1 to N. We define a beautiful arrangement as an array that is constructed by
-	 *  these N numbers successfully if one of the following is true for the ith position (1 ≤ i ≤ N) in this array:
+	 *  these N numbers successfully if one of the following is true for the i-th position (1 <= i <= N) in this array:
 	 *
-	 *  The number at the ith position is divisible by i.
-	 *  i is divisible by the number at the ith position.
+	 *   - The number at the i-th position is divisible by i.
+	 *   - i is divisible by the number at the i-th position.
 	 *  Now given N, how many beautiful arrangements can you construct?
 	 *
 	 *  Example 1:
@@ -7287,10 +7287,31 @@ public class Solution {
 	 *  Note:
 	 *  N is a positive integer and will not exceed 15.
 	 */
+	private int countArrayngement_count = 0;
 	public int countArrangement(int N) {
-		return 0;
+		countArrayngement_count = 0;
+		boolean[] used = new boolean[N];
+		Arrays.fill(used, false);
+		countArrangement_recurse(0, N, used);
+		return countArrayngement_count;
 	}
+	private void countArrangement_recurse(int index, int N, boolean[] used) {
+	    if (index >= N) {
+	        ++countArrayngement_count;
+	        return;
+        }
+		for (int i = 0; i < N; ++i) {
+		    if (!used[i] && countArrangement_isBeautiful(i + 1, index + 1)) {
+		        used[i] = true;
+		        countArrangement_recurse(index + 1, N, used);
+		        used[i] = false;
+            }
+        }
 
+	}
+	private boolean countArrangement_isBeautiful(int num, int index) {
+        return num % index == 0 || index % num == 0;
+    }
 	/**
      *  [Medium]
      *  #529. Minesweeper
