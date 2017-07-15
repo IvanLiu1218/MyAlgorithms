@@ -2030,6 +2030,15 @@ public class SolutionTest {
 		// wrong answer:
 		assertEquals( true, solution.detectCapitalUse("g"));
 	}
+
+	@Test
+	public void test526() {
+		assertEquals(1, solution.countArrangement(1));
+		assertEquals(2, solution.countArrangement(2));
+		assertEquals(3, solution.countArrangement(3));
+		assertEquals(8, solution.countArrangement(4));
+		assertEquals(10, solution.countArrangement(5));
+	}
 	
 	@Test
 	public void test529() {
