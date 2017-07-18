@@ -2080,6 +2080,20 @@ public class SolutionTest {
 		assertEquals("0+-2i", solution.complexNumberMultiply("1+-1i", "1+-1i"));
 	}
 
+	@Test
+	public void test553() {
+		assertEquals("1000/(100/10/2)", solution.optimalDivision(new int[]{1000,100,10,2}));
+		assertEquals("100/(10/2)", solution.optimalDivision(new int[]{100,10,2}));
+		assertEquals("1/(2/4)", solution.optimalDivision(new int[]{1,2,4}));
+		// Runtime Error Message:
+		// Line 19: java.lang.ArrayIndexOutOfBoundsException: -1
+		assertEquals("2", solution.optimalDivision(new int[]{2}));
+		// Wrong Answer
+		assertEquals("3/2", solution.optimalDivision(new int[]{3,2}));
+		assertEquals("10/3", solution.optimalDivision(new int[]{10,3}));
+
+	}
+
 
 	@Test
 	public void test557() {
