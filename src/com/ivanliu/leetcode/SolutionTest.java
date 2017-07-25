@@ -2176,4 +2176,13 @@ public class SolutionTest {
 		double[] result = solution.averageOfLevels(root).stream().mapToDouble(d -> d.doubleValue()).toArray();
 		assertEquals("[3.0, 14.5, 11.0]", Arrays.toString(result));
 	}
+
+	@Test
+	public void test647() {
+		assertEquals(3, solution.countSubstrings("abc"));
+		assertEquals(6, solution.countSubstrings("aaa"));
+		assertEquals(4, solution.countSubstrings("aab"));
+		assertEquals(6, solution.countSubstrings("aaba"));
+		assertEquals(9, solution.countSubstrings("aabaa"));
+	}
 }
