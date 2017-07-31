@@ -2087,6 +2087,13 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test540() {
+		assertEquals(2, solution.singleNonDuplicate(new int[]{1,1,2,3,3,4,4,8,8}));
+		assertEquals(10, solution.singleNonDuplicate(new int[]{3,3,7,7,10,11,11}));
+		assertEquals(1, solution.singleNonDuplicate(new int[]{1}));
+	}
+
+	@Test
 	public void test553() {
 		assertEquals("1000/(100/10/2)", solution.optimalDivision(new int[]{1000,100,10,2}));
 		assertEquals("100/(10/2)", solution.optimalDivision(new int[]{100,10,2}));
