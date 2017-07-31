@@ -2032,6 +2032,12 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test521() {
+		assertEquals(3, solution.findLUSlength("aba", "cdc"));
+		assertEquals(3, solution.findLUSlength("aba", "cbc"));
+	}
+
+	@Test
 	public void test526() {
 		assertEquals(1, solution.countArrangement(1));
 		assertEquals(2, solution.countArrangement(2));
