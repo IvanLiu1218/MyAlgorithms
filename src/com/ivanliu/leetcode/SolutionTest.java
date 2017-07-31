@@ -2146,6 +2146,17 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test609() {
+		List<List<String>> result = solution.findDuplicate(new String[]{"root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)", "root 4.txt(efgh)"});
+		assertEquals(2, result.size());
+		assertEquals("[root/a/2.txt, root/c/d/4.txt, root/4.txt]", Arrays.toString(result.get(0).stream().toArray()));
+		assertEquals("[root/a/1.txt, root/c/3.txt]", Arrays.toString(result.get(1).stream().toArray()));
+		// Wrong answer:
+		result = solution.findDuplicate(new String[]{"root/a 1.txt(abcd) 2.txt(efsfgh)","root/c 3.txt(abdfcd)","root/c/d 4.txt(efggdfh)"});
+		assertEquals(0, result.size());
+	}
+
+	@Test
 	public void test617() {
 		TreeNode t1 = new TreeNode(1);
 		t1.left = new TreeNode(3);
