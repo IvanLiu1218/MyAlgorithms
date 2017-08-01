@@ -1396,6 +1396,12 @@ public class SolutionTest {
 		assertEquals(7, solution.addDigits(1231));
 		assertEquals(9, solution.addDigits(1242));
 	}
+
+	@Test
+	public void test260() {
+		int[] input = new int[]{1,2,1,3,2,5};
+		assertEquals("[5, 3]", Arrays.toString(solution.singleNumberIII(input)));
+	}
 	
 	@Test
 	public void test263() {
