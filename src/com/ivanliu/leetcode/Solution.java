@@ -7566,7 +7566,26 @@ public class Solution {
 	 */
 	public TreeNode convertBST(TreeNode root) {
 		// 实质就是中序遍历
-		return null;
+		if (root == null) return root;
+		List<TreeNode> list = new ArrayList<>();
+		converBST_inorder(root, list);
+//		for (int i = 0 ; i < list.size(); ++i) {
+//			System.out.print(list.get(i).val + " ");
+//		}
+//		System.out.println("");
+		for (int i = 0; i < list.size() - 1; ++i) {
+			list.get(i + 1).val += list.get(i).val;
+		}
+		return root;
+	}
+	private void converBST_inorder(TreeNode node, List<TreeNode> list) {
+		if (node.left == null && node.right == null) {
+			list.add(node);
+			return;
+		}
+		if (node.right != null) converBST_inorder(node.right, list);
+		list.add(node);
+		if (node.left != null) converBST_inorder(node.left, list);
 	}
 
 	/**
