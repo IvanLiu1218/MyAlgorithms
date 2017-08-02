@@ -2093,6 +2093,60 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test538() {
+		TreeNode root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(13);
+		TreeNode result = solution.convertBST(root);
+		assertEquals(18, result.val);
+		assertEquals(13, result.right.val);
+		assertEquals(20, result.left.val);
+
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(13);
+		root.right.right = new TreeNode(20);
+		root.right.left = new TreeNode(9);
+		result = solution.convertBST(root);
+		assertEquals(47, result.val);
+		assertEquals(49, result.left.val);
+		assertEquals(33, result.right.val);
+		assertEquals(42, result.right.left.val);
+		assertEquals(20, result.right.right.val);
+
+		root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(13);
+		root.right.right = new TreeNode(20);
+		result = solution.convertBST(root);
+		assertEquals(38, result.val);
+		assertEquals(40, result.left.val);
+		assertEquals(33, result.right.val);
+		assertEquals(20, result.right.right.val);
+
+		root = new TreeNode(5);
+		result = solution.convertBST(root);
+		assertEquals(5, result.val);
+
+		// Runtime Error
+		root = null;
+		assertNull(solution.convertBST(root));
+
+		// Wrong Answer:
+		root = new TreeNode(2);
+		root.left = new TreeNode(0);
+		root.left.left = new TreeNode(-4);
+		root.left.right = new TreeNode(1);
+		root.right = new TreeNode(3);
+		result = solution.convertBST(root);
+		assertEquals(5, result.val);
+		assertEquals(6, result.left.val);
+		assertEquals(3, result.right.val);
+		assertEquals(2, result.left.left.val);
+		assertEquals(6, result.left.right.val);
+	}
+
+	@Test
 	public void test540() {
 		assertEquals(2, solution.singleNonDuplicate(new int[]{1,1,2,3,3,4,4,8,8}));
 		assertEquals(10, solution.singleNonDuplicate(new int[]{3,3,7,7,10,11,11}));
