@@ -2154,6 +2154,22 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test547() {
+		int[][] M1 = {{1,1,0}, {1,1,0}, {0,0,1}};
+		assertEquals(2, solution.findCircleNum(M1));
+
+		int[][] M2 = {{1,1,0}, {1,1,1}, {0,1,1}};
+		assertEquals(1, solution.findCircleNum(M2));
+
+		int[][] M3 = {{1,0,0}, {0,1,0}, {0,0,1}};
+		assertEquals(3, solution.findCircleNum(M3));
+
+		// Wrong Answer:
+		int[][] M4 = {{1,0,0,1},{0,1,1,0},{0,1,1,1},{1,0,1,1}};
+		assertEquals(1, solution.findCircleNum(M4));
+	}
+
+	@Test
 	public void test553() {
 		assertEquals("1000/(100/10/2)", solution.optimalDivision(new int[]{1000,100,10,2}));
 		assertEquals("100/(10/2)", solution.optimalDivision(new int[]{100,10,2}));
