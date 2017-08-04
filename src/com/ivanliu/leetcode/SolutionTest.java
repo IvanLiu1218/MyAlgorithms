@@ -2206,6 +2206,29 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test606() {
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(4);
+		root.right = new TreeNode(3);
+		assertEquals("1(2(4))(3)", solution.tree2str(root));
+
+		root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.left.right = new TreeNode(4);
+		root.right = new TreeNode(3);
+		assertEquals("1(2()(4))(3)", solution.tree2str(root));
+
+		assertEquals("", solution.tree2str(null));
+
+		root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(3);
+		root.right.left = new TreeNode(4);
+		assertEquals("1(2)(3(4))", solution.tree2str(root));
+	}
+
+	@Test
 	public void test609() {
 		List<List<String>> result = solution.findDuplicate(new String[]{"root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)", "root 4.txt(efgh)"});
 		assertEquals(2, result.size());
