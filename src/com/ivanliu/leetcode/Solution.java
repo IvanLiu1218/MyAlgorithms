@@ -8200,4 +8200,58 @@ public class Solution {
 		}
 		return result;
 	}
+
+	/**
+	 *  [Medium]
+	 *  #654. Maximum Binary Tree
+	 *
+	 *  Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+	 *  - The root is the maximum number in the array.
+	 *  - The left subtree is the maximum tree constructed from left part subarray divided by the maximum number.
+	 *  - The right subtree is the maximum tree constructed from right part subarray divided by the maximum number.
+	 *
+	 *  Construct the maximum tree by the given array and output the root node of this tree.
+	 *  Example 1:
+	 *  Input: [3,2,1,6,0,5]
+	 *  Output: return the tree root node representing the following tree:
+	 *
+	 *      6
+	 *   /    \
+	 *  3      5
+	 *  \     /
+	 *   2   0
+	 *    \
+	 *    1
+	 *
+	 *  Note:
+	 *  The size of the given array will be in the range [1,1000].
+	 */
+	public TreeNode constructMaximumBinaryTree(int[] nums) {
+		if (nums == null || nums.length == 0) return null;
+		int maxIndex = constructMaximumBinaryTree_findMax(nums, 0, nums.length);
+		TreeNode root = new TreeNode(nums[maxIndex]);
+		root.left = constructMaximumBinaryTree(nums, 0, maxIndex);
+		root.right = constructMaximumBinaryTree(nums, maxIndex + 1, nums.length);
+		return root;
+	}
+	private int constructMaximumBinaryTree_findMax(int[] nums, int from, int to) {
+		int i = from;
+		int index = from;
+		int max = nums[i];
+		for (; i < to; ++i) {
+			if (nums[i] > max) {
+				max = nums[i];
+				index = i;
+			}
+		}
+		return index;
+	}
+	private TreeNode constructMaximumBinaryTree(int[] nums, int from, int to) {
+		if (from >= to) return null;
+		int maxIndex = constructMaximumBinaryTree_findMax(nums, from, to);
+		TreeNode node = new TreeNode(nums[maxIndex]);
+		node.left = constructMaximumBinaryTree(nums, from, maxIndex);
+		node.right = constructMaximumBinaryTree(nums, maxIndex + 1, to);
+		return node;
+	}
 }

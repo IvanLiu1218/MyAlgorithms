@@ -2308,4 +2308,18 @@ public class SolutionTest {
 		assertEquals(6, solution.countSubstrings("aaba"));
 		assertEquals(9, solution.countSubstrings("aabaa"));
 	}
+
+	@Test
+	public void test654() {
+		TreeNode root = solution.constructMaximumBinaryTree(new int[] {3,2,1,6,0,5});
+		assertEquals(6, root.val);
+		assertEquals(3, root.left.val);
+		assertEquals(2, root.left.right.val);
+		assertEquals(1, root.left.right.right.val);
+		assertEquals(5, root.right.val);
+		assertEquals(0, root.right.left.val);
+
+		root = solution.constructMaximumBinaryTree(new int[]{});
+		assertNull(root);
+	}
 }
