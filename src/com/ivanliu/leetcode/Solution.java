@@ -8254,4 +8254,107 @@ public class Solution {
 		node.right = constructMaximumBinaryTree(nums, maxIndex + 1, to);
 		return node;
 	}
+
+	/**
+	 *  [Medium]
+	 *  #655. Print Binary Tree
+	 *
+	 *  Print a binary tree in an m*n 2D string array following these rules:
+	 *  The row number m should be equal to the height of the given binary tree.
+	 *  The column number n should always be an odd number.
+	 *  The root node's value (in string format) should be put in the exactly middle of the first row it can be put.
+	 *  The column and the row where the root node belongs will separate the rest space into two parts
+	 *  (left-bottom part and right-bottom part). You should print the left subtree in the left-bottom part
+	 *  and print the right subtree in the right-bottom part. The left-bottom part and the right-bottom part
+	 *  should have the same size. Even if one subtree is none while the other is not, you don't need to print
+	 *  anything for the none subtree but still need to leave the space as large as that for the other subtree.
+	 *  However, if two subtrees are none, then you don't need to leave space for both of them.
+	 *  Each unused space should contain an empty string "".
+	 *  Print the subtrees following the same rules.
+	 *  Example 1:
+	 *  Input:
+	 *    1
+	 *   /
+	 *  2
+	 *  Output:
+	 *  [["", "1", ""],
+	 *  ["2", "", ""]]
+	 *
+	 *  Example 2:
+	 *  Input:
+	 *    1
+	 *   / \
+	 *  2   3
+	 *   \
+	 *   4
+	 *  Output:
+	 *  [["", "", "", "1", "", "", ""],
+	 *  ["", "2", "", "", "", "3", ""],
+	 *  ["", "", "4", "", "", "", ""]]
+	 *
+	 *  Example 3:
+	 *  Input:
+	 *        1
+	 *       / \
+	 *      2   5
+	 *     /
+	 *    3
+	 *   /
+	 *  4
+	 *  Output:
+	 *
+	 *  [["",  "",  "", "",  "", "", "", "1", "",  "",  "",  "",  "", "", ""]
+	 *  ["",  "",  "", "2", "", "", "", "",  "",  "",  "",  "5", "", "", ""]
+	 *  ["",  "3", "", "",  "", "", "", "",  "",  "",  "",  "",  "", "", ""]
+	 *  ["4", "",  "", "",  "", "", "", "",  "",  "",  "",  "",  "", "", ""]]
+	 *
+	 *  Note: The height of binary tree is in the range of [1, 10].
+	 */
+	public List<List<String>> printTree(TreeNode root) {
+		List<List<String>> llist = new ArrayList<>();
+		if (root != null) {
+			int height = printTree_getHeight(root);
+			int width = (int)(Math.pow(2, height) - 1);
+			for (int i = 0; i < height; ++i) {
+				String[] array = new String[width];
+				Arrays.fill(array, "");
+				llist.add(Arrays.asList(array));
+			}
+			int index = width / 2;
+			llist.get(0).set(index, String.valueOf(root.val));
+			printTree_searchTree(llist, root, index, 0, width - 1,1);
+		}
+		return llist;
+	}
+	public int printTree_getHeight(TreeNode node) {
+		if (node.left == null && node.right == null) {
+			return 1;
+		}
+		int height = 1;
+		int heightL = 0;
+		int heightR = 0;
+		if (node.left != null) {
+			heightL = printTree_getHeight(node.left);
+		}
+		if (node.right != null) {
+			heightR = printTree_getHeight(node.right);
+		}
+		return height + Math.max(heightL, heightR);
+	}
+	private void printTree_searchTree(List<List<String>> llist, TreeNode node, int nodeIndex, int from, int to, int height) {
+		if (node.left == null && node.right == null) {
+			return;
+		}
+		if (node.left != null) {
+			int index = (from + nodeIndex - 1) / 2;
+			llist.get(height).set(index, String.valueOf(node.left.val));
+			printTree_searchTree(llist, node.left, index, from, nodeIndex - 1, height + 1);
+		}
+		if (node.right != null) {
+			int index = (nodeIndex + 1 + to) / 2;
+			llist.get(height).set(index, String.valueOf(node.right.val));
+			printTree_searchTree(llist, node.right, index, nodeIndex + 1, to, height + 1);
+		}
+	}
+
 }

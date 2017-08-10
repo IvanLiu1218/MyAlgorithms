@@ -2322,4 +2322,63 @@ public class SolutionTest {
 		root = solution.constructMaximumBinaryTree(new int[]{});
 		assertNull(root);
 	}
+
+	@Test
+	public void test655() {
+		TreeNode root = new TreeNode(1);
+		List<List<String>> llist = solution.printTree(root);
+		assertEquals(1, llist.size());
+		assertEquals(1, llist.get(0).size());
+		assertEquals("1", llist.get(0).get(0));
+
+		root.left = new TreeNode(2);
+		llist = solution.printTree(root);
+		assertEquals(2, llist.size());
+		assertEquals(3, llist.get(0).size());
+		assertEquals("[, 1, ]", Arrays.toString(llist.get(0).stream().toArray()));
+		assertEquals("[2, , ]", Arrays.toString(llist.get(1).stream().toArray()));
+
+		root.right = new TreeNode(3);
+		llist = solution.printTree(root);
+		assertEquals(2, llist.size());
+		assertEquals(3, llist.get(0).size());
+		assertEquals("[, 1, ]", Arrays.toString(llist.get(0).stream().toArray()));
+		assertEquals("[2, , 3]", Arrays.toString(llist.get(1).stream().toArray()));
+
+		root.left.right = new TreeNode(4);
+		llist = solution.printTree(root);
+		assertEquals(3, llist.size());
+		assertEquals(7, llist.get(0).size());
+		assertEquals("[, , , 1, , , ]", Arrays.toString(llist.get(0).stream().toArray()));
+		assertEquals("[, 2, , , , 3, ]", Arrays.toString(llist.get(1).stream().toArray()));
+		assertEquals("[, , 4, , , , ]", Arrays.toString(llist.get(2).stream().toArray()));
+
+		root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		root.left.left = new TreeNode(3);
+		root.left.left.left = new TreeNode(4);
+		root.right = new TreeNode(5);
+		llist = solution.printTree(root);
+		assertEquals(4, llist.size());
+		assertEquals(15, llist.get(0).size());
+		assertEquals("[, , , , , , , 1, , , , , , , ]", Arrays.toString(llist.get(0).stream().toArray()));
+		assertEquals("[, , , 2, , , , , , , , 5, , , ]", Arrays.toString(llist.get(1).stream().toArray()));
+		assertEquals("[, 3, , , , , , , , , , , , , ]", Arrays.toString(llist.get(2).stream().toArray()));
+		assertEquals("[4, , , , , , , , , , , , , , ]", Arrays.toString(llist.get(3).stream().toArray()));
+
+		// Wrong Answer: [10,5,15,null,null,6,20]
+		// Output: [["","","","10","","",""],["","5","","","","15",""],["","","6","","","","20"]]
+		// Expected:[["","","","10","","",""],["","5","","","","15",""],["","","","","6","","20"]]
+		root = new TreeNode(10);
+		root.left = new TreeNode(5);
+		root.right = new TreeNode(15);
+		root.right.left = new TreeNode(6);
+		root.right.right = new TreeNode(20);
+		llist = solution.printTree(root);
+		assertEquals(3, llist.size());
+		assertEquals(7, llist.get(0).size());
+		assertEquals("[, , , 10, , , ]", Arrays.toString(llist.get(0).stream().toArray()));
+		assertEquals("[, 5, , , , 15, ]", Arrays.toString(llist.get(1).stream().toArray()));
+		assertEquals("[, , , , 6, , 20]", Arrays.toString(llist.get(2).stream().toArray()));
+	}
 }
