@@ -2310,6 +2310,18 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test653() {
+		TreeNode root = new TreeNode(5);
+		root.left = new TreeNode(3);
+		root.left.left = new TreeNode(2);
+		root.left.right = new TreeNode(4);
+		root.right = new TreeNode(6);
+		root.right.right = new TreeNode(7);
+		assertTrue(solution.findTarget(root, 9));
+		assertFalse(solution.findTarget(root, 4));
+	}
+
+	@Test
 	public void test654() {
 		TreeNode root = solution.constructMaximumBinaryTree(new int[] {3,2,1,6,0,5});
 		assertEquals(6, root.val);
