@@ -8202,6 +8202,57 @@ public class Solution {
 	}
 
 	/**
+	 *  [Easy]
+	 *  #653. Two Sum IV - Input is a BST
+	 *
+	 *  Given a Binary Search Tree and a target number, return true if there exist two elements in the BST
+	 *  such that their sum is equal to the given target.
+	 *
+	 *  Example 1:
+	 *  Input:
+	 *      5
+	 *     / \
+	 *    3   6
+	 *   / \   \
+	 *  2   4   7
+	 *
+	 *  Target = 9
+	 *
+	 *  Output: True
+	 *
+	 *  Example 2:
+	 *  Input:
+	 *      5
+	 *     / \
+	 *    3   6
+	 *   / \   \
+	 *  2   4   7
+	 *
+	 *  Target = 28
+	 *
+	 *  Output: False
+	 */
+	public boolean findTarget(TreeNode root, int k) {
+        List<TreeNode> list = new ArrayList<>();
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.addLast(root);
+        while (queue.size() != 0) {
+            TreeNode node = queue.pollFirst();
+            list.add(node);
+            if (node.left != null) queue.addLast(node.left);
+            if (node.right != null) queue.addLast(node.right);
+        }
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < list.size(); ++i) {
+            int val = list.get(i).val;
+            if (set.contains(val)) return true;
+            set.add(val);
+            set.add(k - val);
+        }
+		return false;
+	}
+
+	/**
 	 *  [Medium]
 	 *  #654. Maximum Binary Tree
 	 *
