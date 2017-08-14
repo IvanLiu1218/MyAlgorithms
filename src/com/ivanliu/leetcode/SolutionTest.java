@@ -2202,6 +2202,15 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void test565() {
+		assertEquals(0, solution.arrayNesting(null));
+		assertEquals(0, solution.arrayNesting(new int[] {}));
+		assertEquals(1, solution.arrayNesting(new int[] {5}));
+		assertEquals(4, solution.arrayNesting(new int[] {5,4,0,3,1,6,2}));
+		assertEquals(5, solution.arrayNesting(new int[] {5,4,3,3,1,6,2}));
+	}
+
+	@Test
 	public void test566() {
 		int[][] nums1 = {{1,2},{3,4}};
 		assertEquals("[[1, 2, 3, 4]]", Arrays.deepToString(solution.matrixReshape(nums1, 1, 4)));
