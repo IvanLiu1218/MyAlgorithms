@@ -2402,4 +2402,12 @@ public class SolutionTest {
 		assertEquals("[, 5, , , , 15, ]", Arrays.toString(llist.get(1).stream().toArray()));
 		assertEquals("[, , , , 6, , 20]", Arrays.toString(llist.get(2).stream().toArray()));
 	}
+
+	@Test
+    public void testSwimInWater() {
+	    int[][] grid = new int[][] {{0,2},{1,3}};
+	    assertEquals(3, solution.swimInWater(grid));
+	    grid = new int[][] {{0,1,2,3,4},{24,23,22,21,5},{12,13,14,15,16},{11,17,18,19,20},{10,9,8,7,6}};
+	    assertEquals(16, solution.swimInWater(grid));
+    }
 }
