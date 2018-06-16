@@ -1495,6 +1495,20 @@ public class SolutionTest {
 		//nums = solution.new NumArray(new int[] {});
 		//assertEquals(0, nums.sumRange(0, 0));
 	}
+
+	@Test
+    public void test312() {
+	    int[] nums = new int[] {3,1,5,8};
+	    assertEquals(167, solution.maxCoins(nums));
+        nums = new int[] {5,3,1,8};
+        assertEquals(192, solution.maxCoins(nums));
+        nums = new int[] {9,76,64,21,97,60};
+        // Wrong Answer
+        assertEquals(1086136, solution.maxCoins(nums));
+        // Time Limit Exceeded
+        nums = new int[] {7,9,8,0,7,1,3,5,5,2,3};
+        assertEquals(1654, solution.maxCoins(nums));
+    }
 	
 	@Test
 	public void test326() {

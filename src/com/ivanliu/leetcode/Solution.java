@@ -4942,6 +4942,66 @@ public class Solution {
     // NumArray numArray = new NumArray(nums);
     // numArray.sumRange(0, 1);
     // numArray.sumRange(1, 2);
+
+    /**
+     *  [Hard]
+     *  #312
+     */
+    private int maxCoins_max;
+    private int[][][] maxCoins_table;
+    public int maxCoins(int[] nums) {
+        List<Integer> numsList = new LinkedList<>();
+        numsList.add(1);
+        int max = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] > max) {
+                max = nums[i];
+            }
+            numsList.add(nums[i]);
+        }
+        numsList.add(1);
+        maxCoins_max = 0;
+        maxCoins_table = new int[max + 1][max + 1][max + 1];
+        maxCoins_r(numsList, 0);
+        return maxCoins_max;
+    }
+
+    private void maxCoins_r(List<Integer> list, int coins) {
+        if (list.size() == 2) {
+            return;
+        }
+        if (list.size() == 3) {
+            if (coins + list.get(1) > maxCoins_max) {
+                maxCoins_max = coins + list.get(1);
+            }
+            return;
+        }
+        int sum = list.get(1);
+        for (int i = 1; i < list.size() - 1; ++i) {
+//            sum *= list.get(i + 1);
+            sum = score(list.get(i - 1), list.get(i), list.get(i + 1));
+            int deleted = list.remove(i);
+            maxCoins_r(list, coins + sum);
+            list.add(i, deleted);
+//            if (list.get(i - 1) == 0) {
+//                sum = list.get(i);
+//            } else {
+//                sum /= list.get(i - 1);
+//            }
+        }
+        return;
+    }
+    private int score(int x, int y, int z) {
+        int e1 = Math.min(x, Math.min(y, z));
+        int e3 = Math.max(x, Math.max(y, z));
+        int e2 = x + y + z - e1 - e3;
+        if (maxCoins_table[e1][e2][e3] != 0) {
+            return maxCoins_table[e1][e2][e3];
+        }
+        int s = x * y * z;
+        maxCoins_table[e1][e2][e3] = s;
+        return s;
+    }
     
     /**
      *  [Easy]
