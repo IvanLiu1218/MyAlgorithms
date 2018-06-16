@@ -8464,4 +8464,124 @@ public class Solution {
 		}
 	}
 
+	/**
+	 *  #778
+	 */
+	public enum VertexStatus {
+		UNDISCOVERED,
+		DISCOVERED,
+		PROCESSED;
+	}
+	public static class EdgeNode1 {
+		int y;
+		EdgeNode1 next;
+		public EdgeNode1(int y, EdgeNode1 next) {
+			this.y = y;
+			this.next = next;
+		}
+	}
+	public static class Graph1 {
+		EdgeNode1[] edges;
+		VertexStatus[] status;
+		boolean isDirected = false;
+		int nVertices;
+		int nEdges;
+		public Graph1(int size) {
+			this.nVertices = size;
+			this.nEdges = 0;
+			this.edges = new EdgeNode1[size];
+			this.status = new VertexStatus[size];
+			Arrays.fill(edges, null);
+		}
+		public void insert(int x, int y, boolean isDirected) {
+			EdgeNode1 e = new EdgeNode1(y, this.edges[x]);
+			this.edges[x] = e;
+			this.nEdges++;
+			if (!isDirected) {
+				insert(y, x, true);
+			}
+		}
+		public void bfs(int start) {
+			if (start < 0 || start >= nVertices) return;
+			Arrays.fill(status, VertexStatus.UNDISCOVERED);
+			Deque<Integer> stack = new ArrayDeque<>();
+			stack.offerFirst(start);
+			while (!stack.isEmpty()) {
+				int x = stack.pollFirst();
+				EdgeNode1 edge = edges[x];
+				while (edge != null) {
+					int y = edge.y;
+					if (status[y] == VertexStatus.UNDISCOVERED) {
+						status[y] = VertexStatus.DISCOVERED;
+						stack.offerFirst(y);
+					} else if (status[y] != VertexStatus.PROCESSED || !isDirected) {
+						// TODO;
+					}
+
+					edge = edge.next;
+				}
+				status[x] = VertexStatus.PROCESSED;
+			}
+		}
+		public boolean isConnected(int start, int end) {
+			this.bfs(start);
+			return VertexStatus.PROCESSED.equals(status[end]);
+		}
+
+	}
+	public static class Point {
+		public int x;
+		public int y;
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+	public int swimInWater(int[][] grid) {
+		int n = grid.length;
+		int len = n * n;
+		Map<Integer, Point> map = new HashMap<>();
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; ++j) {
+				map.put(grid[i][j], new Point(i, j));
+			}
+		}
+		Graph1 g1 = new Graph1(len);
+		int time = 1;
+		while (time < len) {
+			Point p = map.get(time);
+            int y = p.x * n + p.y;
+			int v = getValue(grid, p.x -1, p.y);
+			if (v != -1 && v <= time) {
+			    int x = (p.x - 1) * n + p.y;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x + 1, p.y);
+			if (v != -1 && v <= time) {
+			    int x = (p.x + 1) * n + p.y;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x, p.y - 1);
+			if (v != -1 && v <= time) {
+			    int x = p.x * n + p.y - 1;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x, p.y + 1);
+			if (v != -1 && v <= time) {
+			    int x = p.x * n + p.y + 1;
+				g1.insert(x, y, false);
+			}
+			if (g1.isConnected(0, len - 1)) {
+				return time;
+			}
+
+			time++;
+		}
+		return time;
+	}
+	public int getValue(int[][] grid, int x, int y) {
+		if (x < 0 || x >= grid.length) return -1;
+		if (y < 0 || y >= grid[0].length) return -1;
+		return grid[x][y];
+	}
 }
