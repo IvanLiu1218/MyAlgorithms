@@ -8464,6 +8464,111 @@ public class Solution {
 		}
 	}
 
+    /**
+     *  #726 Number of Atoms
+     */
+    private Map<String, Integer> countOfAtoms_map;
+    public String countOfAtoms(String formula) {
+        countOfAtoms_map = new TreeMap<>();
+        //String f = countOfAtoms_r(formula, 0);
+        StringBuilder sb = new StringBuilder();
+        for (String key : countOfAtoms_map.keySet()) {
+            int count = countOfAtoms_map.get(key);
+            sb.append(key);
+            if (count > 1) sb.append(count);
+        }
+        return sb.toString();
+    }
+    private int countOfAtoms_r(String formula, int index) {
+        if (formula.charAt(index) == ')') {
+            int i = index;
+            StringBuilder sb = new StringBuilder();
+            while (i < formula.length()) {
+                char c = formula.charAt(i);
+                if ('0' <= c && c <= '9') {
+                    sb.append(c);
+                    ++i;
+                } else {
+                    return Integer.parseInt(sb.toString());
+                }
+            }
+            return 0;
+        }
+        boolean isElement = false;
+        int i = index;
+        while (i < formula.length()) {
+            char c = formula.charAt(i);
+            StringBuilder sb = new StringBuilder();
+            if (c == '(') {
+                int count = countOfAtoms_r(formula, i + 1);
+
+            } else if ('A' <= c && c <= 'Z') {
+                if (isElement) {
+                    sb.append(c);
+
+                }
+                isElement = true;
+                sb.append(c);
+
+            } else if ('a' <= c && c <= 'z') {
+                isElement = true;
+                sb.append(c);
+
+            } else if ('0' <= c && c <= '9') {
+                if (isElement) {
+
+                }
+                isElement = false;
+            }
+        }
+        return 0;
+    }
+    private void addCount(String element, int count) {
+        if (!countOfAtoms_map.containsKey(element)) {
+            countOfAtoms_map.put(element, count);
+        } else {
+            int co = countOfAtoms_map.get(element);
+            co += count;
+            countOfAtoms_map.put(element, co);
+        }
+    }
+    private int fetchCount(String formula, int from) {
+        int i = from;
+        StringBuilder sb = new StringBuilder();
+        while (i < formula.length()) {
+            char c = formula.charAt(i);
+            if ('0' <= c && c <= '9') {
+                sb.append(c);
+                ++i;
+            } else if (sb.length() > 0) {
+                return Integer.parseInt(sb.toString());
+            } else {
+                break;
+            }
+        }
+        return 0;
+    }
+    private String fetchElement(String formula, int from) {
+        int i = from;
+        StringBuilder sb = new StringBuilder();
+        while (i < formula.length()) {
+            char c = formula.charAt(i);
+            if ('A' <= c && c <= 'Z') {
+                if (sb.length() != 0) {
+                    return sb.toString();
+                }
+                sb.append(c);
+                ++i;
+            } else if ('a' <= c && c <= 'z') {
+                sb.append(c);
+                ++i;
+            } else {
+                break;
+            }
+        }
+        return "";
+    }
+
 	/**
 	 *  #778
 	 */

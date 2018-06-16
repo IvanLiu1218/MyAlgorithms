@@ -2404,7 +2404,17 @@ public class SolutionTest {
 	}
 
 	@Test
-    public void testSwimInWater() {
+    public void test726() {
+	    String formula = "H2O";
+	    assertEquals("H2O", solution.countOfAtoms(formula));
+        formula = "Mg(OH)2";
+        assertEquals("H2MgO2", solution.countOfAtoms(formula));
+        formula = "K4(ON(SO3)2)2";
+        assertEquals("K4N2O14S4", solution.countOfAtoms(formula));
+    }
+
+	@Test
+    public void test778() {
 	    int[][] grid = new int[][] {{0,2},{1,3}};
 	    assertEquals(3, solution.swimInWater(grid));
 	    grid = new int[][] {{0,1,2,3,4},{24,23,22,21,5},{12,13,14,15,16},{11,17,18,19,20},{10,9,8,7,6}};
