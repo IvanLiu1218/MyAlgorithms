@@ -6,12 +6,20 @@ import java.util.Deque;
 
 public class Graph {
 
+    /**
+     *  Classes:
+     */
+    public enum EdgeType {
+        TREE,
+        BACK,
+        FORWARD,
+        CROSS;
+    }
     public enum VertexStatus {
         UNDISCOVERED,
         DISCOVERED,
         PROCESSED;
     }
-
     public static class EdgeNode {
         public int y;
         public EdgeNode next;
@@ -21,6 +29,9 @@ public class Graph {
         }
     }
 
+    /**
+     *  Attributes:
+     */
     public int nVertices;
     public VertexStatus[] vertexStatus;
     public EdgeNode[] edges;
@@ -30,17 +41,26 @@ public class Graph {
     public int[] parent;  // findShortestPath()
     public int[] component; // connectedComponent
 
+    public int time;
+    public int[] time_entry;
+    public int[] time_exit;
+
     public Graph(int size, boolean isDirected) {
         this.nVertices = size;
         this.vertexStatus = new VertexStatus[size];
         this.edges = new EdgeNode[size];
+        Arrays.fill(edges, null);
         this.nEdges = 0;
         this.isDirected = isDirected;
         this.parent = new int[size];
-        this.component = new int[size];
-        Arrays.fill(edges, null);
         Arrays.fill(parent, -1);
+        this.component = new int[size];
         Arrays.fill(component, 0);
+        this.time = 0;
+        this.time_entry = new int[size];
+        this.time_exit = new int[size];
+        Arrays.fill(time_entry, 0);
+        Arrays.fill(time_exit, 0);
     }
 
     private boolean isValid(int x) {
@@ -51,6 +71,9 @@ public class Graph {
         Arrays.fill(vertexStatus, VertexStatus.UNDISCOVERED);
         Arrays.fill(parent, -1);
         Arrays.fill(component, 0);
+        this.time = 0;
+        Arrays.fill(time_entry, 0);
+        Arrays.fill(time_exit, 0);
     }
 
     public void insertEdge(int x, int y, boolean isDirected) {
@@ -69,6 +92,7 @@ public class Graph {
     public void bfs(int start, int id) {
         if (!isValid(start)) return;
         Deque<Integer> queue = new ArrayDeque<>();
+        vertexStatus[start] = VertexStatus.DISCOVERED;
         queue.offerLast(start);
         while (!queue.isEmpty()) {
             int x = queue.pollFirst();
@@ -80,14 +104,23 @@ public class Graph {
                     vertexStatus[y] = VertexStatus.DISCOVERED;
                     parent[y] = x;
                     queue.offerLast(y);
-                    process_edge(x, y);
-                } else if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
-                    process_edge(x, y);
                 }
+//                if (vertexStatus[y] != VertexStatus.PROCESSED || !isDirected) {
+                    process_edge(x, y);
+//                }
                 edge = edge.next;
             }
-            vertexStatus[x] = VertexStatus.PROCESSED;
             process_later(x);
+            vertexStatus[x] = VertexStatus.PROCESSED;
+        }
+    }
+
+    public void dfs_f() {
+        prepareForSearch();
+        for (int i = 0; i < nVertices; ++i) {
+            if (vertexStatus[i] == VertexStatus.UNDISCOVERED) {
+                dfs(i);
+            }
         }
     }
 
@@ -98,6 +131,8 @@ public class Graph {
 
     private void dfs_r(int x) {
         vertexStatus[x] = VertexStatus.DISCOVERED;
+        time_entry[x] = time++;
+        process_early(x);
         EdgeNode edge = edges[x];
         while (edge != null) {
             int y = edge.y;
@@ -105,12 +140,13 @@ public class Graph {
                 parent[y] = x;
                 process_edge(x, y);
                 dfs_r(y);
-            } else if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
+            } else /*if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected)*/ {
                 process_edge(x, y);
             }
             edge = edge.next;
         }
         process_later(x);
+        time_exit[x] = time++;
         vertexStatus[x] = VertexStatus.PROCESSED;
     }
 
@@ -150,9 +186,24 @@ public class Graph {
         }
     }
 
-    public void twoColor() {
-        prepareForSearch();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------\n");
+        sb.append(String.format("Vertices: %3d\n", nVertices));
+        sb.append(String.format("Edges:    %3d\n", nEdges));
+        sb.append("----------------------------\n");
+        for (int i = 0; i < nVertices; ++i) {
+            EdgeNode edge = edges[i];
+            sb.append(String.format("[%d|id:%d|%02d/%02d]", i, component[i], time_entry[i], time_exit[i]));
+            while (edge != null) {
+                sb.append(String.format(" [%d->%d]", i, edge.y));
+                edge = edge.next;
+            }
+            sb.append("\n");
+        }
 
+        return sb.toString();
     }
 
     public void process_early(int x) {

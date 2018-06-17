@@ -8,8 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
 
-    public Graph createDGraph() {
-        Graph g = new Graph(8, true);
+    public GraphD initDGraph(GraphD g) {
         g.insertEdge(0, 1, true);
         g.insertEdge(0, 4, true);
         g.insertEdge(0, 7, true);
@@ -26,55 +25,96 @@ public class GraphTest {
         return g;
     }
 
-    public Graph createIDGraph1() {
-        Graph g = new Graph(8, false);
-        g.insertEdge(0, 1, false);
-        g.insertEdge(1, 2, false);
-        g.insertEdge(0, 7, false);
-        g.insertEdge(7, 6, false);
-        g.insertEdge(1, 6, false);
-        g.insertEdge(2, 5, false);
-        g.insertEdge(3, 4, false);
-        g.insertEdge(3, 5, false);
+    public GraphD initDGraph1(GraphD g) {
+        g.insertEdge(0, 1);
+        g.insertEdge(1, 2);
+        g.insertEdge(0, 7);
+        g.insertEdge(7, 6);
+        g.insertEdge(1, 6);
+        g.insertEdge(2, 3);
+        g.insertEdge(3, 4);
+        g.insertEdge(3, 5);
         return g;
     }
 
-    public Graph createIDGraph2() {
-        Graph g = new Graph(8, false);
-        g.insertEdge(0, 1, false);
-        g.insertEdge(1, 2, false);
-        g.insertEdge(0, 7, false);
-        g.insertEdge(7, 6, false);
-        g.insertEdge(1, 6, false);
-//        g.insertEdge(2, 5, false);
-        g.insertEdge(3, 4, false);
-        g.insertEdge(3, 5, false);
+    public GraphID initIDGraph(GraphID g) {
+        g.insertEdge(0, 1);
+        g.insertEdge(0, 4);
+        g.insertEdge(0, 7);
+        g.insertEdge(1, 2);
+        g.insertEdge(1, 6);
+        g.insertEdge(2, 3);
+        g.insertEdge(2, 5);
+        g.insertEdge(4, 3);
+        g.insertEdge(5, 3);
+        g.insertEdge(5, 4);
+        g.insertEdge(6, 5);
+        g.insertEdge(7, 2);
+        g.insertEdge(7, 6);
+        return g;
+    }
+
+    public GraphID initIDGraph1(GraphID g) {
+        g.insertEdge(0, 1);
+        g.insertEdge(1, 2);
+        g.insertEdge(0, 7);
+        g.insertEdge(7, 6);
+        g.insertEdge(1, 6);
+        g.insertEdge(2, 3);
+        g.insertEdge(3, 4);
+        g.insertEdge(3, 5);
+        return g;
+    }
+
+    public GraphID initIDGraph2(GraphID g) {
+        g.insertEdge(0, 1);
+        g.insertEdge(1, 2);
+        g.insertEdge(0, 7);
+        g.insertEdge(7, 6);
+        g.insertEdge(1, 6);
+        g.insertEdge(3, 4);
+        g.insertEdge(3, 5);
+        return g;
+    }
+
+    public GraphID initIDGraph3(GraphID g) {
+        g.insertEdge(0, 1);
+        g.insertEdge(1, 2);
+        g.insertEdge(0, 7);
+        g.insertEdge(7, 6);
+        g.insertEdge(1, 6);
+        g.insertEdge(2, 5);
+        g.insertEdge(3, 4);
+        g.insertEdge(3, 5);
+        g.insertEdge(2, 3);
         return g;
     }
 
     @Test
     public void testInsertEdge() {
-        Graph g = createDGraph();
-        System.out.println(Utilities.toString(g));
+        Graph g = initDGraph(new GraphD(8));
+        System.out.println(g.toString());
     }
 
     @Test
-    public void testBFS() {
-        Graph g = createDGraph();
+    public void testBFS_D() {
+        GraphD g = initDGraph(new GraphD(8));
         g.prepareForSearch();
         g.bfs(0);
+        System.out.println(g.toString());
     }
 
     @Test
-    public void testDFS() {
-        Graph g = createDGraph();
+    public void testBFS_ID() {
+        GraphID g = initIDGraph(new GraphID(8));
         g.prepareForSearch();
-        g.dfs(0);
+        g.bfs(0);
+        System.out.println(g.toString());
     }
 
     @Test
     public void testIsConnected() {
-        Graph g = createDGraph();
+        Graph g = initDGraph(new GraphD(8));
         assertTrue(g.isConnected(0, 5));
         assertTrue(g.isConnected(1, 4));
         assertFalse(g.isConnected(1, 7));
@@ -83,7 +123,7 @@ public class GraphTest {
 
     @Test
     public void testFindShortestPath() {
-        Graph g = createDGraph();
+        Graph g = initDGraph(new GraphD(8));
         assertEquals("0->4->3", g.findShortestPath(0, 3));
         assertEquals("0->4", g.findShortestPath(0, 4));
         assertEquals("No path from 1 to 7", g.findShortestPath(1, 7));
@@ -93,22 +133,58 @@ public class GraphTest {
 
     @Test
     public void testBFSID() {  // indirected
-        Graph g = createIDGraph1();
+        Graph g = initIDGraph1(new GraphID(8));
         g.prepareForSearch();
         g.bfs(0);
     }
 
     @Test
     public void testConnectComponent() {
-        Graph g = createIDGraph2();
+        Graph g = initIDGraph2(new GraphID(8));
         g.connectedComponent();
-        System.out.println(Utilities.toString(g));
+        System.out.println(g.toString());
     }
 
-//    @Test
-//    public void testDFSID() {
-//        Graph g = createIDGraph1();
-//        g.dfs(0);
-//    }
+    @Test
+    public void testTwoColor() {
+        GraphTwoColor g = (GraphTwoColor) initIDGraph1(new GraphTwoColor(8));
+        g.twoColor();
+        System.out.println(g.toString());
+
+        g = (GraphTwoColor) initIDGraph2(new GraphTwoColor(8));
+        g.twoColor();
+        System.out.println(g.toString());
+
+        g = (GraphTwoColor) initIDGraph3(new GraphTwoColor(8));
+        g.twoColor();
+        System.out.println(g.toString());
+    }
+
+    @Test
+    public void testDFS() {
+        Graph g = initDGraph(new GraphD(8));
+        g.prepareForSearch();
+        g.dfs(0);
+    }
+
+    @Test
+    public void testDFS_F_D() {
+        GraphD g = initDGraph1(new GraphD(8));
+        g.dfs_f();
+        System.out.println(g.toString());
+    }
+
+    @Test
+    public void testDFS_F_ID() {
+        GraphID g = initIDGraph1(new GraphID(8));
+        g.dfs_f();
+        System.out.println(g.toString());
+    }
+
+    @Test
+    public void testHasCycle() {
+        GraphID g = initIDGraph1(new GraphID(8));
+        assertTrue(g.hasCycle());
+    }
 
 }
