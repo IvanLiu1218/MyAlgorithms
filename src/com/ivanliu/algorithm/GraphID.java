@@ -31,18 +31,19 @@ public class GraphID extends Graph {
         this.hasCycle = false;
     }
 
-    @Override
-    public void process_edge(int x, int y) {
-        System.out.println(String.format("EDGE: (%d, %d) %s", x, y, getVisitTime(x, y)));
-        if (parent[x] != y) {
-            hasCycle = true;
-            System.out.println(String.format(">>>>>Cycle from %d to %d", y, x));
-        }
-    }
+//    @Override
+//    public void process_edge(int x, int y) {
+//        if ("1ST".equals(getVisitTime(x, y))) {
+//            super.process_edge(x, y);
+//            if (parent[x] != y) {
+//                hasCycle = true;
+//                System.out.println(String.format(">>>>>Cycle from %d to %d", y, x));
+//            }
+//        }
+//    }
 
     public boolean hasCycle() {
-        prepareForSearch();
-        dfs_f();
+        dfs();
         return hasCycle;
     }
 }

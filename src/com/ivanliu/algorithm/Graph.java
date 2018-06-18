@@ -105,9 +105,9 @@ public class Graph {
                     parent[y] = x;
                     queue.offerLast(y);
                 }
-//                if (vertexStatus[y] != VertexStatus.PROCESSED || !isDirected) {
+                if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
                     process_edge(x, y);
-//                }
+                }
                 edge = edge.next;
             }
             process_later(x);
@@ -115,7 +115,7 @@ public class Graph {
         }
     }
 
-    public void dfs_f() {
+    public void dfs() {
         prepareForSearch();
         for (int i = 0; i < nVertices; ++i) {
             if (vertexStatus[i] == VertexStatus.UNDISCOVERED) {
@@ -124,12 +124,7 @@ public class Graph {
         }
     }
 
-    public void dfs(int start) {
-        if (!isValid(start)) return;
-        dfs_r(start);
-    }
-
-    private void dfs_r(int x) {
+    public void dfs(int x) {
         vertexStatus[x] = VertexStatus.DISCOVERED;
         time_entry[x] = time++;
         process_early(x);
@@ -139,7 +134,7 @@ public class Graph {
             if (vertexStatus[y] == VertexStatus.UNDISCOVERED) {
                 parent[y] = x;
                 process_edge(x, y);
-                dfs_r(y);
+                dfs(y);
             } else /*if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected)*/ {
                 process_edge(x, y);
             }
@@ -186,6 +181,16 @@ public class Graph {
         }
     }
 
+    public int numOfDescendants(int x) {
+        return (time_exit[x] - time_entry[x] ) / 2;
+    }
+
+    public EdgeType identifyEdgeType(int x, int y){
+        if (parent[y] == x) return EdgeType.TREE;
+        //if (vertexStatus[y] == VertexStatus.DISCOVERED && vertexStatus)
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -195,7 +200,7 @@ public class Graph {
         sb.append("----------------------------\n");
         for (int i = 0; i < nVertices; ++i) {
             EdgeNode edge = edges[i];
-            sb.append(String.format("[%d|id:%d|%02d/%02d]", i, component[i], time_entry[i], time_exit[i]));
+            sb.append(String.format("[%d|p:%2d|id:%d|%02d/%02d]", i, parent[i], component[i], time_entry[i], time_exit[i]));
             while (edge != null) {
                 sb.append(String.format(" [%d->%d]", i, edge.y));
                 edge = edge.next;

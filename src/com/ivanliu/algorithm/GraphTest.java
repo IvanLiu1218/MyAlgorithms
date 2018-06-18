@@ -113,6 +113,62 @@ public class GraphTest {
     }
 
     @Test
+    public void testBFSO1() {
+        boolean directed = false;
+        GraphO g = new GraphO(8, directed);
+        g.insertEdge(0, 1, directed);
+        g.insertEdge(1, 2, directed);
+        g.insertEdge(0, 7, directed);
+        g.insertEdge(7, 6, directed);
+        g.insertEdge(1, 6, directed);
+        g.insertEdge(2, 3, directed);
+        g.insertEdge(3, 4, directed);
+        g.insertEdge(3, 5, directed);
+        g.prepareForSearch();
+        g.bfs(0);
+        System.out.println(g.toString());
+    }
+
+    @Test
+    public void testBFSO2() {
+        boolean directed = true;
+        GraphO g = new GraphO(8, directed);
+        g.insertEdge(0, 1, directed);
+        g.insertEdge(0, 4, directed);
+        g.insertEdge(0, 7, directed);
+        g.insertEdge(1, 2, directed);
+        g.insertEdge(1, 6, directed);
+        g.insertEdge(2, 3, directed);
+        g.insertEdge(2, 5, directed);
+        g.insertEdge(4, 3, directed);
+        g.insertEdge(5, 3, directed);
+        g.insertEdge(5, 4, directed);
+        g.insertEdge(6, 5, directed);
+        g.insertEdge(7, 2, directed);
+        g.insertEdge(7, 6, directed);
+        g.prepareForSearch();
+        g.bfs(0);
+        System.out.println(g.toString());
+    }
+
+    @Test
+    public void testDFSO1() {
+        boolean directed = false;
+        GraphO g = new GraphO(8, directed);
+        g.insertEdge(0, 1, directed);
+        g.insertEdge(1, 2, directed);
+        g.insertEdge(0, 7, directed);
+        g.insertEdge(7, 6, directed);
+        g.insertEdge(1, 6, directed);
+        g.insertEdge(2, 3, directed);
+        g.insertEdge(3, 4, directed);
+        g.insertEdge(3, 5, directed);
+        g.prepareForSearch();
+        g.dfs(0);
+        System.out.println(g.toString());
+    }
+
+    @Test
     public void testIsConnected() {
         Graph g = initDGraph(new GraphD(8));
         assertTrue(g.isConnected(0, 5));
@@ -136,6 +192,7 @@ public class GraphTest {
         Graph g = initIDGraph1(new GraphID(8));
         g.prepareForSearch();
         g.bfs(0);
+        System.out.println(g.toString());
     }
 
     @Test
@@ -165,26 +222,40 @@ public class GraphTest {
         Graph g = initDGraph(new GraphD(8));
         g.prepareForSearch();
         g.dfs(0);
+        System.out.println(g.toString());
     }
 
     @Test
     public void testDFS_F_D() {
         GraphD g = initDGraph1(new GraphD(8));
-        g.dfs_f();
+        g.dfs();
         System.out.println(g.toString());
     }
 
     @Test
     public void testDFS_F_ID() {
         GraphID g = initIDGraph1(new GraphID(8));
-        g.dfs_f();
+        g.dfs();
         System.out.println(g.toString());
     }
 
     @Test
-    public void testHasCycle() {
+    public void testNumOfDescendants() {
         GraphID g = initIDGraph1(new GraphID(8));
-        assertTrue(g.hasCycle());
+        g.dfs();
+        System.out.println(g.toString());
+        assertEquals(7, g.numOfDescendants(0));
+        assertEquals(3, g.numOfDescendants(2));
+        assertEquals(2, g.numOfDescendants(3));
     }
+
+//    @Test
+//    public void testHasCycle() {
+//        GraphID g = initIDGraph1(new GraphID(8));
+//        g.hasCycle();
+//        System.out.println(g.toString());
+//    }
+
+
 
 }
