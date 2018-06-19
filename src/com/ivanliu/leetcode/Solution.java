@@ -8640,4 +8640,59 @@ public class Solution {
         if (node.left == null && node.right == null && node.val == 0) return true;
         return false;
     }
+
+    /**
+     *  #797. All Paths From Source to Target
+     */
+    public static class EdgeNode797 {
+        public int y;
+        public EdgeNode797 next;
+        public EdgeNode797(int y, EdgeNode797 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph797 {
+        public EdgeNode797[] edges;
+        public int nVertices;
+        public Graph797(int size) {
+            this.edges = new EdgeNode797[size];
+            this.nVertices = size;
+        }
+        public void insertEdge(int x, int y) {
+            EdgeNode797 edge = new EdgeNode797(y, edges[x]);
+            edges[x] = edge;
+        }
+    }
+    private List<List<Integer>> result797;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        Graph797 g = new Graph797(graph.length);
+        for (int i = 0; i < graph.length; ++i) {
+            for (int j = 0; j < graph[i].length; ++j) {
+                g.insertEdge(i, graph[i][j]);
+            }
+        }
+        result797 = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        allPathsSourceTarget_dfs(g, 0, list);
+        return result797;
+    }
+    private void allPathsSourceTarget_dfs(Graph797 g, int x, List<Integer> list) {
+        if (g.edges[x] == null) {
+            if (x == g.nVertices - 1) {
+                List<Integer> copy = new ArrayList<>(list);
+                result797.add(copy);
+            }
+            return;
+        }
+        EdgeNode797 edge = g.edges[x];
+        while (edge != null) {
+            int y = edge.y;
+            list.add(y);
+            allPathsSourceTarget_dfs(g, y, list);
+            list.remove(new Integer(y));
+            edge = edge.next;
+        }
+    }
 }

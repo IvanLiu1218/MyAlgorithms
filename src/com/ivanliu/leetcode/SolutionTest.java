@@ -2466,6 +2466,24 @@ public class SolutionTest {
         root.right.right = new TreeNode(1);
         root = solution.pruneTree(root);
         assertEquals("[1,1,0,1,1,null,1,null,null,null,null,null,null]", Utility.toString(root));
+    }
 
+    @Test
+    public void test797() {
+	    int[][] graph = new int[4][];
+	    graph[0] = new int[] {1,2};
+	    graph[1] = new int[] {3};
+	    graph[2] = new int[] {3};
+	    graph[3] = new int[0];
+	    List<List<Integer>> result = solution.allPathsSourceTarget(graph);
+	    assertEquals("[[0, 2, 3], [0, 1, 3]]", Utility.toString(result));
+
+        graph = new int[4][];
+        graph[0] = new int[] {1,2};
+        graph[1] = new int[] {3};
+        graph[2] = new int[0];
+        graph[3] = new int[0];
+        result = solution.allPathsSourceTarget(graph);
+        assertEquals("[[0, 1, 3]]", Utility.toString(result));
     }
 }
