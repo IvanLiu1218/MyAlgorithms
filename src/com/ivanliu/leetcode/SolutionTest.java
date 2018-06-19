@@ -2419,4 +2419,53 @@ public class SolutionTest {
 		grid = new int[][] {{2,0},{0,3}};
 		assertEquals(4, solution.maxIncreaseKeepingSkyline(grid));
 	}
+
+	@Test
+    public void test814() {
+	    TreeNode root = new TreeNode(0);
+	    assertEquals(null, solution.pruneTree(root));
+
+	    root = new TreeNode(0);
+	    root.left = new TreeNode(0);
+	    root.right = new TreeNode(1);
+	    root = solution.pruneTree(root);
+	    assertEquals(root, root);
+	    assertEquals("[0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(0);
+        root.left = new TreeNode(0);
+        root.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals(root, root);
+        assertEquals("[0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.right = new TreeNode(0);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,null,0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.left = new TreeNode(0);
+        root.left.left = new TreeNode(0);
+        root.left.right = new TreeNode(0);
+        root.right = new TreeNode(1);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,null,1,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.left = new TreeNode(1);
+        root.left.left = new TreeNode(1);
+        root.left.left.left = new TreeNode(0);
+        root.left.right = new TreeNode(1);
+        root.right = new TreeNode(0);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,1,0,1,1,null,1,null,null,null,null,null,null]", Utility.toString(root));
+
+    }
 }

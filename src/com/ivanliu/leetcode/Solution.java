@@ -8611,4 +8611,33 @@ public class Solution {
         }
         return sum;
     }
+
+    /**
+     *  #814. Binary Tree Pruning
+     */
+    public TreeNode pruneTree(TreeNode root) {
+        boolean toPrune = pruneTree_r(root);
+        return toPrune ? null : root;
+    }
+    private boolean pruneTree_r(TreeNode node) {
+        if (node.left == null && node.right == null) {
+            if (node.val == 0) return true;  // need to prune
+            else return false;
+        }
+        boolean toPrune = false;
+        if (node.left != null) {
+            toPrune = pruneTree_r(node.left);
+            if (toPrune) {
+                node.left = null;
+            }
+        }
+        if (node.right != null) {
+            toPrune = pruneTree_r(node.right);
+            if (toPrune) {
+                node.right = null;
+            }
+        }
+        if (node.left == null && node.right == null && node.val == 0) return true;
+        return false;
+    }
 }
