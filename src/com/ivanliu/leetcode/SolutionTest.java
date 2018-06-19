@@ -2404,10 +2404,53 @@ public class SolutionTest {
 	}
 
 	@Test
-    public void testSwimInWater() {
+    public void test778() {
 	    int[][] grid = new int[][] {{0,2},{1,3}};
 	    assertEquals(3, solution.swimInWater(grid));
 	    grid = new int[][] {{0,1,2,3,4},{24,23,22,21,5},{12,13,14,15,16},{11,17,18,19,20},{10,9,8,7,6}};
 	    assertEquals(16, solution.swimInWater(grid));
     }
+
+    @Test
+	public void test732() {
+		MyCalendarThree mct = new MyCalendarThree();
+		assertEquals(1, mct.book(10, 20));
+		assertEquals(1, mct.book(50, 60));
+		assertEquals(2, mct.book(10, 40));
+		assertEquals(3, mct.book( 5, 15));
+		assertEquals(3, mct.book( 5, 10));
+		assertEquals(3, mct.book(25, 55));
+		assertEquals(3, mct.book(15, 16));
+        assertEquals(4, mct.book(10, 11));
+
+        mct = new MyCalendarThree();
+        assertEquals(1, mct.book(10, 20));
+        assertEquals(1, mct.book(50, 60));
+        assertEquals(2, mct.book(10, 40));
+        assertEquals(3, mct.book( 5, 15));
+        assertEquals(3, mct.book( 5, 10));
+        assertEquals(3, mct.book(25, 55));
+        assertEquals(4, mct.book(10, 11));
+        assertEquals(4, mct.book(15, 16));
+
+        // Wrong Answer
+        // Expected: [null,1,1,1,1,1,2,2,2,3,3,3,4,5/,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7]
+        // Output:   [null,1,1,1,1,1,2,2,2,3,3,3,4,4/,4,4,5,5,5,6,6,6,3,4,4,4,4,4,5,5,5]
+        // [47,50],[1,10],[27,36],[40,47],[20,27],[15,23],[10,18],[27,36],[17,25],[8,17],
+        // [24,33],[23,28],[21,27]
+        mct = new MyCalendarThree();
+        assertEquals(1, mct.book(47, 50));
+        assertEquals(1, mct.book( 1, 10));
+        assertEquals(1, mct.book(27, 36));
+        assertEquals(1, mct.book(40, 47));
+        assertEquals(1, mct.book(20, 27));
+        assertEquals(2, mct.book(15, 23));
+        assertEquals(2, mct.book(10, 18));
+        assertEquals(2, mct.book(27, 36));
+        assertEquals(3, mct.book(17, 25));
+        assertEquals(3, mct.book( 8, 17));
+        assertEquals(3, mct.book(24, 33));
+        assertEquals(4, mct.book(23, 28));
+        assertEquals(5, mct.book(21, 27));
+	}
 }
