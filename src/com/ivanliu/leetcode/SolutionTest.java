@@ -2486,4 +2486,20 @@ public class SolutionTest {
         result = solution.allPathsSourceTarget(graph);
         assertEquals("[[0, 1, 3]]", Utility.toString(result));
     }
+
+    @Test
+    public void test763() {
+	    String S = "ababcbacadefegdehijhklij";
+	    List<Integer> result = solution.partitionLabels(S);
+	    assertEquals("[9, 7, 8]", Arrays.toString(result.stream().toArray()));
+
+	    // Wrong Answer:
+	    S = "caedbdedda";
+        result = solution.partitionLabels(S);
+        assertEquals("[1, 9]", Arrays.toString(result.stream().toArray()));
+
+        S = "gtywtbcnow";
+        result = solution.partitionLabels(S);
+        assertEquals("[1, 9]", Arrays.toString(result.stream().toArray()));
+    }
 }

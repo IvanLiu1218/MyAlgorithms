@@ -8695,4 +8695,69 @@ public class Solution {
             edge = edge.next;
         }
     }
+
+    /**
+     *  #763. Partition Labels
+     */
+    public List<Integer> partitionLabels(String S) {
+        int[] from = new int[26];
+        int[] to = new int[26];
+        Arrays.fill(from, -1);
+        Arrays.fill(to, -1);
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            int index = c - 'a';
+            if (from[index] == -1) {
+                from[index] = i;
+                to[index] = i;
+            } else {
+                to[index] = i;
+            }
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (from[i] == -1) continue;
+            for (int j = 0; j < 26; ++j) {
+                if (i == j) continue;
+                if (from[j] != -1 && isIntersected(from[i], to[i], from[j], to[j])) {
+                    from[i] = Math.min(from[i], from[j]);
+                    to[i] = Math.max(to[i], to[j]);
+                    from[j] = -1;
+                }
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        quickSort(from, to, 0, 26);
+        for (int i = 0; i < 26; ++i) {
+            if (from[i] != -1) {
+                result.add(to[i] - from[i] + 1);
+            }
+        }
+        return result;
+    }
+    private boolean isIntersected(int f1, int t1, int f2, int t2) {
+        if (f1 < f2 && f2 < t1) return true;
+        if (f1 < t2 && t2 < t1) return true;
+        if (f2 < f1 && f1 < t2) return true;
+        if (f2 < t1 && t1 < t2) return true;
+        return false;
+    }
+    private void quickSort(int[] nums1, int[] nums2, int from, int to) {
+        if (from >= to) return;
+        int flag1 = nums1[from];
+        int flag2 = nums2[from];
+        int i = from;
+        int j = to - 1;
+        while (i < j) {
+            while (i < j && nums1[j] > flag1) --j;
+            nums1[i] = nums1[j];
+            nums2[i] = nums2[j];
+            while (i < j && nums1[i] <= flag1) ++i;
+            nums1[j] = nums1[i];
+            nums2[j] = nums2[i];
+        }
+        nums1[i] = flag1;
+        nums2[i] = flag2;
+        quickSort(nums1, nums2, from, i);
+        quickSort(nums1, nums2, i + 1, to);
+    }
 }
