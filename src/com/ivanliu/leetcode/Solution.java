@@ -8584,4 +8584,31 @@ public class Solution {
 		if (y < 0 || y >= grid[0].length) return -1;
 		return grid[x][y];
 	}
+
+    /**
+     *  #807. Max Increase to Keep City Skyline
+     */
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        int n = grid.length;
+        int[][] skyline = new int[2][n];
+        skyline[0] = new int[n];  // horizon
+        skyline[1] = new int[n];  //vertical
+        for (int i = 0; i < n; ++i) {
+            int hMax = 0;
+            int vMax = 0;
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] > hMax) hMax = grid[i][j];
+                if (grid[j][i] > vMax) vMax = grid[j][i];
+            }
+            skyline[0][i] = hMax;
+            skyline[1][i] = vMax;
+        }
+        int sum = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                sum += Math.min(skyline[0][i], skyline[1][j]) - grid[i][j];
+            }
+        }
+        return sum;
+    }
 }

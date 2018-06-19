@@ -2404,10 +2404,19 @@ public class SolutionTest {
 	}
 
 	@Test
-    public void testSwimInWater() {
+    public void test778() {
 	    int[][] grid = new int[][] {{0,2},{1,3}};
 	    assertEquals(3, solution.swimInWater(grid));
 	    grid = new int[][] {{0,1,2,3,4},{24,23,22,21,5},{12,13,14,15,16},{11,17,18,19,20},{10,9,8,7,6}};
 	    assertEquals(16, solution.swimInWater(grid));
     }
+
+    @Test
+	public void test807() {
+		int[][] grid = new int[][] {{3,0,8,4},{2,4,5,7},{9,2,6,3},{0,3,1,0}};
+		assertEquals(35, solution.maxIncreaseKeepingSkyline(grid));
+
+		grid = new int[][] {{2,0},{0,3}};
+		assertEquals(4, solution.maxIncreaseKeepingSkyline(grid));
+	}
 }
