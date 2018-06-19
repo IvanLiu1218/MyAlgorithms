@@ -2502,4 +2502,15 @@ public class SolutionTest {
         result = solution.partitionLabels(S);
         assertEquals("[1, 9]", Arrays.toString(result.stream().toArray()));
     }
+
+    @Test
+    public void test791() {
+	    String S = "cba";
+	    String T = "abcd";
+	    assertEquals("dcba", solution.customSortString(S, T));
+	    // Wrong Answer:
+        S = "kqep";
+        T = "pekeq";  // character in T can be repeated
+        assertEquals("kqeep", solution.customSortString(S, T));
+    }
 }

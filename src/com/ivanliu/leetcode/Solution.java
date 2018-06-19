@@ -8760,4 +8760,46 @@ public class Solution {
         quickSort(nums1, nums2, from, i);
         quickSort(nums1, nums2, i + 1, to);
     }
+
+    /**
+     *  #791. Custom Sort String
+     */
+    public String customSortString(String S, String T) {
+        Map<Character, Integer> maps = new HashMap<>();
+        Map<Character, Integer> mapt = new HashMap<>();
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            maps.put(c, i);
+        }
+        StringBuilder sbt = new StringBuilder();
+        for (int i = 0; i < T.length(); ++i) {
+            char c = T.charAt(i);
+            if (!mapt.containsKey(c)) {
+                mapt.put(c, 1);
+            } else {
+                int count = mapt.get(c);
+                ++count;
+                mapt.put(c, count);
+            }
+            if (!maps.containsKey(c)) {
+                sbt.append(c);
+            }
+        }
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            if (!mapt.containsKey(c)) {
+                maps.remove(c);
+            }
+        }
+        for (int i = 0; i< S.length(); ++i) {
+            char c = S.charAt(i);
+            if (maps.containsKey(c)) {
+                int count = mapt.get(c);
+                for (int k = 0; k < count; ++k) {
+                    sbt.append(c);
+                }
+            }
+        }
+        return sbt.toString();
+    }
 }
