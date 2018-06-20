@@ -8802,4 +8802,104 @@ public class Solution {
         }
         return sbt.toString();
     }
+
+    /**
+     *  #841. Keys and Rooms
+     */
+    public enum VertexStatus841 {
+        UNDISCOVERED,
+        DISCOVERED,
+        PROCESSED;
+    }
+    public static class EdgeNode841 {
+        public int y;
+        public EdgeNode841 next;
+        public EdgeNode841(int y, EdgeNode841 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph841 {
+        public EdgeNode841[] edges;
+        public VertexStatus841[] status;
+        public int nVertices;
+
+        public Graph841(int size) {
+            this.nVertices = size;
+            this.edges = new EdgeNode841[size];
+            this.status = new VertexStatus841[size];
+        }
+        public void reset() {
+            Arrays.fill(status, VertexStatus841.UNDISCOVERED);
+        }
+        public void insertEdge(int x, int y) {
+            EdgeNode841 edge = new EdgeNode841(y, edges[x]);
+            edges[x] = edge;
+        }
+        public void dfs(int x) {
+            if (x >= nVertices) return;
+            reset();
+            dfs_r(x);
+        }
+        private void dfs_r(int x) {
+            status[x] = VertexStatus841.DISCOVERED;
+            EdgeNode841 edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (status[y] == VertexStatus841.UNDISCOVERED) {
+                    dfs_r(y);
+                }
+                edge = edge.next;
+            }
+            status[x] = VertexStatus841.PROCESSED;
+        }
+        public boolean isConnected() {
+            for (int i = 0; i < status.length; ++i) {
+                if (status[i] != VertexStatus841.PROCESSED) return false;
+            }
+            return true;
+        }
+    }
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        Graph841 g = new Graph841(rooms.size());
+        for (int i = 0; i < rooms.size(); ++i) {
+            for (int j = 0; j < rooms.get(i).size(); ++j) {
+                g.insertEdge(i, rooms.get(i).get(j));
+            }
+        }
+        g.dfs(0);
+        return g.isConnected();
+    }
+
+    /**
+     *  #739. Daily Temperatures
+     */
+//    public int[] dailyTemperatures(int[] temperatures) {
+//        Deque<Integer> stack1 = new ArrayDeque<>();
+//        Deque<Integer> stack2 = new ArrayDeque<>();
+//        for (int i = temperatures.length - 1; i >= 0; --i) {
+//            stack1.offerFirst(temperatures[i]);
+//        }
+//        int[] result = new int[temperatures.length];
+//        for (int i = 0; i < temperatures.length; ++i) {
+//            int today = stack1.pollFirst();
+//            int days = 1;
+//            while (!stack1.isEmpty() && today >= stack1.peekFirst()) {
+//                days++;
+//                int t = stack1.pollFirst();
+//                stack2.offerFirst(t);
+//            }
+//            if (stack1.isEmpty()) {
+//                days = 0;
+//            }
+//            result[i] = days;
+//            while (!stack2.isEmpty()) {
+//                stack1.offerFirst(stack2.pollFirst());
+//            }
+//        }
+//        return result;
+//    }
+    public int[] dailyTemperatures(int[] temperatures) {
+        return null;
+    }
 }
