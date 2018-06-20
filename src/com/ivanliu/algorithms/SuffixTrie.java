@@ -1,4 +1,4 @@
-package com.ivanliu.algorithms.models;
+package com.ivanliu.algorithms;
 
 import java.util.HashMap;
 import java.util.Map;

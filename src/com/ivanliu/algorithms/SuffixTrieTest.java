@@ -1,10 +1,10 @@
-package com.ivanliu.algorithms.models;
+package com.ivanliu.algorithms;
 
-import com.ivanliu.algorithms.models.SuffixTrie;
+import com.ivanliu.algorithms.SuffixTrie;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static com.ivanliu.algorithms.models.SuffixTrie.SuffixTrieNode;
+import static com.ivanliu.algorithms.SuffixTrie.SuffixTrieNode;
 
 public class SuffixTrieTest {
 

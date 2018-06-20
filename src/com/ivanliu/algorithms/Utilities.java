@@ -2,9 +2,9 @@ package com.ivanliu.algorithms;
 
 import java.util.Random;
 
-public class AlgorithmDesign {
+public class Utilities {
 
-    public int[] randomPermutation(int size) {
+    public static int[] randomPermutation(int size) {
         int[] array = new int[size];
         for (int i = 0; i < size; ++i) {
             array[i] = i;
@@ -18,7 +18,7 @@ public class AlgorithmDesign {
         return array;
     }
 
-    private void swap(int[] a, int x, int y) {
+    private static void swap(int[] a, int x, int y) {
         int temp = a[x];
         a[x] = a[y];
         a[y] = temp;

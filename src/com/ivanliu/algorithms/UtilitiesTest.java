@@ -4,24 +4,21 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
-public class AlgorithmDesignTest {
-
-    private AlgorithmDesign ad = new AlgorithmDesign();
+public class UtilitiesTest {
 
     @Test
     public void testRandomPermutation() {
-        int[] array = ad.randomPermutation(9);
+        int[] array = Utilities.randomPermutation(9);
         System.out.println(Arrays.toString(array));
 
-        array = ad.randomPermutation(9);
+        array = Utilities.randomPermutation(9);
         System.out.println(Arrays.toString(array));
 
-        array = ad.randomPermutation(9);
+        array = Utilities.randomPermutation(9);
         System.out.println(Arrays.toString(array));
 
-        array = ad.randomPermutation(9);
+        array = Utilities.randomPermutation(9);
         System.out.println(Arrays.toString(array));
     }
+
 }
