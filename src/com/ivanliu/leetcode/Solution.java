@@ -8870,4 +8870,36 @@ public class Solution {
         g.dfs(0);
         return g.isConnected();
     }
+
+    /**
+     *  #739. Daily Temperatures
+     */
+//    public int[] dailyTemperatures(int[] temperatures) {
+//        Deque<Integer> stack1 = new ArrayDeque<>();
+//        Deque<Integer> stack2 = new ArrayDeque<>();
+//        for (int i = temperatures.length - 1; i >= 0; --i) {
+//            stack1.offerFirst(temperatures[i]);
+//        }
+//        int[] result = new int[temperatures.length];
+//        for (int i = 0; i < temperatures.length; ++i) {
+//            int today = stack1.pollFirst();
+//            int days = 1;
+//            while (!stack1.isEmpty() && today >= stack1.peekFirst()) {
+//                days++;
+//                int t = stack1.pollFirst();
+//                stack2.offerFirst(t);
+//            }
+//            if (stack1.isEmpty()) {
+//                days = 0;
+//            }
+//            result[i] = days;
+//            while (!stack2.isEmpty()) {
+//                stack1.offerFirst(stack2.pollFirst());
+//            }
+//        }
+//        return result;
+//    }
+    public int[] dailyTemperatures(int[] temperatures) {
+        return null;
+    }
 }
