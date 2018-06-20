@@ -2513,4 +2513,39 @@ public class SolutionTest {
         T = "pekeq";  // character in T can be repeated
         assertEquals("kqeep", solution.customSortString(S, T));
     }
+
+    @Test
+    public void test841() {
+	    List<List<Integer>> llist = new ArrayList<>();
+	    List<Integer> list = new ArrayList<>();
+	    list.add(1);
+	    llist.add(list);
+        list = new ArrayList<>();
+        list.add(2);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(3);
+        llist.add(list);
+        list = new ArrayList<>();
+        llist.add(list);
+        assertTrue(solution.canVisitAllRooms(llist));
+
+        llist = new ArrayList<>();
+        list = new ArrayList<>();
+        list.add(1);
+        list.add(3);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(3);
+        list.add(0);
+        list.add(1);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(2);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(0);
+        llist.add(list);
+        assertFalse(solution.canVisitAllRooms(llist));
+    }
 }
