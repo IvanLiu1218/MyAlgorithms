@@ -8464,4 +8464,442 @@ public class Solution {
 		}
 	}
 
+	/**
+	 *  #778
+	 */
+	public enum VertexStatus {
+		UNDISCOVERED,
+		DISCOVERED,
+		PROCESSED;
+	}
+	public static class EdgeNode1 {
+		int y;
+		EdgeNode1 next;
+		public EdgeNode1(int y, EdgeNode1 next) {
+			this.y = y;
+			this.next = next;
+		}
+	}
+	public static class Graph1 {
+		EdgeNode1[] edges;
+		VertexStatus[] status;
+		boolean isDirected = false;
+		int nVertices;
+		int nEdges;
+		public Graph1(int size) {
+			this.nVertices = size;
+			this.nEdges = 0;
+			this.edges = new EdgeNode1[size];
+			this.status = new VertexStatus[size];
+			Arrays.fill(edges, null);
+		}
+		public void insert(int x, int y, boolean isDirected) {
+			EdgeNode1 e = new EdgeNode1(y, this.edges[x]);
+			this.edges[x] = e;
+			this.nEdges++;
+			if (!isDirected) {
+				insert(y, x, true);
+			}
+		}
+		public void bfs(int start) {
+			if (start < 0 || start >= nVertices) return;
+			Arrays.fill(status, VertexStatus.UNDISCOVERED);
+			Deque<Integer> stack = new ArrayDeque<>();
+			stack.offerFirst(start);
+			while (!stack.isEmpty()) {
+				int x = stack.pollFirst();
+				EdgeNode1 edge = edges[x];
+				while (edge != null) {
+					int y = edge.y;
+					if (status[y] == VertexStatus.UNDISCOVERED) {
+						status[y] = VertexStatus.DISCOVERED;
+						stack.offerFirst(y);
+					} else if (status[y] != VertexStatus.PROCESSED || !isDirected) {
+						// TODO;
+					}
+
+					edge = edge.next;
+				}
+				status[x] = VertexStatus.PROCESSED;
+			}
+		}
+		public boolean isConnected(int start, int end) {
+			this.bfs(start);
+			return VertexStatus.PROCESSED.equals(status[end]);
+		}
+
+	}
+	public static class Point {
+		public int x;
+		public int y;
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+	public int swimInWater(int[][] grid) {
+		int n = grid.length;
+		int len = n * n;
+		Map<Integer, Point> map = new HashMap<>();
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; ++j) {
+				map.put(grid[i][j], new Point(i, j));
+			}
+		}
+		Graph1 g1 = new Graph1(len);
+		int time = 1;
+		while (time < len) {
+			Point p = map.get(time);
+            int y = p.x * n + p.y;
+			int v = getValue(grid, p.x -1, p.y);
+			if (v != -1 && v <= time) {
+			    int x = (p.x - 1) * n + p.y;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x + 1, p.y);
+			if (v != -1 && v <= time) {
+			    int x = (p.x + 1) * n + p.y;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x, p.y - 1);
+			if (v != -1 && v <= time) {
+			    int x = p.x * n + p.y - 1;
+				g1.insert(x, y, false);
+			}
+			v = getValue(grid, p.x, p.y + 1);
+			if (v != -1 && v <= time) {
+			    int x = p.x * n + p.y + 1;
+				g1.insert(x, y, false);
+			}
+			if (g1.isConnected(0, len - 1)) {
+				return time;
+			}
+
+			time++;
+		}
+		return time;
+	}
+	public int getValue(int[][] grid, int x, int y) {
+		if (x < 0 || x >= grid.length) return -1;
+		if (y < 0 || y >= grid[0].length) return -1;
+		return grid[x][y];
+	}
+
+    /**
+     *  #807. Max Increase to Keep City Skyline
+     */
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        int n = grid.length;
+        int[][] skyline = new int[2][n];
+        skyline[0] = new int[n];  // horizon
+        skyline[1] = new int[n];  //vertical
+        for (int i = 0; i < n; ++i) {
+            int hMax = 0;
+            int vMax = 0;
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] > hMax) hMax = grid[i][j];
+                if (grid[j][i] > vMax) vMax = grid[j][i];
+            }
+            skyline[0][i] = hMax;
+            skyline[1][i] = vMax;
+        }
+        int sum = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                sum += Math.min(skyline[0][i], skyline[1][j]) - grid[i][j];
+            }
+        }
+        return sum;
+    }
+
+    /**
+     *  #814. Binary Tree Pruning
+     */
+    public TreeNode pruneTree(TreeNode root) {
+        boolean toPrune = pruneTree_r(root);
+        return toPrune ? null : root;
+    }
+    private boolean pruneTree_r(TreeNode node) {
+        if (node.left == null && node.right == null) {
+            if (node.val == 0) return true;  // need to prune
+            else return false;
+        }
+        boolean toPrune = false;
+        if (node.left != null) {
+            toPrune = pruneTree_r(node.left);
+            if (toPrune) {
+                node.left = null;
+            }
+        }
+        if (node.right != null) {
+            toPrune = pruneTree_r(node.right);
+            if (toPrune) {
+                node.right = null;
+            }
+        }
+        if (node.left == null && node.right == null && node.val == 0) return true;
+        return false;
+    }
+
+    /**
+     *  #797. All Paths From Source to Target
+     */
+    public static class EdgeNode797 {
+        public int y;
+        public EdgeNode797 next;
+        public EdgeNode797(int y, EdgeNode797 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph797 {
+        public EdgeNode797[] edges;
+        public int nVertices;
+        public Graph797(int size) {
+            this.edges = new EdgeNode797[size];
+            this.nVertices = size;
+        }
+        public void insertEdge(int x, int y) {
+            EdgeNode797 edge = new EdgeNode797(y, edges[x]);
+            edges[x] = edge;
+        }
+    }
+    private List<List<Integer>> result797;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        Graph797 g = new Graph797(graph.length);
+        for (int i = 0; i < graph.length; ++i) {
+            for (int j = 0; j < graph[i].length; ++j) {
+                g.insertEdge(i, graph[i][j]);
+            }
+        }
+        result797 = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        allPathsSourceTarget_dfs(g, 0, list);
+        return result797;
+    }
+    private void allPathsSourceTarget_dfs(Graph797 g, int x, List<Integer> list) {
+        if (g.edges[x] == null) {
+            if (x == g.nVertices - 1) {
+                List<Integer> copy = new ArrayList<>(list);
+                result797.add(copy);
+            }
+            return;
+        }
+        EdgeNode797 edge = g.edges[x];
+        while (edge != null) {
+            int y = edge.y;
+            list.add(y);
+            allPathsSourceTarget_dfs(g, y, list);
+            list.remove(new Integer(y));
+            edge = edge.next;
+        }
+    }
+
+    /**
+     *  #763. Partition Labels
+     */
+    public List<Integer> partitionLabels(String S) {
+        int[] from = new int[26];
+        int[] to = new int[26];
+        Arrays.fill(from, -1);
+        Arrays.fill(to, -1);
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            int index = c - 'a';
+            if (from[index] == -1) {
+                from[index] = i;
+                to[index] = i;
+            } else {
+                to[index] = i;
+            }
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (from[i] == -1) continue;
+            for (int j = 0; j < 26; ++j) {
+                if (i == j) continue;
+                if (from[j] != -1 && isIntersected(from[i], to[i], from[j], to[j])) {
+                    from[i] = Math.min(from[i], from[j]);
+                    to[i] = Math.max(to[i], to[j]);
+                    from[j] = -1;
+                }
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        quickSort(from, to, 0, 26);
+        for (int i = 0; i < 26; ++i) {
+            if (from[i] != -1) {
+                result.add(to[i] - from[i] + 1);
+            }
+        }
+        return result;
+    }
+    private boolean isIntersected(int f1, int t1, int f2, int t2) {
+        if (f1 < f2 && f2 < t1) return true;
+        if (f1 < t2 && t2 < t1) return true;
+        if (f2 < f1 && f1 < t2) return true;
+        if (f2 < t1 && t1 < t2) return true;
+        return false;
+    }
+    private void quickSort(int[] nums1, int[] nums2, int from, int to) {
+        if (from >= to) return;
+        int flag1 = nums1[from];
+        int flag2 = nums2[from];
+        int i = from;
+        int j = to - 1;
+        while (i < j) {
+            while (i < j && nums1[j] > flag1) --j;
+            nums1[i] = nums1[j];
+            nums2[i] = nums2[j];
+            while (i < j && nums1[i] <= flag1) ++i;
+            nums1[j] = nums1[i];
+            nums2[j] = nums2[i];
+        }
+        nums1[i] = flag1;
+        nums2[i] = flag2;
+        quickSort(nums1, nums2, from, i);
+        quickSort(nums1, nums2, i + 1, to);
+    }
+
+    /**
+     *  #791. Custom Sort String
+     */
+    public String customSortString(String S, String T) {
+        Map<Character, Integer> maps = new HashMap<>();
+        Map<Character, Integer> mapt = new HashMap<>();
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            maps.put(c, i);
+        }
+        StringBuilder sbt = new StringBuilder();
+        for (int i = 0; i < T.length(); ++i) {
+            char c = T.charAt(i);
+            if (!mapt.containsKey(c)) {
+                mapt.put(c, 1);
+            } else {
+                int count = mapt.get(c);
+                ++count;
+                mapt.put(c, count);
+            }
+            if (!maps.containsKey(c)) {
+                sbt.append(c);
+            }
+        }
+        for (int i = 0; i < S.length(); ++i) {
+            char c = S.charAt(i);
+            if (!mapt.containsKey(c)) {
+                maps.remove(c);
+            }
+        }
+        for (int i = 0; i< S.length(); ++i) {
+            char c = S.charAt(i);
+            if (maps.containsKey(c)) {
+                int count = mapt.get(c);
+                for (int k = 0; k < count; ++k) {
+                    sbt.append(c);
+                }
+            }
+        }
+        return sbt.toString();
+    }
+
+    /**
+     *  #841. Keys and Rooms
+     */
+    public enum VertexStatus841 {
+        UNDISCOVERED,
+        DISCOVERED,
+        PROCESSED;
+    }
+    public static class EdgeNode841 {
+        public int y;
+        public EdgeNode841 next;
+        public EdgeNode841(int y, EdgeNode841 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph841 {
+        public EdgeNode841[] edges;
+        public VertexStatus841[] status;
+        public int nVertices;
+
+        public Graph841(int size) {
+            this.nVertices = size;
+            this.edges = new EdgeNode841[size];
+            this.status = new VertexStatus841[size];
+        }
+        public void reset() {
+            Arrays.fill(status, VertexStatus841.UNDISCOVERED);
+        }
+        public void insertEdge(int x, int y) {
+            EdgeNode841 edge = new EdgeNode841(y, edges[x]);
+            edges[x] = edge;
+        }
+        public void dfs(int x) {
+            if (x >= nVertices) return;
+            reset();
+            dfs_r(x);
+        }
+        private void dfs_r(int x) {
+            status[x] = VertexStatus841.DISCOVERED;
+            EdgeNode841 edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (status[y] == VertexStatus841.UNDISCOVERED) {
+                    dfs_r(y);
+                }
+                edge = edge.next;
+            }
+            status[x] = VertexStatus841.PROCESSED;
+        }
+        public boolean isConnected() {
+            for (int i = 0; i < status.length; ++i) {
+                if (status[i] != VertexStatus841.PROCESSED) return false;
+            }
+            return true;
+        }
+    }
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        Graph841 g = new Graph841(rooms.size());
+        for (int i = 0; i < rooms.size(); ++i) {
+            for (int j = 0; j < rooms.get(i).size(); ++j) {
+                g.insertEdge(i, rooms.get(i).get(j));
+            }
+        }
+        g.dfs(0);
+        return g.isConnected();
+    }
+
+    /**
+     *  #739. Daily Temperatures
+     */
+//    public int[] dailyTemperatures(int[] temperatures) {
+//        Deque<Integer> stack1 = new ArrayDeque<>();
+//        Deque<Integer> stack2 = new ArrayDeque<>();
+//        for (int i = temperatures.length - 1; i >= 0; --i) {
+//            stack1.offerFirst(temperatures[i]);
+//        }
+//        int[] result = new int[temperatures.length];
+//        for (int i = 0; i < temperatures.length; ++i) {
+//            int today = stack1.pollFirst();
+//            int days = 1;
+//            while (!stack1.isEmpty() && today >= stack1.peekFirst()) {
+//                days++;
+//                int t = stack1.pollFirst();
+//                stack2.offerFirst(t);
+//            }
+//            if (stack1.isEmpty()) {
+//                days = 0;
+//            }
+//            result[i] = days;
+//            while (!stack2.isEmpty()) {
+//                stack1.offerFirst(stack2.pollFirst());
+//            }
+//        }
+//        return result;
+//    }
+    public int[] dailyTemperatures(int[] temperatures) {
+        return null;
+    }
 }

@@ -2402,4 +2402,159 @@ public class SolutionTest {
 		assertEquals("[, 5, , , , 15, ]", Arrays.toString(llist.get(1).stream().toArray()));
 		assertEquals("[, , , , 6, , 20]", Arrays.toString(llist.get(2).stream().toArray()));
 	}
+
+	@Test
+    public void test778() {
+	    int[][] grid = new int[][] {{0,2},{1,3}};
+	    assertEquals(3, solution.swimInWater(grid));
+	    grid = new int[][] {{0,1,2,3,4},{24,23,22,21,5},{12,13,14,15,16},{11,17,18,19,20},{10,9,8,7,6}};
+	    assertEquals(16, solution.swimInWater(grid));
+    }
+
+    @Test
+	public void test807() {
+		int[][] grid = new int[][] {{3,0,8,4},{2,4,5,7},{9,2,6,3},{0,3,1,0}};
+		assertEquals(35, solution.maxIncreaseKeepingSkyline(grid));
+
+		grid = new int[][] {{2,0},{0,3}};
+		assertEquals(4, solution.maxIncreaseKeepingSkyline(grid));
+	}
+
+	@Test
+    public void test814() {
+	    TreeNode root = new TreeNode(0);
+	    assertEquals(null, solution.pruneTree(root));
+
+	    root = new TreeNode(0);
+	    root.left = new TreeNode(0);
+	    root.right = new TreeNode(1);
+	    root = solution.pruneTree(root);
+	    assertEquals(root, root);
+	    assertEquals("[0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(0);
+        root.left = new TreeNode(0);
+        root.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals(root, root);
+        assertEquals("[0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.right = new TreeNode(0);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,null,0,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.left = new TreeNode(0);
+        root.left.left = new TreeNode(0);
+        root.left.right = new TreeNode(0);
+        root.right = new TreeNode(1);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,null,1,null,1,null,null]", Utility.toString(root));
+
+        root = new TreeNode(1);
+        root.left = new TreeNode(1);
+        root.left.left = new TreeNode(1);
+        root.left.left.left = new TreeNode(0);
+        root.left.right = new TreeNode(1);
+        root.right = new TreeNode(0);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(1);
+        root = solution.pruneTree(root);
+        assertEquals("[1,1,0,1,1,null,1,null,null,null,null,null,null]", Utility.toString(root));
+    }
+
+    @Test
+    public void test797() {
+	    int[][] graph = new int[4][];
+	    graph[0] = new int[] {1,2};
+	    graph[1] = new int[] {3};
+	    graph[2] = new int[] {3};
+	    graph[3] = new int[0];
+	    List<List<Integer>> result = solution.allPathsSourceTarget(graph);
+	    assertEquals("[[0, 2, 3], [0, 1, 3]]", Utility.toString(result));
+
+        graph = new int[4][];
+        graph[0] = new int[] {1,2};
+        graph[1] = new int[] {3};
+        graph[2] = new int[0];
+        graph[3] = new int[0];
+        result = solution.allPathsSourceTarget(graph);
+        assertEquals("[[0, 1, 3]]", Utility.toString(result));
+    }
+
+    @Test
+    public void test763() {
+	    String S = "ababcbacadefegdehijhklij";
+	    List<Integer> result = solution.partitionLabels(S);
+	    assertEquals("[9, 7, 8]", Arrays.toString(result.stream().toArray()));
+
+	    // Wrong Answer:
+	    S = "caedbdedda";
+        result = solution.partitionLabels(S);
+        assertEquals("[1, 9]", Arrays.toString(result.stream().toArray()));
+
+        S = "gtywtbcnow";
+        result = solution.partitionLabels(S);
+        assertEquals("[1, 9]", Arrays.toString(result.stream().toArray()));
+    }
+
+    @Test
+    public void test791() {
+	    String S = "cba";
+	    String T = "abcd";
+	    assertEquals("dcba", solution.customSortString(S, T));
+	    // Wrong Answer:
+        S = "kqep";
+        T = "pekeq";  // character in T can be repeated
+        assertEquals("kqeep", solution.customSortString(S, T));
+    }
+
+    @Test
+    public void test841() {
+	    List<List<Integer>> llist = new ArrayList<>();
+	    List<Integer> list = new ArrayList<>();
+	    list.add(1);
+	    llist.add(list);
+        list = new ArrayList<>();
+        list.add(2);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(3);
+        llist.add(list);
+        list = new ArrayList<>();
+        llist.add(list);
+        assertTrue(solution.canVisitAllRooms(llist));
+
+        llist = new ArrayList<>();
+        list = new ArrayList<>();
+        list.add(1);
+        list.add(3);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(3);
+        list.add(0);
+        list.add(1);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(2);
+        llist.add(list);
+        list = new ArrayList<>();
+        list.add(0);
+        llist.add(list);
+        assertFalse(solution.canVisitAllRooms(llist));
+    }
+
+    @Test
+    public void test739() {
+	    int[] temperatures = {73, 74, 75, 71, 69, 72, 76, 73};
+	    assertArrayEquals(new int[] {1, 1, 4, 2, 1, 1, 0, 0}, solution.dailyTemperatures(temperatures));
+
+	    // Time Limit Exceeded
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.ivanliu.leetcode;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
@@ -94,4 +95,8 @@ public class Utility {
 		TreeLinkNode next;
 		TreeLinkNode(int x) { val = x; }
 	}
+
+	public static String toString(List<List<Integer>> llist) {
+	    return Arrays.toString(llist.stream().map(list -> Arrays.toString(list.stream().toArray())).toArray());
+    }
 }
