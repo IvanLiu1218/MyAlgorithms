@@ -2570,4 +2570,11 @@ public class SolutionTest {
         nums = new int[] {2147483646,-2147483647,0,2,2147483644,-2147483645,2147483645};
         assertEquals(2, solution.longestConsecutive(nums));
     }
+
+    @Test
+    public void test042() {
+	    int[] height = new int[] {0,1,0,2,1,0,1,3,2,1,2,1};
+	    assertEquals(6, solution.trap(height));
+	    // Time Limit Exceeded
+    }
 }

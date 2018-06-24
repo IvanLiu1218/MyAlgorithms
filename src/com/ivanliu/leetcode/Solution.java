@@ -8935,4 +8935,43 @@ public class Solution {
         if (len > maxlen) maxlen = len;
         return maxlen;
     }
+
+    /**
+     *  #42. Trapping Rain Water
+     */
+    public static class TrapNode {
+        public int lastIndex;
+        public int sum;
+        public TrapNode(int i, int sum) {
+            this.lastIndex = i;
+            this.sum = sum;
+        }
+    }
+    public int trap(int[] height) {
+        if (height == null || height.length < 1) return 0;
+        Map<Integer, TrapNode> map = new TreeMap<>();
+        for (int i = 0; i < height.length; ++i) {
+            int h = height[i];
+            while (h > 0) {
+                trap_add(map, h, i);
+                --h;
+            }
+        }
+        int sum = 0;
+        for (int h : map.keySet()) {
+            TrapNode node = map.get(h);
+            sum += node.sum;
+        }
+        return sum;
+    }
+    private void trap_add(Map<Integer, TrapNode> map, int k, int i) {
+        if (!map.containsKey(k)) {
+            TrapNode node = new TrapNode(i, 0);
+            map.put(k, node);
+        } else {
+            TrapNode node = map.get(k);
+            node.sum += i - node.lastIndex - 1;
+            node.lastIndex = i;
+        }
+    }
 }
