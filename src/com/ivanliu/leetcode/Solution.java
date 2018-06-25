@@ -8902,4 +8902,37 @@ public class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
         return null;
     }
+
+    /**
+     *  #128. Longest Consecutive Sequence
+     */
+    public int longestConsecutive(int[] nums) {
+        if (nums == null || nums.length < 1) return 0;
+        int max = nums[0];
+        int min = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] > max) max = nums[i];
+            if (nums[i] < min) min = nums[i];
+        }
+        int size = max - min + 1;
+        int delta = 0 - min;
+        List<Boolean> list = new ArrayList<>(size);
+        for (int i = 0; i < size; ++i) {
+            list.add(false);
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            list.set(nums[i] + delta, true);
+        }
+        int len = 0;
+        int maxlen = len;
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i)) ++len;
+            else {
+                if (len > maxlen) maxlen = len;
+                len = 0;
+            }
+        }
+        if (len > maxlen) maxlen = len;
+        return maxlen;
+    }
 }

@@ -2557,4 +2557,17 @@ public class SolutionTest {
 	    // Time Limit Exceeded
 
     }
+
+    @Test
+    public void test128() {
+	    int[] nums = {100, 4, 200, 1, 3, 2};
+	    assertEquals(4, solution.longestConsecutive(nums));
+        assertEquals(1, solution.longestConsecutive(new int[]{-1}));
+        assertEquals(1, solution.longestConsecutive(new int[]{0,-2}));
+	    // Runtime Error
+        assertEquals(0, solution.longestConsecutive(new int[]{}));
+        assertEquals(2, solution.longestConsecutive(new int[]{0,-1}));
+        nums = new int[] {2147483646,-2147483647,0,2,2147483644,-2147483645,2147483645};
+        assertEquals(2, solution.longestConsecutive(nums));
+    }
 }
