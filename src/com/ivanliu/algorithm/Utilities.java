@@ -48,7 +48,16 @@ public class Utilities {
         for (int i = 0; i < g.nVertices; ++i) {
             sb.append(String.format("%3d", g.time_exit[i]));
         }
-        sb.append("\n");
+        System.out.println(sb.toString());
+    }
+
+    public static void printInfo(GraphUndirected g) {
+        printInfo((Graph) g);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Color:    ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.color[i]));
+        }
         System.out.println(sb.toString());
     }
 }

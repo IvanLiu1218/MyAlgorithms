@@ -32,6 +32,7 @@ public class Graph {
     /**
      *  Attributes:
      */
+    protected boolean FINISHED;
     public int nVertices;
     public int nEdges;
     public VertexStatus[] vertexStatus;
@@ -75,6 +76,7 @@ public class Graph {
         this.time = 0;
         Arrays.fill(time_entry, 0);
         Arrays.fill(time_exit, 0);
+        FINISHED = false;
     }
 
     public void insertEdge(int x, int y, boolean isDirected) {
@@ -91,8 +93,6 @@ public class Graph {
     }
 
     public void bfs(int start, int id) {
-        if (!isValid(start)) return;
-        resetStatus();
         Deque<Integer> queue = new ArrayDeque<>();
         vertexStatus[start] = VertexStatus.DISCOVERED;
         queue.offerLast(start);
@@ -123,11 +123,13 @@ public class Graph {
         for (int i = 0; i < nVertices; ++i) {
             if (vertexStatus[i] == VertexStatus.UNDISCOVERED) {
                 dfs(i);
+                if (FINISHED) return;
             }
         }
     }
 
     public void dfs(int x) {
+        if (FINISHED) return;
         vertexStatus[x] = VertexStatus.DISCOVERED;
         time_entry[x] = time++;
         process_early(x);
@@ -141,6 +143,7 @@ public class Graph {
             } else if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
                 process_edge_dfs(x, y);
             }
+            if (FINISHED) return;
             edge = edge.next;
         }
         vertexStatus[x] = VertexStatus.PROCESSED;
@@ -180,21 +183,8 @@ public class Graph {
      *  Application of BFS
      *  -----------------------------------------------
      */
-
     /**
-     *  #1 Set component ID
-     */
-    public void connectedComponent() {
-        resetStatus();
-        int id = 0;
-        for (int i = 0; i < nVertices; ++i) {
-            if (vertexStatus[i] == VertexStatus.UNDISCOVERED) {
-                bfs(i, ++id);
-            }
-        }
-    }
-    /**
-     *  #2. Find the shortest path for Unweighted Graph
+     *  #1. Find the shortest path for Unweighted Graph
      */
     public String findShortestPath(int from, int to) {
         if (!isValid(from) || !isValid(to)) return "Invalid index!";
@@ -214,13 +204,11 @@ public class Graph {
         return sb.toString().substring(0, sb.length() - 2);
     }
 
-
     /**
      *  ----------------------------------------------
      *  Application of DFS
      *  ----------------------------------------------
      */
-
     /**
      *  #1. Connection between x and y
      */
@@ -231,10 +219,8 @@ public class Graph {
         return vertexStatus[to] == VertexStatus.PROCESSED;
     }
 
-
-
     /**
-     *  #3. How many nodes are following x
+     *  #2. How many nodes are following x
      */
     public int numOfDescendants(int x) {
         if (!isValid(x)) return -1;

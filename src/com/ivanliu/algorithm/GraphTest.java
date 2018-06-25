@@ -63,4 +63,50 @@ public class GraphTest {
         gu1.dfs();
         Utilities.printInfo(gu1);
     }
+
+    @Test
+    public void testFindShortestPath1() {
+        String path = gd1.findShortestPath(1, 5);
+        System.out.println(path);
+
+        path = gd1.findShortestPath(7, 5);
+        System.out.println(path);
+
+        path = gd1.findShortestPath(0, 4);
+        System.out.println(path);
+    }
+
+    @Test
+    public void testFindShortestPath2() {
+        String path = gu1.findShortestPath(1, 6);
+        System.out.println(path);
+    }
+
+    @Test
+    public void testConnectedComponent() {
+        GraphUndirected gu = new GraphUndirected(8);
+        gu.insertEdge(0, 1);
+        gu.insertEdge(0, 7);
+        gu.insertEdge(1, 2);
+        gu.insertEdge(1, 6);
+        gu.insertEdge(2, 3);
+        gu.insertEdge(2, 6);
+//        gu.insertEdge(3, 5);
+        gu.insertEdge(3, 4);
+        gu.insertEdge(7, 6);
+        gu.connectedComponent();
+        Utilities.printInfo(gu);
+    }
+
+    @Test
+    public void testTwoColor() {
+        gu1.twoColor();
+        Utilities.printInfo(gu1);
+    }
+
+    @Test
+    public void testHasCycle() {
+        assertTrue(gu1.hasCycle());
+        Utilities.printInfo(gu1);
+    }
 }
