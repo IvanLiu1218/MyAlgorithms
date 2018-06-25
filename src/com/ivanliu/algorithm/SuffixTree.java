@@ -1,4 +1,4 @@
-package com.ivanliu.algorithms;
+package com.ivanliu.algorithm;
 
 import java.util.*;
 

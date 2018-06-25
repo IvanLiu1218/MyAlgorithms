@@ -1,12 +1,10 @@
-package com.ivanliu.algorithms;
+package com.ivanliu.algorithm;
 
-import com.intellij.ide.browsers.JavaScriptDebuggerStarter;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class UtilitiesTest {
 
@@ -72,7 +70,7 @@ public class UtilitiesTest {
 
     @Test
     public void testIntegerPartition1() {
-        assertEquals(627, Utilities.integerPartition(20, 20));
+        Assert.assertEquals(627, Utilities.integerPartition(20, 20));
     }
 
     @Test
@@ -98,15 +96,15 @@ public class UtilitiesTest {
 
     @Test
     public void testSetPartition1() {
-        assertEquals( 1, Utilities.setPartition(4, 1));
-        assertEquals( 7, Utilities.setPartition(4, 2));
-        assertEquals( 6, Utilities.setPartition(4, 3));
-        assertEquals( 1, Utilities.setPartition(4, 4));
+        Assert.assertEquals( 1, Utilities.setPartition(4, 1));
+        Assert.assertEquals( 7, Utilities.setPartition(4, 2));
+        Assert.assertEquals( 6, Utilities.setPartition(4, 3));
+        Assert.assertEquals( 1, Utilities.setPartition(4, 4));
     }
 
     @Test
     public void testSetPartition2() {
-        assertEquals(15, Utilities.setPartition(4));
+        Assert.assertEquals(15, Utilities.setPartition(4));
     }
 
     @Test

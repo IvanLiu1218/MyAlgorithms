@@ -1,13 +1,13 @@
-package com.ivanliu.algorithms;
+package com.ivanliu.algorithm;
 
+import com.ivanliu.algorithm.SuffixTree;
 import org.junit.Test;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
-import static com.ivanliu.algorithms.SuffixTree.SuffixTreeNode;
+import static com.ivanliu.algorithm.SuffixTree.SuffixTreeNode;
 
 public class SuffixTreeTest {
 
