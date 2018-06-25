@@ -1,19 +1,6 @@
 package com.ivanliu.leetcode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeMap;
+import java.util.*;
 
 import com.ivanliu.leetcode.Utility.ListNode;
 import com.ivanliu.leetcode.Utility.TreeLinkNode;
@@ -8949,12 +8936,21 @@ public class Solution {
     }
     public int trap(int[] height) {
         if (height == null || height.length < 1) return 0;
+        TreeSet<Integer> heightSet = new TreeSet<>();
+        for (int i = 0; i < height.length; ++i) {
+            heightSet.add(height[i]);
+        }
         Map<Integer, TrapNode> map = new TreeMap<>();
         for (int i = 0; i < height.length; ++i) {
             int h = height[i];
-            while (h > 0) {
-                trap_add(map, h, i);
-                --h;
+            if (h <= 0) continue;
+            trap_add(map, h, i, 1);
+            Set<Integer> set = heightSet.headSet(h);
+            Iterator<Integer> it = set.iterator();
+            int prev = it.next();
+            while (it.hasNext()) {
+                int b = it.next();
+                trap_add(map, b, i, b - prev);
             }
         }
         int sum = 0;
@@ -8964,13 +8960,13 @@ public class Solution {
         }
         return sum;
     }
-    private void trap_add(Map<Integer, TrapNode> map, int k, int i) {
+    private void trap_add(Map<Integer, TrapNode> map, int k, int i, int height) {
         if (!map.containsKey(k)) {
             TrapNode node = new TrapNode(i, 0);
             map.put(k, node);
         } else {
             TrapNode node = map.get(k);
-            node.sum += i - node.lastIndex - 1;
+            node.sum += (i - node.lastIndex - 1) * height;
             node.lastIndex = i;
         }
     }

@@ -2576,5 +2576,8 @@ public class SolutionTest {
 	    int[] height = new int[] {0,1,0,2,1,0,1,3,2,1,2,1};
 	    assertEquals(6, solution.trap(height));
 	    // Time Limit Exceeded
+		// Wrong Answer
+		height = new int[]{2,0,2};
+		assertEquals(2, solution.trap(height));
     }
 }
