@@ -1,8 +1,8 @@
 package com.ivanliu.algorithm;
 
-public class GraphD extends Graph {
+public class GraphDirected extends Graph {
 
-    public GraphD(int size) {
+    public GraphDirected(int size) {
         super(size, true);
     }
 
