@@ -24,7 +24,11 @@ public class GraphDirected extends Graph {
     }
 
     public void insertEdge(int x, int y) {
-        super.insertEdge(x, y, true);
+        insertEdge(x, y, 0);
+    }
+
+    public void insertEdge(int x, int y, int weight) {
+        super.insertEdge(x, y, weight, true);
     }
 
     /**
