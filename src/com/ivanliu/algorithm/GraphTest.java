@@ -3,6 +3,9 @@ package com.ivanliu.algorithm;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -108,5 +111,59 @@ public class GraphTest {
     public void testHasCycle() {
         assertTrue(gu1.hasCycle());
         Utilities.printInfo(gu1);
+    }
+
+    @Test
+    public void testGetAVs() {
+        GraphUndirected gu = new GraphUndirected(6);
+        gu.insertEdge(0, 5);
+        gu.insertEdge(0, 1);
+        gu.insertEdge(1, 2);
+        gu.insertEdge(1, 4);
+        gu.insertEdge(2, 3);
+        gu.insertEdge(4, 3);
+        int[] result = gu.getAVs();
+        Utilities.printInfo(gu);
+        assertEquals("[0, 1]", Arrays.toString(result));
+    }
+
+    @Test
+    public void testTopSort() {
+        GraphDirected gd = new GraphDirected(7);
+        gd.insertEdge(0, 1);
+        gd.insertEdge(0, 2);
+        gd.insertEdge(1, 2);
+        gd.insertEdge(1, 3);
+        gd.insertEdge(2, 4);
+        gd.insertEdge(2, 5);
+        gd.insertEdge(4, 3);
+        gd.insertEdge(5, 4);
+        gd.insertEdge(6, 5);
+        gd.insertEdge(6, 0);
+        int[] result = gd.topSort();
+        Utilities.printInfo(gd);
+        assertEquals("[6, 0, 1, 2, 5, 4, 3]", Arrays.toString(result));
+    }
+
+    @Test
+    public void testStrongComponents() {
+        GraphDirected gd = new GraphDirected(8);
+        gd.insertEdge(0, 1);
+        gd.insertEdge(1, 2);
+        gd.insertEdge(1, 3);
+        gd.insertEdge(1, 4);
+        gd.insertEdge(2, 0);
+        gd.insertEdge(3, 0);
+        gd.insertEdge(3, 5);
+        gd.insertEdge(3, 7);
+        gd.insertEdge(4, 5);
+        gd.insertEdge(5, 6);
+        gd.insertEdge(6, 4);
+        gd.insertEdge(7, 5);
+        List<int[]> result = gd.strongComponents();
+        Utilities.printInfo(gd);
+        for (int i = 0; i < result.size(); ++i) {
+            System.out.println(Arrays.toString(result.get(i)));
+        }
     }
 }

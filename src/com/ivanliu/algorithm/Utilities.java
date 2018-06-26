@@ -63,6 +63,36 @@ public class Utilities {
         for (int i = 0; i < g.nVertices; ++i) {
             sb.append(String.format("%3s", g.color[i]));
         }
+        sb.append("\n");
+        sb.append("Ancestor: ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", g.reachable_ancestor[i]));
+        }
+        sb.append("\n");
+        sb.append("OutDegree:");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", g.tree_out_degree[i]));
+        }
+        sb.append("\n");
+        sb.append("VType:    ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.vertexType[i]));
+        }
+        System.out.println(sb.toString());
+    }
+
+    public static void printInfo(GraphDirected g) {
+        printInfo((Graph) g);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Oldest:   ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", g.low[i]));
+        }
+        sb.append("\n");
+        sb.append("ComId:    ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", g.scc[i]));
+        }
         System.out.println(sb.toString());
     }
 
