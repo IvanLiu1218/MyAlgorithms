@@ -23,7 +23,11 @@ public class GraphUndirected extends Graph {
     }
 
     public void insertEdge(int x, int y) {
-        super.insertEdge(x, y, false);
+        insertEdge(x, y, 0);
+    }
+
+    public void insertEdge(int x, int y, int weight) {
+        super.insertEdge(x, y, weight, false);
     }
 
     /**
@@ -104,7 +108,7 @@ public class GraphUndirected extends Graph {
 //        }
 //    }
     /**
-     *  #1. Finding Articulation Vertices
+     *  #2. Finding Articulation Vertices
      */
     public enum VertexType {
         N,   // Not Articulation
@@ -167,4 +171,11 @@ public class GraphUndirected extends Graph {
         }
         return result.stream().mapToInt(i -> i.intValue()).toArray();
     }
+
+    /**
+     *  Weighted Undirected Graph
+     */
+    /**
+     *  #1. Minimum Spanning Tree
+     */
 }

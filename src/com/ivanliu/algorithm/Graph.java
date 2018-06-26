@@ -22,9 +22,14 @@ public class Graph {
     }
     public static class EdgeNode {
         public int y;
+        public int weight;
         public EdgeNode next;
         public EdgeNode(int y, EdgeNode next) {
+            this(y, 0, next);
+        }
+        public EdgeNode(int y, int weight, EdgeNode next) {
             this.y = y;
+            this.weight = weight;
             this.next = next;
         }
     }
@@ -80,11 +85,15 @@ public class Graph {
     }
 
     public void insertEdge(int x, int y, boolean isDirected) {
-        EdgeNode edge = new EdgeNode(y, edges[x]);
+        insertEdge(x, y, 0, isDirected);
+    }
+
+    public void insertEdge(int x, int y, int weight, boolean isDirected) {
+        EdgeNode edge = new EdgeNode(y, weight, edges[x]);
         edges[x] = edge;
         ++nEdges;
         if (!isDirected) {
-            insertEdge(y, x, true);
+            insertEdge(y, x, weight, true);
         }
     }
 
