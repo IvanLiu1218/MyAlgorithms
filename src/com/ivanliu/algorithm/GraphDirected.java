@@ -12,6 +12,8 @@ public class GraphDirected extends Graph {
         super(size, true);
         this.low = new int[size];
         this.scc = new int[size];
+        this.inTree = new boolean[size];
+        this.distance = new int[size];
     }
 
     @Override
@@ -21,6 +23,8 @@ public class GraphDirected extends Graph {
         for (int i = 0; i < nVertices; ++i) {
             low[i] = i;
         }
+        Arrays.fill(inTree, false);
+        Arrays.fill(distance, Integer.MAX_VALUE);
     }
 
     public void insertEdge(int x, int y) {
@@ -112,5 +116,36 @@ public class GraphDirected extends Graph {
             result.add(group.stream().mapToInt(i -> i.intValue()).toArray());
         }
         return result;
+    }
+
+    /**
+     *  Dijkstra's Algorithm
+     */
+    protected boolean[] inTree;
+    protected int[] distance;
+    public void dijkstra(int start) {
+        resetStatus();
+        distance[start] = 0;
+        int x = start;
+        while (!inTree[x]) {
+            inTree[x] = true;
+            EdgeNode edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (distance[x] + edge.weight < distance[y]) {
+                    distance[y] = distance[x] + edge.weight;
+                    parent[y] = x;
+                }
+                edge = edge.next;
+            }
+            x = 0;
+            int dist = Integer.MAX_VALUE;
+            for (int i = 0; i < nVertices; ++i) {
+                if (distance[i] < dist && !inTree[i]) {
+                    dist = distance[i];
+                    x = i;
+                }
+            }
+        }
     }
 }

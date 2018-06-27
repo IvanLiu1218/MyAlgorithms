@@ -3,6 +3,7 @@ package com.ivanliu.algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class GraphUndirected extends Graph {
 
@@ -12,6 +13,8 @@ public class GraphUndirected extends Graph {
         this.reachable_ancestor = new int[size];
         this.tree_out_degree = new int[size];
         this.vertexType = new VertexType[size];
+        this.inTree = new boolean[size];
+        this.distance = new int[size];
     }
 
     @Override
@@ -20,6 +23,8 @@ public class GraphUndirected extends Graph {
         Arrays.fill(color, VertexColor.U);
         Arrays.fill(tree_out_degree, 0);
         Arrays.fill(vertexType, VertexType.N);
+        Arrays.fill(inTree, false);
+        Arrays.fill(distance, Integer.MAX_VALUE);
     }
 
     public void insertEdge(int x, int y) {
@@ -178,4 +183,123 @@ public class GraphUndirected extends Graph {
     /**
      *  #1. Minimum Spanning Tree
      */
+    protected boolean[] inTree;
+    protected int[] distance;
+    public int prim(int start) {
+        resetStatus();
+        distance[start] = 0;
+        int x = start;
+        while (!inTree[x]) {
+            inTree[x] = true;
+            EdgeNode edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (edge.weight < distance[y] && !inTree[y]) {
+                    distance[y] = edge.weight;
+                    parent[y] = x;
+                }
+                edge = edge.next;
+            }
+            x = 0;
+            int dist = Integer.MAX_VALUE;
+            for (int i = 0; i < nVertices; ++i) {
+                if (distance[i] < dist && !inTree[i]) {
+                    dist = distance[i];
+                    x = i;
+                }
+            }
+        }
+        return Arrays.stream(distance).sum();
+    }
+
+    /**
+     *  Shortest Path by Prim's Algorithm
+     */
+    public static class TreeNode {
+        public int value;
+        public List<TreeNode> children;
+        public TreeNode(int value) {
+            this.value = value;
+            this.children = new ArrayList<>();
+        }
+    }
+    public TreeNode shortestPathByPrim(int start) {
+        resetStatus();
+        prim(start);
+        TreeNode[] nodes = new TreeNode[nVertices];
+        for (int i = 0; i < nVertices; ++i) {
+            nodes[i] = new TreeNode(i);
+        }
+        for (int i = 0; i < parent.length; ++i) {
+            if (parent[i] != -1) {
+                nodes[parent[i]].children.add(nodes[i]);
+            }
+        }
+        return nodes[start];
+    }
+
+    /**
+     *  Kruskal's Algorithm
+     */
+    public static class EdgePair {
+        public int x;
+        public int y;
+        public int weight;
+        public EdgePair(int x, int y, int weight) {
+            this.x = x;
+            this.y = y;
+            this.weight = weight;
+        }
+    }
+    public EdgePair[] toEdgePairs() {
+        List<EdgePair> pairs = new ArrayList<>();
+        for (int x = 0; x < nVertices; ++x) {
+            EdgeNode edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                pairs.add(new EdgePair(x, y, edge.weight));
+                edge = edge.next;
+            }
+        }
+        return pairs.stream().toArray(EdgePair[]::new);
+    }
+    private int random(int from, int to) {
+        return new Random().nextInt(to - from) + from;
+    }
+    private void swap(EdgePair[] pairs, int from, int to) {
+        EdgePair temp = pairs[from];
+        pairs[from] = pairs[to];
+        pairs[to] = temp;
+    }
+    private void quickSortByWeight(EdgePair[] pairs, int from, int to) {
+        if (from >= to) return;
+        int flagIndex = random(from, to);
+        EdgePair flag = pairs[flagIndex];
+        swap(pairs, from, flagIndex);
+        int i = from;
+        int j = to - 1;
+        while (i < j) {
+            while (i < j && flag.weight < pairs[j].weight) --j;
+            pairs[i] = pairs[j];
+            while (i < j && pairs[i].weight <= flag.weight) ++i;
+            pairs[j] = pairs[i];
+        }
+        pairs[i] = flag;
+        quickSortByWeight(pairs, from, i);
+        quickSortByWeight(pairs, i + 1, to);
+    }
+    public void kruskal() {
+        resetStatus();
+        SetUnion set = new SetUnion(nVertices);
+        EdgePair[] pairs = toEdgePairs();
+        quickSortByWeight(pairs, 0, pairs.length);
+        for (int i = 0; i < pairs.length; ++i) {
+            EdgePair pair = pairs[i];
+            if (!set.sameComponet(pair.x, pair.y)) {
+                System.out.println(String.format("Edge (%d, %d) in MST", pair.x, pair.y));
+                set.unionSet(pairs[i].x, pairs[i].y);
+            }
+        }
+    }
+
 }

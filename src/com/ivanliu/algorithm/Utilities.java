@@ -6,8 +6,26 @@ import java.util.List;
 import java.util.Random;
 
 import static com.ivanliu.algorithm.Graph.EdgeNode;
+import static com.ivanliu.algorithm.GraphUndirected.TreeNode;
 
 public class Utilities {
+
+    private static StringBuilder sb;
+
+    public static void print(TreeNode root) {
+        sb = new StringBuilder();
+        dfs(root, new String());
+        System.out.println(sb.toString());
+    }
+    private static void dfs(TreeNode node, String path) {
+        if (node == null || node.children.size() == 0) {
+            sb.append(new String(path + "->" + node.value + "\n"));
+            return;
+        }
+        for (int i = 0; i < node.children.size(); ++i) {
+            dfs(node.children.get(i), path + "->" + node.value);
+        }
+    }
 
     public static void print(Graph g) {
         StringBuilder sb = new StringBuilder();
@@ -78,6 +96,16 @@ public class Utilities {
         for (int i = 0; i < g.nVertices; ++i) {
             sb.append(String.format("%3s", g.vertexType[i]));
         }
+        sb.append("\n");
+        sb.append("InTree:   ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.inTree[i] ? "T" : "F"));
+        }
+        sb.append("\n");
+        sb.append("Distance: ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.distance[i] != Integer.MAX_VALUE ? g.distance[i] : "X"));
+        }
         System.out.println(sb.toString());
     }
 
@@ -92,6 +120,16 @@ public class Utilities {
         sb.append("ComId:    ");
         for (int i = 0; i < g.nVertices; ++i) {
             sb.append(String.format("%3d", g.scc[i]));
+        }
+        sb.append("\n");
+        sb.append("InTree:   ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.inTree[i] ? "T" : "F"));
+        }
+        sb.append("\n");
+        sb.append("Distance: ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3s", g.distance[i] != Integer.MAX_VALUE ? g.distance[i] : "X"));
         }
         System.out.println(sb.toString());
     }
