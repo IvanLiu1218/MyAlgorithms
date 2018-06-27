@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.ivanliu.algorithm.GraphUndirected.TreeNode;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
@@ -165,5 +165,83 @@ public class GraphTest {
         for (int i = 0; i < result.size(); ++i) {
             System.out.println(Arrays.toString(result.get(i)));
         }
+    }
+
+    @Test
+    public void testPrim() {
+        GraphUndirected gu = new GraphUndirected(8);
+        gu.insertEdge(0, 1, 2);
+        gu.insertEdge(0, 2, 3);
+        gu.insertEdge(0, 3, 4);
+        gu.insertEdge(1, 2, 2);
+        gu.insertEdge(1, 3, 3);
+        gu.insertEdge(1, 4, 1);
+        gu.insertEdge(3, 5, 1);
+        gu.insertEdge(3, 7, 5);
+        gu.insertEdge(4, 5, 2);
+        gu.insertEdge(4, 6, 4);
+        gu.insertEdge(5, 6, 3);
+        gu.insertEdge(5, 7, 6);
+        int sum = gu.prim(0);
+        Utilities.printInfo(gu);
+        assertEquals(16, sum);
+    }
+
+    @Test
+    public void testShortestPathByPrim() {
+        GraphUndirected gu = new GraphUndirected(8);
+        gu.insertEdge(0, 1, 2);
+        gu.insertEdge(0, 2, 3);
+        gu.insertEdge(0, 3, 4);
+        gu.insertEdge(1, 2, 2);
+        gu.insertEdge(1, 3, 3);
+        gu.insertEdge(1, 4, 1);
+        gu.insertEdge(3, 5, 1);
+        gu.insertEdge(3, 7, 5);
+        gu.insertEdge(4, 5, 2);
+        gu.insertEdge(4, 6, 4);
+        gu.insertEdge(5, 6, 3);
+        gu.insertEdge(5, 7, 6);
+        TreeNode root = gu.shortestPathByPrim(0);
+        Utilities.printInfo(gu);
+        Utilities.print(root);
+    }
+
+    @Test
+    public void testKruskal() {
+        GraphUndirected gu = new GraphUndirected(8);
+        gu.insertEdge(0, 1, 2);
+        gu.insertEdge(0, 2, 3);
+        gu.insertEdge(0, 3, 4);
+        gu.insertEdge(1, 2, 2);
+        gu.insertEdge(1, 3, 3);
+        gu.insertEdge(1, 4, 1);
+        gu.insertEdge(3, 5, 1);
+        gu.insertEdge(3, 7, 5);
+        gu.insertEdge(4, 5, 2);
+        gu.insertEdge(4, 6, 4);
+        gu.insertEdge(5, 6, 3);
+        gu.insertEdge(5, 7, 6);
+        gu.kruskal();
+        Utilities.printInfo(gu);
+    }
+
+    @Test
+    public void testDijkstra() {
+        GraphDirected gd = new GraphDirected(8);
+        gd.insertEdge(0, 1, 2);
+        gd.insertEdge(1, 2, 2);
+        gd.insertEdge(1, 3, 3);
+        gd.insertEdge(2, 0, 3);
+        gd.insertEdge(3, 0, 4);
+        gd.insertEdge(1, 4, 1);
+        gd.insertEdge(3, 5, 1);
+        gd.insertEdge(3, 7, 5);
+        gd.insertEdge(4, 5, 2);
+        gd.insertEdge(7, 5, 6);
+        gd.insertEdge(5, 6, 3);
+        gd.insertEdge(6, 4, 4);
+        gd.dijkstra(0);
+        Utilities.printInfo(gd);
     }
 }
