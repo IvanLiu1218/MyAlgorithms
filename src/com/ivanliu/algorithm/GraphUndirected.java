@@ -102,7 +102,7 @@ public class GraphUndirected extends Graph {
     }
 //    @Override
 //    public void process_edge_dfs(int x, int y) {
-//        if (parent[x] != parent[y]) {
+//        if (parent[x] != y) {
 //            EdgeType type = identifyEdgeType(x, y);
 //            System.out.println(String.format("EDGE: (%d, %d) %s", x, y, type));
 //            if (type == EdgeType.BACK) {
@@ -150,7 +150,7 @@ public class GraphUndirected extends Graph {
             }
         } else if (reachable_ancestor[x] == parent[x]   // (1) if the oldest reachable node is the direct parent of x
                 && parent[parent[x]] != -1) {           // (2) if the direct parent of x is not root
-            vertexType[parent[x]] = VertexType.P;               //  x is Parent Articulation
+            vertexType[parent[x]] = VertexType.P;       //  x is Parent Articulation
         } else if (reachable_ancestor[x] == x) {    // if the oldest reachable node of x is x itself
             vertexType[parent[x]] = VertexType.B;   // the parent of x is Bridge Articulation
             if (tree_out_degree[x] > 0) {           // if x is not the leaf node
