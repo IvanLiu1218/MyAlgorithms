@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static com.ivanliu.algorithm.GraphUndirected.TreeNode;
 import static org.junit.Assert.assertEquals;
@@ -243,5 +244,48 @@ public class GraphTest {
         gd.insertEdge(6, 4, 4);
         gd.dijkstra(0);
         Utilities.printInfo(gd);
+    }
+
+    @Test
+    public void testFloydWarshall() {
+        GraphAM g = new GraphAM(8);
+        g.insertEdge(0, 1, 2, false);
+        g.insertEdge(0, 2, 3, false);
+        g.insertEdge(0, 3, 4, false);
+        g.insertEdge(1, 2, 2, false);
+        g.insertEdge(1, 3, 3, false);  // weight: 3 <--> 0
+        g.insertEdge(1, 4, 1, false);
+        g.insertEdge(3, 5, 1, false);
+        g.insertEdge(3, 7, 5, false);
+        g.insertEdge(4, 5, 2, false);
+        g.insertEdge(4, 6, 4, false);
+        g.insertEdge(5, 6, 3, false);
+        g.insertEdge(5, 7, 6, false);
+        g.floydWarshall();
+        Utilities.printInfo(g);
+        Set<Integer> path = g.findShortestPath(0, 6);
+        System.out.println(Arrays.toString(path.stream().toArray()));
+        path = g.findShortestPath(0, 3);
+        System.out.println(Arrays.toString(path.stream().toArray()));
+        path = g.findShortestPath(1, 6);
+        System.out.println(Arrays.toString(path.stream().toArray()));
+    }
+
+    @Test
+    public void testGraphFlow() {
+        GraphFlow g = new GraphFlow(7);
+        g.insertEdge(0, 1, 5);
+        g.insertEdge(0, 6, 12);
+        g.insertEdge(1, 2, 7);
+        g.insertEdge(1, 3, 9);
+        g.insertEdge(2, 3, 3);
+        g.insertEdge(2, 4, 5);
+        g.insertEdge(3, 5, 3);
+        g.insertEdge(3, 6, 4);
+        g.insertEdge(4, 5, 2);
+        g.insertEdge(5, 6, 7);
+        int flow = g.netflow(0, 4);
+        Utilities.printInfo(g);
+        assertEquals(7, flow);
     }
 }

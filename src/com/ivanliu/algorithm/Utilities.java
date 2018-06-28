@@ -134,6 +134,42 @@ public class Utilities {
         System.out.println(sb.toString());
     }
 
+    public static void printInfo(GraphAM g) {
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        sb1.append("Weight: \n");
+        sb2.append("Parent: \n");
+        for (int i = 0; i < g.nVertices; ++i) {
+            for (int j = 0; j < g.nVertices; ++j) {
+                sb1.append(String.format("%3s", g.weight[i][j] != Integer.MAX_VALUE ? g.weight[i][j] : "X"));
+                sb2.append(String.format("%3d", g.parent[i][j]));
+            }
+            sb1.append("\n");
+            sb2.append("\n");
+        }
+        System.out.println(sb1.toString());
+        System.out.println(sb2.toString());
+    }
+
+    public static void printInfo(GraphFlow g) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vertex:   ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", i));
+        }
+        sb.append("\n");
+        sb.append("Parent:   ");
+        for (int i = 0; i < g.nVertices; ++i) {
+            sb.append(String.format("%3d", g.parent[i]));
+        }
+        System.out.println(sb.toString());
+    }
+
+    /**
+     * --------------------------------------
+     *  Others
+     * --------------------------------------
+     */
     // get random number between [x, y)
     public static int random(int x, int y) {
         return new Random().nextInt(y - x) + x;
