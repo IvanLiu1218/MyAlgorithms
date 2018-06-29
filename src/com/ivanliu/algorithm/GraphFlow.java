@@ -31,7 +31,7 @@ public class GraphFlow implements IGraph {
     public int[] parent;
 
     public GraphFlow(int size) {
-        this.isDirected = false;
+        this.isDirected = true;
         this.nVertices = size;
         this.edges = new EdgeNodeR[size];
         this.vertexStatus = new VertexStatus[size];
@@ -52,7 +52,7 @@ public class GraphFlow implements IGraph {
     public void insertEdge(int x, int y, int weight) {
         EdgeNodeR edge = new EdgeNodeR(y, weight, 0, weight, edges[x]);
         edges[x] = edge;
-        edge = new EdgeNodeR(x, weight, 0, 0, edges[y]);
+        edge = new EdgeNodeR(x, weight, 0, weight, edges[y]);
         edges[y] = edge;
     }
 
@@ -60,20 +60,22 @@ public class GraphFlow implements IGraph {
         resetStatus();
         Deque<Integer> queue = new ArrayDeque<>();
         queue.offerLast(start);
+        vertexStatus[start] = VertexStatus.DISCOVERED;
         while (!queue.isEmpty()) {
             int x = queue.pollFirst();
             process_early(x);
-            vertexStatus[x] = VertexStatus.DISCOVERED;
             EdgeNodeR edge = edges[x];
             while (edge != null) {
                 int y = edge.y;
-                if (vertexStatus[y] == VertexStatus.UNDISCOVERED) {
-                    vertexStatus[y] = VertexStatus.DISCOVERED;
-                    parent[y] = x;
-                    queue.offerLast(y);
-                    process_edge_bfs(x, y);
-                } else if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
-                    process_edge_bfs(x, y);
+                if (validEdge(edge)) {
+                    if (vertexStatus[y] == VertexStatus.UNDISCOVERED) {
+                        vertexStatus[y] = VertexStatus.DISCOVERED;
+                        parent[y] = x;
+                        queue.offerLast(y);
+                        process_edge_bfs(x, y);
+                    } else if (vertexStatus[y] != VertexStatus.PROCESSED || isDirected) {
+                        process_edge_bfs(x, y);
+                    }
                 }
                 edge = edge.next;
             }
@@ -83,20 +85,25 @@ public class GraphFlow implements IGraph {
     }
 
     public void process_early(int x) {
-        System.out.println("PROC: " + x);
+//        System.out.println("PROC: " + x);
     }
 
     public void process_edge_bfs(int x, int y) {
-        EdgeNodeR edge = findEdge(x, y);
-        //edge.residual = edge.capacity;
-        System.out.println(String.format("EDGE: (%d,%d) %d/%d/%d", x, y, edge.capacity, edge.flow, edge.residual));
-        edge = findEdge(y, x);
-        //edge.flow = edge.capacity;
-        System.out.println(String.format("EDGE: (%d,%d) %d/%d/%d", y, x, edge.capacity, edge.flow, edge.residual));
+        if (parent[x] != y) {
+//            EdgeNodeR edge = findEdge(x, y);
+//            edge.residual = edge.capacity;
+//            edge = findEdge(y, x);
+//            edge.residual = edge.capacity;
+        }
     }
 
     public void process_later(int x) {
-        System.out.println("LATE: " + x);
+//        System.out.println("LATE: " + x);
+    }
+
+    public boolean validEdge(EdgeNodeR edge) {
+        if (edge.residual > 0) return true;
+        return false;
     }
 
     public EdgeNodeR findEdge(int x, int y) {
@@ -124,7 +131,8 @@ public class GraphFlow implements IGraph {
         edge.flow += volume;
         edge.residual -= volume;
         edge = findEdge(sink, parent[sink]);
-        edge.residual += volume;
+        edge.flow += volume;
+        edge.residual -= volume;
         augmentPath(source, parent[sink], volume);
     }
 
@@ -141,7 +149,7 @@ public class GraphFlow implements IGraph {
         int flow = 0;
         EdgeNodeR edge = edges[source];
         while (edge != null) {
-            flow += edge.residual;
+            flow += edge.flow;
             edge = edge.next;
         }
         return flow;

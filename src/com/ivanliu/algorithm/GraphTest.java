@@ -287,5 +287,35 @@ public class GraphTest {
         int flow = g.netflow(0, 4);
         Utilities.printInfo(g);
         assertEquals(7, flow);
+
+        g = new GraphFlow(7);
+        g.insertEdge(0, 1, 5);
+        g.insertEdge(0, 6, 12);
+        g.insertEdge(1, 2, 7);
+        g.insertEdge(1, 3, 9);
+        g.insertEdge(2, 3, 3);
+        g.insertEdge(2, 4, 5);
+        g.insertEdge(3, 5, 3);
+        g.insertEdge(3, 6, 4);
+        g.insertEdge(4, 5, 10);  // 2 --> 10
+        g.insertEdge(5, 6, 7);
+        flow = g.netflow(0, 4);
+        Utilities.printInfo(g);
+        assertEquals(15, flow);
+
+        g = new GraphFlow(7);
+        g.insertEdge(0, 1, 5);
+        g.insertEdge(0, 6, 12);
+        g.insertEdge(1, 2, 7);
+        g.insertEdge(1, 3, 9);
+        g.insertEdge(2, 3, 3);
+        g.insertEdge(2, 4, 5);
+        g.insertEdge(3, 5, 3);
+        g.insertEdge(3, 6, 4);
+        g.insertEdge(4, 5, 10);  // 2 --> 10
+        g.insertEdge(5, 6, 1);   // 7 --> 1
+        flow = g.netflow(0, 4);
+        Utilities.printInfo(g);
+        assertEquals(9, flow);
     }
 }
