@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 
-public class Graph {
+public class Graph implements IGraph {
 
     /**
      *  Classes:
@@ -74,6 +74,7 @@ public class Graph {
         return 0 <= x && x < nVertices;
     }
 
+    @Override
     public void resetStatus() {
         Arrays.fill(vertexStatus, VertexStatus.UNDISCOVERED);
         Arrays.fill(parent, -1);
@@ -84,6 +85,7 @@ public class Graph {
         FINISHED = false;
     }
 
+    @Override
     public void insertEdge(int x, int y, boolean isDirected) {
         insertEdge(x, y, 0, isDirected);
     }
