@@ -1,5 +1,7 @@
 package com.ivanliu.algorithm;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -173,6 +175,21 @@ public class Utilities {
     // get random number between [x, y)
     public static int random(int x, int y) {
         return new Random().nextInt(y - x) + x;
+    }
+
+    public static Pair<Integer, Integer> randomPair(int x, int y) {
+        int i;
+        int j;
+        do {
+            i = random(x, y);
+            j = random(x, y);
+            if (i > j) {
+                int t = i;
+                i = j;
+                j = t;
+            }
+        } while (i == j);
+        return new Pair<>(i, j);
     }
 
     private static void swap(int[] array, int x, int y) {
