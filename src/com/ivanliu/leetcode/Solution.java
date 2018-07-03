@@ -8935,4 +8935,91 @@ public class Solution {
         if (len > maxlen) maxlen = len;
         return maxlen;
     }
+
+    /**
+     *  #860. Lemonade Change
+     */
+    public boolean lemonadeChange(int[] bills) {
+        Map<Integer, Integer> changesMap = new HashMap<>();
+        changesMap.put(5, 0);
+        changesMap.put(10, 0);
+        changesMap.put(20, 0);
+        for (int i = 0; i < bills.length; ++i) {
+            int bill = bills[i];
+            if (bill == 5) {
+                lemonadeChange_add(changesMap, 5);
+            } else if (bill == 10) {
+                if (changesMap.get(5) < 1) {
+                    return false;
+                }
+                lemonadeChange_minus(changesMap, 5);
+                lemonadeChange_add(changesMap, 10);
+            } else if (bill == 20) {
+                if (changesMap.get(10) > 0) {
+                    if (changesMap.get(5) > 0) {
+                        lemonadeChange_minus(changesMap, 10);
+                        lemonadeChange_minus(changesMap, 5);
+                    } else {
+                        return false;
+                    }
+                } else if (changesMap.get(5) >= 3) {
+                    lemonadeChange_minus(changesMap, 5);
+                    lemonadeChange_minus(changesMap, 5);
+                    lemonadeChange_minus(changesMap, 5);
+                } else {
+                    return false;
+                }
+                lemonadeChange_add(changesMap, 20);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void lemonadeChange_add(Map<Integer, Integer> changesMap, int bill) {
+        if (!changesMap.containsKey(bill)) {
+            changesMap.put(bill, 1);
+        } else {
+            int count = changesMap.get(bill);
+            ++count;
+            changesMap.put(bill, count);
+        }
+    }
+    public void lemonadeChange_minus(Map<Integer, Integer> changesMap, int bill) {
+        if (changesMap.containsKey(bill)) {
+            int count = changesMap.get(bill);
+            --count;
+            changesMap.put(bill, count);
+        }
+    }
+
+    /**
+     *  #859. Buddy Strings
+     */
+    public boolean buddyStrings(String A, String B) {
+        if (A == null || B == null) return false;
+        if (A.length() != B.length()) return false;
+        List<Integer> letters = new ArrayList<>();
+        for (int i = 0; i < A.length(); ++i) {
+            if (A.charAt(i) != B.charAt(i)) {
+                if (letters.size() >= 2) return false;
+                letters.add(i);
+            }
+        }
+        if (letters.size() == 1 || letters.size() > 2) return true;
+        if (letters.size() == 0) {
+            Set<Character> set = new HashSet<>();
+            for (int i = 0; i < A.length(); ++i) {
+                set.add(A.charAt(i));
+            }
+            if (set.size() < A.length()) return true;
+            return false;
+        }
+        // letters.size() == 2
+        if (A.charAt(letters.get(0)) == B.charAt(letters.get(1))
+                && A.charAt(letters.get(1)) == B.charAt(letters.get(0))) {
+            return true;
+        }
+        return false;
+    }
 }
