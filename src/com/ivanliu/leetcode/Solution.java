@@ -8970,4 +8970,120 @@ public class Solution {
             node.lastIndex = i;
         }
     }
+
+    /**
+     *  #847. Shortest Path Visiting All Nodes
+     */
+    public enum VertexStatus847 {
+        UNDISCOVERED,
+        DISCOVERED,
+        PROCESSED;
+    }
+    public static class EdgeNode847 {
+        public int y;
+        public EdgeNode847 next;
+        public EdgeNode847(int y, EdgeNode847 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph847 {
+        public EdgeNode847[] edges;
+        public VertexStatus847[] status;
+        public int[] parent;
+        public int nVertices;
+        public boolean isDirected;
+        public int path;
+        public Graph847(int size) {
+            this.isDirected = true;
+            this.nVertices = size;
+            this.status = new VertexStatus847[size];
+            this.edges = new EdgeNode847[size];
+            this.parent = new int[size];
+        }
+        public void reset() {
+            this.path = 0;
+            Arrays.fill(parent, -1);
+            Arrays.fill(status, VertexStatus847.UNDISCOVERED);
+        }
+        public void insertEdge(int x, int y, boolean isDirected) {
+            EdgeNode847 edge = new EdgeNode847(y, edges[x]);
+            edges[x] = edge;
+            if (!isDirected) {
+                insertEdge(y, x, true);
+            }
+        }
+        public void bfs(int start) {
+            Deque<Integer> queue = new ArrayDeque<>();
+            queue.offerLast(start);
+            while (!queue.isEmpty()) {
+                int x = queue.pollFirst();
+                status[x] = VertexStatus847.DISCOVERED;
+                // process_early
+                EdgeNode847 edge = edges[x];
+                while (edge != null) {
+                    int y = edge.y;
+                    if (status[y] == VertexStatus847.UNDISCOVERED) {
+                        parent[y] = x;
+                        status[y] = VertexStatus847.DISCOVERED;
+                        queue.offerLast(y);
+                        // process_edge
+                        System.out.println(String.format("(%d,%d)", x, y));
+                    } else if (status[y] != VertexStatus847.PROCESSED || isDirected) {
+                        // process_edge
+                        System.out.println(String.format("(%d,%d)", x, y));
+                    }
+                    edge = edge.next;
+                }
+                status[x] = VertexStatus847.PROCESSED;
+                // process_later
+            }
+        }
+        public void dfs(int x) {
+            status[x] = VertexStatus847.DISCOVERED;
+//            if (allDiscovered()) return;
+            EdgeNode847 edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (status[y] == VertexStatus847.UNDISCOVERED) {
+                    parent[y] = x;
+                    //++path;
+                    System.out.println(String.format("(%d,%d)", x, y));
+                    dfs(y);
+                    //if (allDiscovered()) break;
+                } else if (status[y] != VertexStatus847.PROCESSED || isDirected) {
+//                    ++path;
+                    System.out.println(String.format("(%d,%d)", x, y));
+                }
+//                if (allDiscovered()) break;
+                edge = edge.next;
+            }
+            status[x] = VertexStatus847.PROCESSED;
+        }
+        public boolean allDiscovered() {
+            for (int i = 0; i < nVertices; ++i) {
+                if (status[i] == VertexStatus847.UNDISCOVERED) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    public int shortestPathLength(int[][] graph) {
+        Graph847 g = new Graph847(graph.length);
+        for (int i = 0; i < graph.length; ++i) {
+            for (int j = 0; j < graph[i].length; ++j) {
+                g.insertEdge(i, graph[i][j], true);
+            }
+        }
+        int shortest = Integer.MAX_VALUE;
+//        for (int i = 0; i < g.nVertices; ++i) {
+//            g.reset();
+//            g.dfs(i);
+//            if (g.path < shortest)  shortest = g.path;
+//        }
+        g.reset();
+        g.dfs(0);
+        return shortest;
+    }
 }

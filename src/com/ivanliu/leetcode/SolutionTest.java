@@ -2580,4 +2580,23 @@ public class SolutionTest {
 		height = new int[]{2,0,2};
 		assertEquals(2, solution.trap(height));
     }
+
+    @Test
+    public void test847() {
+	    int[][] graph = new int[4][];
+	    graph[0] = new int[] {1,2,3};
+	    graph[1] = new int[] {0};
+	    graph[2] = new int[] {0};
+	    graph[3] = new int[] {0};
+//	    assertEquals(4, solution.shortestPathLength(graph));
+        System.out.println("--------------");
+
+        graph = new int[5][];
+        graph[0] = new int[] {1};
+        graph[1] = new int[] {0,2,4};
+        graph[2] = new int[] {1,3,4};
+        graph[3] = new int[] {2};
+        graph[4] = new int[] {1,2};
+        assertEquals(4, solution.shortestPathLength(graph));
+    }
 }
