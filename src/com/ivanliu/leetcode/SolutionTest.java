@@ -2570,4 +2570,62 @@ public class SolutionTest {
         nums = new int[] {2147483646,-2147483647,0,2,2147483644,-2147483645,2147483645};
         assertEquals(2, solution.longestConsecutive(nums));
     }
+
+    @Test
+    public void test860() {
+	    int[] bills = new int[] {5,5,5,10,20};
+	    assertTrue(solution.lemonadeChange(bills));
+
+        bills = new int[] {5,5,10};
+        assertTrue(solution.lemonadeChange(bills));
+
+        bills = new int[] {10,10};
+        assertFalse(solution.lemonadeChange(bills));
+
+        bills = new int[] {5,5,10,10,20};
+        assertFalse(solution.lemonadeChange(bills));
+
+        bills = new int[] {5};
+        assertTrue(solution.lemonadeChange(bills));
+
+        bills = new int[] {10};
+        assertFalse(solution.lemonadeChange(bills));
+
+        bills = new int[] {20};
+        assertFalse(solution.lemonadeChange(bills));
+
+        bills = new int[] {5,5,10,20,5,5,5,5,5,5,5,5,5,10,5,5,20,5,20,5};
+        assertTrue(solution.lemonadeChange(bills));
+    }
+
+    @Test
+    public void test859() {
+	    String A = "ab";
+	    String B = "ba";
+	    assertTrue(solution.buddyStrings(A, B));
+
+        A = "ab";
+        B = "ab";
+        assertFalse(solution.buddyStrings(A, B));
+
+        A = "aa";
+        B = "aa";
+        assertTrue(solution.buddyStrings(A, B));
+
+        A = "aaaaaaabc";
+        B = "aaaaaaacb";
+        assertTrue(solution.buddyStrings(A, B));
+
+        A = "";
+        B = "aa";
+        assertFalse(solution.buddyStrings(A, B));
+
+        A = "";
+        B = "";
+        assertFalse(solution.buddyStrings(A, B));
+
+        A = "a";
+        B = "a";
+        assertFalse(solution.buddyStrings(A, B));
+    }
 }
