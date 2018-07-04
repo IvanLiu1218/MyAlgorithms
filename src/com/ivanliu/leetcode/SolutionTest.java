@@ -2628,4 +2628,11 @@ public class SolutionTest {
         B = "a";
         assertFalse(solution.buddyStrings(A, B));
     }
+
+    @Test
+    public void test585() {
+	    assertEquals(2, solution.mirrorReflection(2, 1));
+	    assertEquals(1, solution.mirrorReflection(2, 2));
+	    assertEquals(0, solution.mirrorReflection(3, 2));
+    }
 }

@@ -9022,4 +9022,23 @@ public class Solution {
         }
         return false;
     }
+
+    /**
+     * #858. Mirror Reflection
+     */
+    public int mirrorReflection(int p, int q) {
+        int lcm = lcm(p, q);
+        if ((lcm / q) % 2 == 0) return 2;
+        if ((lcm / p) % 2 == 0) return 0;
+        return 1;
+    }
+    public int gcd(int a, int b) {
+        if (a % b == 0) return b;
+        int r = a % b;
+        return gcd(b, r);
+    }
+    public int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
 }
