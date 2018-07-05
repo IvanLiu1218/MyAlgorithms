@@ -1,19 +1,6 @@
 package com.ivanliu.leetcode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeMap;
+import java.util.*;
 
 import com.ivanliu.leetcode.Utility.ListNode;
 import com.ivanliu.leetcode.Utility.TreeLinkNode;
@@ -8937,6 +8924,53 @@ public class Solution {
     }
 
     /**
+     *  #42. Trapping Rain Water
+     */
+    public static class TrapNode {
+        public int lastIndex;
+        public int sum;
+        public TrapNode(int i, int sum) {
+            this.lastIndex = i;
+            this.sum = sum;
+        }
+    }
+    public int trap(int[] height) {
+        if (height == null || height.length < 1) return 0;
+        TreeSet<Integer> heightSet = new TreeSet<>();
+        for (int i = 0; i < height.length; ++i) {
+            heightSet.add(height[i]);
+        }
+        Map<Integer, TrapNode> map = new TreeMap<>();
+        for (int i = 0; i < height.length; ++i) {
+            int h = height[i];
+            if (h <= 0) continue;
+            trap_add(map, h, i, 1);
+            Set<Integer> set = heightSet.headSet(h);
+            Iterator<Integer> it = set.iterator();
+            int prev = it.next();
+            while (it.hasNext()) {
+                int b = it.next();
+                trap_add(map, b, i, b - prev);
+            }
+        }
+        int sum = 0;
+        for (int h : map.keySet()) {
+            TrapNode node = map.get(h);
+            sum += node.sum;
+        }
+        return sum;
+    }
+    private void trap_add(Map<Integer, TrapNode> map, int k, int i, int height) {
+        if (!map.containsKey(k)) {
+            TrapNode node = new TrapNode(i, 0);
+            map.put(k, node);
+        } else {
+            TrapNode node = map.get(k);
+            node.sum += (i - node.lastIndex - 1) * height;
+            node.lastIndex = i;
+        }
+    }
+    /**
      *  #860. Lemonade Change
      */
     public boolean lemonadeChange(int[] bills) {
@@ -8994,6 +9028,122 @@ public class Solution {
     }
 
     /**
+     *  #847. Shortest Path Visiting All Nodes
+     */
+    public enum VertexStatus847 {
+        UNDISCOVERED,
+        DISCOVERED,
+        PROCESSED;
+    }
+    public static class EdgeNode847 {
+        public int y;
+        public EdgeNode847 next;
+        public EdgeNode847(int y, EdgeNode847 next) {
+            this.y = y;
+            this.next = next;
+        }
+    }
+    public static class Graph847 {
+        public EdgeNode847[] edges;
+        public VertexStatus847[] status;
+        public int[] parent;
+        public int nVertices;
+        public boolean isDirected;
+        public int path;
+        public Graph847(int size) {
+            this.isDirected = true;
+            this.nVertices = size;
+            this.status = new VertexStatus847[size];
+            this.edges = new EdgeNode847[size];
+            this.parent = new int[size];
+        }
+        public void reset() {
+            this.path = 0;
+            Arrays.fill(parent, -1);
+            Arrays.fill(status, VertexStatus847.UNDISCOVERED);
+        }
+        public void insertEdge(int x, int y, boolean isDirected) {
+            EdgeNode847 edge = new EdgeNode847(y, edges[x]);
+            edges[x] = edge;
+            if (!isDirected) {
+                insertEdge(y, x, true);
+            }
+        }
+        public void bfs(int start) {
+            Deque<Integer> queue = new ArrayDeque<>();
+            queue.offerLast(start);
+            while (!queue.isEmpty()) {
+                int x = queue.pollFirst();
+                status[x] = VertexStatus847.DISCOVERED;
+                // process_early
+                EdgeNode847 edge = edges[x];
+                while (edge != null) {
+                    int y = edge.y;
+                    if (status[y] == VertexStatus847.UNDISCOVERED) {
+                        parent[y] = x;
+                        status[y] = VertexStatus847.DISCOVERED;
+                        queue.offerLast(y);
+                        // process_edge
+                        System.out.println(String.format("(%d,%d)", x, y));
+                    } else if (status[y] != VertexStatus847.PROCESSED || isDirected) {
+                        // process_edge
+                        System.out.println(String.format("(%d,%d)", x, y));
+                    }
+                    edge = edge.next;
+                }
+                status[x] = VertexStatus847.PROCESSED;
+                // process_later
+            }
+        }
+        public void dfs(int x) {
+            status[x] = VertexStatus847.DISCOVERED;
+//            if (allDiscovered()) return;
+            EdgeNode847 edge = edges[x];
+            while (edge != null) {
+                int y = edge.y;
+                if (status[y] == VertexStatus847.UNDISCOVERED) {
+                    parent[y] = x;
+                    //++path;
+                    System.out.println(String.format("(%d,%d)", x, y));
+                    dfs(y);
+                    //if (allDiscovered()) break;
+                } else if (status[y] != VertexStatus847.PROCESSED || isDirected) {
+//                    ++path;
+                    System.out.println(String.format("(%d,%d)", x, y));
+                }
+//                if (allDiscovered()) break;
+                edge = edge.next;
+            }
+            status[x] = VertexStatus847.PROCESSED;
+        }
+        public boolean allDiscovered() {
+            for (int i = 0; i < nVertices; ++i) {
+                if (status[i] == VertexStatus847.UNDISCOVERED) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    public int shortestPathLength(int[][] graph) {
+        Graph847 g = new Graph847(graph.length);
+        for (int i = 0; i < graph.length; ++i) {
+            for (int j = 0; j < graph[i].length; ++j) {
+                g.insertEdge(i, graph[i][j], true);
+            }
+        }
+        int shortest = Integer.MAX_VALUE;
+//        for (int i = 0; i < g.nVertices; ++i) {
+//            g.reset();
+//            g.dfs(i);
+//            if (g.path < shortest)  shortest = g.path;
+//        }
+        g.reset();
+        g.dfs(0);
+        return shortest;
+    }
+
+    /**
      *  #859. Buddy Strings
      */
     public boolean buddyStrings(String A, String B) {
@@ -9041,4 +9191,121 @@ public class Solution {
         return (a * b) / gcd(a, b);
     }
 
+    /**
+     *  Hard
+     *  #410. Split Array Largest Sum
+     *
+     *  dp[n][k]
+     */
+    public int splitArray(int[] nums, int m) {
+        int[][] dp = new int[nums.length + 1][m + 1];
+        int[][] pos = new int[nums.length + 1][m + 1];
+        for (int i = 0; i < nums.length + 1; ++i) {
+            dp[i] = new int[m + 1];
+            Arrays.fill(dp[i], 0);
+            pos[i] = new int[m + 1];
+            Arrays.fill(pos[i], -1);
+        }
+        int[] sum = new int[nums.length + 1];
+        Arrays.fill(sum, 0);
+        for (int i = 1; i < nums.length + 1; ++i) {
+            sum[i] = sum[i - 1] + nums[i - 1];
+        }
+        for (int k = 1; k < m + 1; ++k) {
+            dp[1][k] = nums[0];
+        }
+        for (int n = 1; n < nums.length + 1; ++n) {
+            dp[n][1] = sum[n];
+        }
+        for (int k = 2; k < m + 1; ++k) {
+            for (int n = 2; n < nums.length + 1; ++n) {
+                int min = Integer.MAX_VALUE;
+                for (int i = 1; i < n; ++i) {
+                    int temp = Math.max(dp[i][k - 1], sum[n] - sum[i]);
+                    if (temp < min) {
+                        min = temp;
+                        pos[n][k] = i;
+                    }
+                }
+                dp[n][k] = min;
+            }
+        }
+        // reconstruct the arrays
+        splitList = new ArrayList<>();
+        reconstructSplit(nums, pos, nums.length, m);
+        for (int i = 0; i < splitList.size(); ++i) {
+            System.out.println(Arrays.toString(splitList.get(i).toArray()));
+        }
+        return dp[nums.length][m];
+    }
+    private List<List<Integer>> splitList;
+    public void reconstructSplit(int[] nums, int[][] pos, int n, int k) {
+        if (k == 1) {
+            splitList.add(generateList(nums, 0, n));
+            return;
+        }
+        reconstructSplit(nums, pos, pos[n][k], k - 1);
+        splitList.add(generateList(nums, pos[n][k], n));
+    }
+    public List<Integer> generateList(int[] nums, int from, int to) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = from; i < to; ++i) {
+            list.add(nums[i]);
+        }
+        return list;
+    }
+
+    /**
+     *  Hard
+     *  #312. Burst Balloons
+     */
+    public int maxCoins(int[] nums) {
+        int size = nums.length + 2;
+        int[] n = new int[size];
+        n[0] = n[size - 1] = 1;
+        for (int i = 0; i < nums.length; ++i) {
+            n[i + 1] = nums[i];
+        }
+        int[][] dp = new int[size][size];
+        int[][] pos = new int[size][size];
+        for (int i = 0; i < size; ++i) {
+            dp[i] = new int[size];
+            Arrays.fill(dp[i], 0);
+            pos[i] = new int[size];
+            Arrays.fill(pos[i], -1);
+        }
+        for (int k = 2; k < size; ++k) {
+            for (int x = 0; x < size - k; ++x) {
+                int y = x + k;
+                for (int i = x + 1; i < y; ++i) {
+                    int max = n[x] * n[i] * n[y] + dp[x][i] + dp[i][y];
+                    if (max > dp[x][y]) {
+                        dp[x][y] = max;
+                        pos[x][y] = i;
+                    }
+                }
+            }
+        }
+        stack = new ArrayDeque<>();
+        maxCoins_reconstruct(n, pos, 0, size - 1, nums.length);
+        while (!stack.isEmpty()) {
+            int i = stack.pollFirst();
+            System.out.print(i + " ");
+        }
+        System.out.println(" ");
+        return dp[0][size - 1];
+    }
+    private Deque<Integer> stack;
+    public void maxCoins_reconstruct(int[] n, int[][] pos, int x, int y, int left) {
+        if (left == 0) {
+            return;
+        }
+        int i = pos[x][y];
+        stack.offerFirst(n[i]);
+        if (i - x > y - i) {
+            maxCoins_reconstruct(n, pos, x, i, left - 1);
+        } else {
+            maxCoins_reconstruct(n, pos, i, y, left - 1);
+        }
+    }
 }

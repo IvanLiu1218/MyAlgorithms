@@ -2572,6 +2572,34 @@ public class SolutionTest {
     }
 
     @Test
+    public void test042() {
+	    int[] height = new int[] {0,1,0,2,1,0,1,3,2,1,2,1};
+	    assertEquals(6, solution.trap(height));
+	    // Time Limit Exceeded
+		// Wrong Answer
+		height = new int[]{2,0,2};
+		assertEquals(2, solution.trap(height));
+    }
+
+    @Test
+    public void test847() {
+        int[][] graph = new int[4][];
+        graph[0] = new int[]{1, 2, 3};
+        graph[1] = new int[]{0};
+        graph[2] = new int[]{0};
+        graph[3] = new int[]{0};
+//	    assertEquals(4, solution.shortestPathLength(graph));
+        System.out.println("--------------");
+
+        graph = new int[5][];
+        graph[0] = new int[]{1};
+        graph[1] = new int[]{0, 2, 4};
+        graph[2] = new int[]{1, 3, 4};
+        graph[3] = new int[]{2};
+        graph[4] = new int[]{1, 2};
+        assertEquals(4, solution.shortestPathLength(graph));
+    }
+
     public void test860() {
 	    int[] bills = new int[] {5,5,5,10,20};
 	    assertTrue(solution.lemonadeChange(bills));
@@ -2634,5 +2662,19 @@ public class SolutionTest {
 	    assertEquals(2, solution.mirrorReflection(2, 1));
 	    assertEquals(1, solution.mirrorReflection(2, 2));
 	    assertEquals(0, solution.mirrorReflection(3, 2));
+    }
+
+    @Test
+    public void test410() {
+	    assertEquals(18, solution.splitArray(new int[] {7,2,5,10,8}, 2));
+    }
+
+    @Test
+    public void test312() {
+	    assertEquals(35, solution.maxCoins(new int[]{3,1,5}));
+	    assertEquals(167, solution.maxCoins(new int[]{3,1,5,8}));
+	    assertEquals(20, solution.maxCoins(new int[]{3,5}));
+	    assertEquals(3, solution.maxCoins(new int[]{3}));
+	    assertEquals(0, solution.maxCoins(new int[]{}));
     }
 }
