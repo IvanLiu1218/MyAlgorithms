@@ -200,6 +200,26 @@ public class Utilities {
 
     /**
      *  -------------------------------------------
+     *   Greatest Common Divisor (GCD)
+     *  -------------------------------------------
+     */
+    public static int gcd(int a, int b) {
+        if (a % b == 0) return b;
+        int r = a % b;
+        return gcd(b, r);
+    }
+
+    /**
+     *  --------------------------------------------
+     *   Least Common Multiple (LCM)
+     *  --------------------------------------------
+     */
+    public static int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    /**
+     *  -------------------------------------------
      *  Permutation
      *  -------------------------------------------
      */

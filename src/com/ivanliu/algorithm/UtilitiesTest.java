@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class UtilitiesTest {
 
     @Test
@@ -70,7 +72,7 @@ public class UtilitiesTest {
 
     @Test
     public void testIntegerPartition1() {
-        Assert.assertEquals(627, Utilities.integerPartition(20, 20));
+        assertEquals(627, Utilities.integerPartition(20, 20));
     }
 
     @Test
@@ -96,15 +98,15 @@ public class UtilitiesTest {
 
     @Test
     public void testSetPartition1() {
-        Assert.assertEquals( 1, Utilities.setPartition(4, 1));
-        Assert.assertEquals( 7, Utilities.setPartition(4, 2));
-        Assert.assertEquals( 6, Utilities.setPartition(4, 3));
-        Assert.assertEquals( 1, Utilities.setPartition(4, 4));
+        assertEquals( 1, Utilities.setPartition(4, 1));
+        assertEquals( 7, Utilities.setPartition(4, 2));
+        assertEquals( 6, Utilities.setPartition(4, 3));
+        assertEquals( 1, Utilities.setPartition(4, 4));
     }
 
     @Test
     public void testSetPartition2() {
-        Assert.assertEquals(15, Utilities.setPartition(4));
+        assertEquals(15, Utilities.setPartition(4));
     }
 
     @Test
@@ -129,5 +131,28 @@ public class UtilitiesTest {
         for (int i = 0; i < all.size(); ++i) {
             System.out.println(Arrays.toString(all.get(i).toArray()));
         }
+    }
+
+    @Test
+    public void testGCD() {
+        assertEquals(1, Utilities.gcd(5, 9));
+        assertEquals(1, Utilities.gcd(9, 5));
+        assertEquals(3, Utilities.gcd(12, 9));
+        assertEquals(3, Utilities.gcd(9, 12));
+        assertEquals(4, Utilities.gcd(16, 12));
+        assertEquals(4, Utilities.gcd(12, 16));
+        assertEquals(12, Utilities.gcd(12, 12));
+    }
+
+    @Test
+    public void testLCM() {
+        assertEquals(2, Utilities.lcm(1, 2));
+        assertEquals(6, Utilities.lcm(3, 2));
+        assertEquals(6, Utilities.lcm(3, 6));
+        assertEquals(6, Utilities.lcm(2, 6));
+        assertEquals(18, Utilities.lcm(9, 6));
+        assertEquals(18, Utilities.lcm(9, 2));
+        assertEquals(9, Utilities.lcm(9, 3));
+        assertEquals(36, Utilities.lcm(9, 12));
     }
 }
