@@ -2663,4 +2663,18 @@ public class SolutionTest {
 	    assertEquals(1, solution.mirrorReflection(2, 2));
 	    assertEquals(0, solution.mirrorReflection(3, 2));
     }
+
+    @Test
+    public void test410() {
+	    assertEquals(18, solution.splitArray(new int[] {7,2,5,10,8}, 2));
+    }
+
+    @Test
+    public void test312() {
+	    assertEquals(35, solution.maxCoins(new int[]{3,1,5}));
+	    assertEquals(167, solution.maxCoins(new int[]{3,1,5,8}));
+	    assertEquals(20, solution.maxCoins(new int[]{3,5}));
+	    assertEquals(3, solution.maxCoins(new int[]{3}));
+	    assertEquals(0, solution.maxCoins(new int[]{}));
+    }
 }

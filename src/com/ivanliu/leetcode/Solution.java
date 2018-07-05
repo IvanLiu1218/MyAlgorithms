@@ -9190,4 +9190,122 @@ public class Solution {
     public int lcm(int a, int b) {
         return (a * b) / gcd(a, b);
     }
+
+    /**
+     *  Hard
+     *  #410. Split Array Largest Sum
+     *
+     *  dp[n][k]
+     */
+    public int splitArray(int[] nums, int m) {
+        int[][] dp = new int[nums.length + 1][m + 1];
+        int[][] pos = new int[nums.length + 1][m + 1];
+        for (int i = 0; i < nums.length + 1; ++i) {
+            dp[i] = new int[m + 1];
+            Arrays.fill(dp[i], 0);
+            pos[i] = new int[m + 1];
+            Arrays.fill(pos[i], -1);
+        }
+        int[] sum = new int[nums.length + 1];
+        Arrays.fill(sum, 0);
+        for (int i = 1; i < nums.length + 1; ++i) {
+            sum[i] = sum[i - 1] + nums[i - 1];
+        }
+        for (int k = 1; k < m + 1; ++k) {
+            dp[1][k] = nums[0];
+        }
+        for (int n = 1; n < nums.length + 1; ++n) {
+            dp[n][1] = sum[n];
+        }
+        for (int k = 2; k < m + 1; ++k) {
+            for (int n = 2; n < nums.length + 1; ++n) {
+                int min = Integer.MAX_VALUE;
+                for (int i = 1; i < n; ++i) {
+                    int temp = Math.max(dp[i][k - 1], sum[n] - sum[i]);
+                    if (temp < min) {
+                        min = temp;
+                        pos[n][k] = i;
+                    }
+                }
+                dp[n][k] = min;
+            }
+        }
+        // reconstruct the arrays
+        splitList = new ArrayList<>();
+        reconstructSplit(nums, pos, nums.length, m);
+        for (int i = 0; i < splitList.size(); ++i) {
+            System.out.println(Arrays.toString(splitList.get(i).toArray()));
+        }
+        return dp[nums.length][m];
+    }
+    private List<List<Integer>> splitList;
+    public void reconstructSplit(int[] nums, int[][] pos, int n, int k) {
+        if (k == 1) {
+            splitList.add(generateList(nums, 0, n));
+            return;
+        }
+        reconstructSplit(nums, pos, pos[n][k], k - 1);
+        splitList.add(generateList(nums, pos[n][k], n));
+    }
+    public List<Integer> generateList(int[] nums, int from, int to) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = from; i < to; ++i) {
+            list.add(nums[i]);
+        }
+        return list;
+    }
+
+    /**
+     *  Hard
+     *  #312. Burst Balloons
+     */
+    public int maxCoins(int[] nums) {
+        int size = nums.length + 2;
+        int[] n = new int[size];
+        n[0] = n[size - 1] = 1;
+        for (int i = 0; i < nums.length; ++i) {
+            n[i + 1] = nums[i];
+        }
+        int[][] dp = new int[size][size];
+        int[][] pos = new int[size][size];
+        for (int i = 0; i < size; ++i) {
+            dp[i] = new int[size];
+            Arrays.fill(dp[i], 0);
+            pos[i] = new int[size];
+            Arrays.fill(pos[i], -1);
+        }
+        for (int k = 2; k < size; ++k) {
+            for (int x = 0; x < size - k; ++x) {
+                int y = x + k;
+                for (int i = x + 1; i < y; ++i) {
+                    int max = n[x] * n[i] * n[y] + dp[x][i] + dp[i][y];
+                    if (max > dp[x][y]) {
+                        dp[x][y] = max;
+                        pos[x][y] = i;
+                    }
+                }
+            }
+        }
+        stack = new ArrayDeque<>();
+        maxCoins_reconstruct(n, pos, 0, size - 1, nums.length);
+        while (!stack.isEmpty()) {
+            int i = stack.pollFirst();
+            System.out.print(i + " ");
+        }
+        System.out.println(" ");
+        return dp[0][size - 1];
+    }
+    private Deque<Integer> stack;
+    public void maxCoins_reconstruct(int[] n, int[][] pos, int x, int y, int left) {
+        if (left == 0) {
+            return;
+        }
+        int i = pos[x][y];
+        stack.offerFirst(n[i]);
+        if (i - x > y - i) {
+            maxCoins_reconstruct(n, pos, x, i, left - 1);
+        } else {
+            maxCoins_reconstruct(n, pos, i, y, left - 1);
+        }
+    }
 }
