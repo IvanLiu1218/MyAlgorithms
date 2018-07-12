@@ -54,7 +54,7 @@ public class UtilitiesTest {
 
     @Test
     public void testAllPermutation() {
-        int[] nums = new int[] {1,2,0,3};
+        int[] nums = new int[] {0,1,2,3};
         List<int[]> all = Utilities.allPermutation(nums);
         System.out.println(all.size());
         for (int[] array : all) {
@@ -113,9 +113,12 @@ public class UtilitiesTest {
     public void testSetPartition3() {
         int[] nums = new int[] {1,2,3,4};
         List<List<List<Integer>>> all = Utilities.setPartition(nums, 2);
-        for (int i = 0; i < all.size(); ++i) {
-            System.out.println(Arrays.toString(all.get(i).toArray()));
-        }
+//        for (int i = 0; i < all.size(); ++i) {
+//            for (int j = 0; j < all.get(i).size(); ++j) {
+//                System.out.print(Arrays.toString(all.get(i).get(j).toArray()));
+//            }
+//            System.out.println(" ");
+//        }
 
 //        nums = new int[] {1,2,3,4};
 //        all = Utilities.setPartition(nums, 3);
@@ -126,11 +129,11 @@ public class UtilitiesTest {
 
     @Test
     public void testSetPartition4() {
-        int[] nums = new int[] {1,2};
-        List<List<List<Integer>>> all = Utilities.setPartition(nums);
-        for (int i = 0; i < all.size(); ++i) {
-            System.out.println(Arrays.toString(all.get(i).toArray()));
-        }
+//        int[] nums = new int[] {1,2};
+//        List<List<List<Integer>>> all = Utilities.setPartition(nums, 1);
+//        for (int i = 0; i < all.size(); ++i) {
+//            System.out.println(Arrays.toString(all.get(i).toArray()));
+//        }
     }
 
     @Test
