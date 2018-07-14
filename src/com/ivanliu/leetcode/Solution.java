@@ -9231,14 +9231,19 @@ public class Solution {
             }
         }
         // reconstruct the arrays
-        splitList = new ArrayList<>();
-        reconstructSplit(nums, pos, nums.length, m);
-        for (int i = 0; i < splitList.size(); ++i) {
-            System.out.println(Arrays.toString(splitList.get(i).toArray()));
-        }
+        List<List<Integer>> split = getSplit(nums, pos, nums.length, m);
+        split.stream().forEach(l -> System.out.println(Arrays.toString(l.stream().toArray())));
         return dp[nums.length][m];
     }
     private List<List<Integer>> splitList;
+    public List<List<Integer>> getSplit(int[] nums, int[][] pos, int n, int k) {
+        splitList = new ArrayList<>();
+        reconstructSplit(nums, pos, n, k);
+//        for (int i = 0; i < splitList.size(); ++i) {
+//            System.out.println(Arrays.toString(splitList.get(i).toArray()));
+//        }
+        return splitList;
+    }
     public void reconstructSplit(int[] nums, int[][] pos, int n, int k) {
         if (k == 1) {
             splitList.add(generateList(nums, 0, n));
@@ -9286,16 +9291,21 @@ public class Solution {
                 }
             }
         }
-        stack = new ArrayDeque<>();
-        maxCoins_reconstruct(n, pos, 0, size - 1, nums.length);
-        while (!stack.isEmpty()) {
-            int i = stack.pollFirst();
-            System.out.print(i + " ");
-        }
-        System.out.println(" ");
+        int[] order = maxCoins_getOrder(n, pos, 0, size - 1, nums.length);
+        System.out.println(Arrays.toString(order));
         return dp[0][size - 1];
     }
     private Deque<Integer> stack;
+    public int[] maxCoins_getOrder(int[] n, int[][] pos, int x, int y, int left) {
+        stack = new ArrayDeque<>();
+        List<Integer> list = new ArrayList<>();
+        maxCoins_reconstruct(n, pos, x, y, left);
+        while (!stack.isEmpty()) {
+            int i = stack.pollFirst();
+            list.add(i);
+        }
+        return list.stream().mapToInt(i -> i.intValue()).toArray();
+    }
     public void maxCoins_reconstruct(int[] n, int[][] pos, int x, int y, int left) {
         if (left == 0) {
             return;

@@ -295,7 +295,12 @@ public class Utilities {
 
     /**
      *  -------------------------------------------
-     *  Partition
+     *   Partition
+     *  -------------------------------------------
+     */
+    /**
+     *  -------------------------------------------
+     *   Integer Partition
      *  -------------------------------------------
      */
     public static int integerPartition(int n, int k) {
@@ -335,7 +340,7 @@ public class Utilities {
             copy.add(n);
             allIntegerPartitions.add(copy);
             return 1 + integerPartition(n, k - 1, list);
-        } else {  // n < k
+        } else {  // n > k
             list.add(k);
             int num1 = integerPartition(n - k, k, list);
             list.remove(new Integer(k));
@@ -344,6 +349,11 @@ public class Utilities {
         }
     }
 
+    /**
+     *  ------------------------------------------
+     *   Set Partition
+     *  ------------------------------------------
+     */
     public static int setPartition(int n) {
         int num = 0;
         for (int i = 1; i <= n; ++i) {
@@ -358,59 +368,230 @@ public class Utilities {
         return setPartition(n - 1, k - 1) + k * setPartition(n - 1, k);
     }
 
-    private static List<List<List<Integer>>> allSetPartitons;
+//    private static List<List<List<Integer>>> allSetPartitons;
+//    public static List<List<List<Integer>>> setPartition(int[] nums, int k) {
+//        allSetPartitons = new ArrayList<>();
+//        setPartition(nums, nums.length, k, new ArrayList<>());
+//        return allSetPartitons;
+//    }
+//    public static int setPartition(int[] nums, int len, int k, List<Integer> list) {
+//        if (nums == null || len < 1 || k == 0 ) return -1; // ERROR
+//        if (k == 1) {
+//            List<List<Integer>> copy = new ArrayList<>();
+//            copy.add(list);
+//            List<Integer> l = new ArrayList<>();
+//            for (int i = 0; i < len; ++i) {
+//                l.add(nums[i]);
+//            }
+//            copy.add(l);
+//            allSetPartitons.add(copy);
+//            return 1;
+//        } else if (len == k) {
+//            List<List<Integer>> ll = new ArrayList<>();
+//            for (int i = 0; i < len; ++i) {
+//                List<Integer> l = new ArrayList<>();
+//                l.add(nums[i]);
+//                ll.add(l);
+//            }
+//            for (int x = 0; x < k; ++x) {
+//                List<List<Integer>> copy = new ArrayList<>();
+//                for (int i = 0; i < ll.size(); ++i) {
+//                    List<Integer> l = new ArrayList<>();
+//                    if (i == x) {
+//                        l.addAll(list);
+//                    }
+//                    for (int j = 0; j < ll.get(i).size(); ++j) {
+//                        l.add(ll.get(i).get(j));
+//                    }
+//                    copy.add(l);
+//                }
+//                allSetPartitons.add(copy);
+//            }
+//            return 1;
+//        } else {
+//            list.add(nums[len - 1]);
+//            int num1 = setPartition(nums, len - 1, k - 1, list);
+//            int num2 = k * setPartition(nums, len - 1, k, list);
+//            return num1 + num2;
+//        }
+//    }
+//
+//    public static List<List<List<Integer>>> setPartition(int[] nums) {
+//        allSetPartitons = new ArrayList<>();
+//        for (int i = 1; i <= nums.length; ++i) {
+//            setPartition(nums, nums.length, i, new ArrayList<>());
+//        }
+//        return allSetPartitons;
+//    }
+    private static List<List<List<Integer>>> allSetPartitions;
     public static List<List<List<Integer>>> setPartition(int[] nums, int k) {
-        allSetPartitons = new ArrayList<>();
-        setPartition(nums, nums.length, k, new ArrayList<>());
-        return allSetPartitons;
+        allSetPartitions = new ArrayList<>();
+        setPartition(nums, k, 0, new ArrayList<>());
+        return allSetPartitions;
     }
-    public static int setPartition(int[] nums, int len, int k, List<Integer> list) {
-        if (nums == null || len < 1 || k == 0 ) return -1; // ERROR
+    public static int setPartition(int[] nums, int k, int begin, List<List<Integer>> list) {
+        int n = nums.length - begin;
+        if (n < 1 || k < 1) return -1; // ERROR
         if (k == 1) {
-            List<List<Integer>> copy = new ArrayList<>();
-            copy.add(list);
-            List<Integer> l = new ArrayList<>();
-            for (int i = 0; i < len; ++i) {
-                l.add(nums[i]);
+            List<Integer> set = new ArrayList<>();
+            for (int i = begin; i < nums.length; ++i) {
+                set.add(nums[i]);
             }
-            copy.add(l);
-            allSetPartitons.add(copy);
+            List<List<Integer>> copyList = copyLList(list);
+            copyList.add(set);
+            allSetPartitions.add(copyList);
+//            copyList.stream().forEach(l -> System.out.print(Arrays.toString(l.toArray())));
+//            System.out.println(' ');
             return 1;
-        } else if (len == k) {
-            List<List<Integer>> ll = new ArrayList<>();
-            for (int i = 0; i < len; ++i) {
-                List<Integer> l = new ArrayList<>();
-                l.add(nums[i]);
-                ll.add(l);
+        } else if (n == k) {
+            List<List<Integer>> copyList = copyLList(list);
+            for (int i = begin; i < nums.length; ++i) {
+                List<Integer> set = new ArrayList<>();
+                set.add(nums[i]);
+                copyList.add(set);
             }
-            for (int x = 0; x < k; ++x) {
-                List<List<Integer>> copy = new ArrayList<>();
-                for (int i = 0; i < ll.size(); ++i) {
-                    List<Integer> l = new ArrayList<>();
-                    if (i == x) {
-                        l.addAll(list);
-                    }
-                    for (int j = 0; j < ll.get(i).size(); ++j) {
-                        l.add(ll.get(i).get(j));
-                    }
-                    copy.add(l);
-                }
-                allSetPartitons.add(copy);
-            }
+            allSetPartitions.add(copyList);
+//            copyList.stream().forEach(l -> System.out.print(Arrays.toString(l.toArray())));
+//            System.out.println(' ');
             return 1;
         } else {
-            list.add(nums[len - 1]);
-            int num1 = setPartition(nums, len - 1, k - 1, list);
-            int num2 = k * setPartition(nums, len - 1, k, list);
-            return num1 + num2;
+            // a[1] is one subset
+            List<Integer> set = new ArrayList<>();
+            set.add(nums[begin]);
+            list.add(set);
+            int num1 = setPartition(nums, k - 1, begin + 1, list);
+            list.stream().forEach(l -> System.out.println(Arrays.toString(l.toArray())));
+            list.remove(set);
+            int num2 = setPartition(nums, k, begin + 1, list);
+            return num1 + k * num2;
+        }
+    }
+    public static List<Integer> copyList(int[] nums, int begin) {
+        List<Integer> copyList = new ArrayList<>();
+        for (int i = begin; i < nums.length; ++i) {
+            copyList.add(nums[i]);
+        }
+        return copyList;
+    }
+    public static List<List<Integer>> copyLList(List<List<Integer>> list) {
+        List<List<Integer>> copyList = new ArrayList<>();
+        for (int i = 0; i < list.size(); ++i) {
+            copyList.add(new ArrayList<>(list.get(i)));
+        }
+        return copyList;
+    }
+//    private List<List<List<Integer>>> allKSets;
+//    public List<List<List<Integer>>> kSet(int[] nums, int k) {
+//    }
+//    public void setPartition(int[] nums, int k, int begin) {
+//
+//    }
+
+    /**
+     * ------------------------------------------
+     *  Linked List
+     * ------------------------------------------
+     */
+    public static boolean hasCycle(ListNode node) {
+        if (node == null) return false;
+        if (node.next == null) return false;
+        ListNode p1 = node;
+        ListNode p2 = node.next;
+        while (p1 != null && p2 != null) {
+            if (p1 == p2) return true;
+            p1 = p1.next;
+            if (p2.next == null) return false;
+            else p2 = p2.next.next;
+        }
+        return false;
+    }
+
+    /**
+     * ------------------------------------------
+     *  Tree
+     * ------------------------------------------
+     */
+    private static List<List<TreeNodeBinary>> dfsPaths;
+    public static List<List<TreeNodeBinary>> dfs(TreeNodeBinary node) {
+        dfsPaths = new ArrayList<>();
+        dfs(node, new ArrayList<>());
+        return dfsPaths;
+    }
+    private static void dfs(TreeNodeBinary node, List<TreeNodeBinary> path) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            List<TreeNodeBinary> copy = new ArrayList<>(path);
+            copy.add(node);
+            dfsPaths.add(copy);
+            return;
+        }
+        path.add(node);
+        if (node.left != null) {
+            dfs(node.left, path);
+        }
+        if (node.right != null) {
+            dfs(node.right, path);
+        }
+        path.remove(node);
+    }
+    public static List<TreeNodeBinary> preOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        preOrder(node, nodeList);
+        return nodeList;
+    }
+    private static void preOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        nodeList.add(node);
+        if (node.left != null) {
+            preOrder(node.left, nodeList);
+        }
+        if (node.right != null) {
+            preOrder(node.right, nodeList);
         }
     }
 
-    public static List<List<List<Integer>>> setPartition(int[] nums) {
-        allSetPartitons = new ArrayList<>();
-        for (int i = 1; i <= nums.length; ++i) {
-            setPartition(nums, nums.length, i, new ArrayList<>());
-        }
-        return allSetPartitons;
+    public static List<TreeNodeBinary> inOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        inOrder(node, nodeList);
+        return nodeList;
     }
+    private static void inOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        if (node.left != null) {
+            inOrder(node.left, nodeList);
+        }
+        nodeList.add(node);
+        if (node.right != null) {
+            inOrder(node.right, nodeList);
+        }
+    }
+
+    public static List<TreeNodeBinary> postOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        postOrder(node, nodeList);
+        return nodeList;
+    }
+    private static void postOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        if (node.left != null) {
+            postOrder(node.left, nodeList);
+        }
+        if (node.right != null) {
+            postOrder(node.right, nodeList);
+        }
+        nodeList.add(node);
+    }
+
 }
