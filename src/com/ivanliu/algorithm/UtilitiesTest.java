@@ -1,12 +1,17 @@
 package com.ivanliu.algorithm;
 
+import com.intellij.ide.browsers.JavaScriptDebuggerStarter;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.rmi.CORBA.Util;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class UtilitiesTest {
 
@@ -157,5 +162,74 @@ public class UtilitiesTest {
         assertEquals(18, Utilities.lcm(9, 2));
         assertEquals(9, Utilities.lcm(9, 3));
         assertEquals(36, Utilities.lcm(9, 12));
+    }
+
+    @Test
+    public void testHasCycle() {
+        ListNode head = null;
+        assertFalse(Utilities.hasCycle(head));
+        head = new ListNode(0);
+        assertFalse(Utilities.hasCycle(head));
+        head.next = new ListNode(1);
+        assertFalse(Utilities.hasCycle(head));
+        head.next.next = new ListNode(2);
+        assertFalse(Utilities.hasCycle(head));
+
+        int size = 10;
+        ListNode[] nodes = new ListNode[size];
+        for (int i = 0; i < size; ++i) {
+            nodes[i] = new ListNode(i);
+        }
+        for (int i = 0; i < size - 1; ++i) {
+            nodes[i].next = nodes[i + 1];
+        }
+        assertFalse(Utilities.hasCycle(nodes[0]));
+
+        nodes[size - 1].next = nodes[0];
+        assertTrue(Utilities.hasCycle(nodes[0]));
+
+        nodes[size - 1].next = nodes[1];
+        assertTrue(Utilities.hasCycle(nodes[0]));
+
+        nodes[size - 1].next = nodes[2];
+        assertTrue(Utilities.hasCycle(nodes[0]));
+    }
+
+    private TreeNodeBinary createBinaryTree() {
+        TreeNodeBinary root = new TreeNodeBinary(7);
+        root.left = new TreeNodeBinary(4);
+        root.left.left = new TreeNodeBinary(2);
+        root.left.left.left = new TreeNodeBinary(1);
+        root.left.left.right = new TreeNodeBinary(3);
+        root.left.right = new TreeNodeBinary(6);
+        root.left.right.left = new TreeNodeBinary(5);
+        root.right = new TreeNodeBinary(12);
+        root.right.left = new TreeNodeBinary(9);
+        root.right.left.left = new TreeNodeBinary(8);
+        root.right.left.right = new TreeNodeBinary(10);
+        root.right.left.right.right = new TreeNodeBinary(11);
+        root.right.right = new TreeNodeBinary(14);
+        root.right.right.left = new TreeNodeBinary(13);
+        return root;
+    }
+
+    @Test
+    public void testTreeDFS() {
+        TreeNodeBinary root = createBinaryTree();
+        List<List<TreeNodeBinary>> paths = Utilities.dfs(root);
+        for (int i = 0; i < paths.size(); ++i) {
+            System.out.println(Arrays.toString(paths.get(i).stream().map(p -> p.value).toArray()));
+        }
+    }
+
+    @Test
+    public void testTreePreOrder() {
+        TreeNodeBinary root = createBinaryTree();
+        List<TreeNodeBinary> list = Utilities.preOrder(root);
+        System.out.println(Arrays.toString(list.stream().map(n -> n.value).toArray()));
+        list = Utilities.inOrder(root);
+        System.out.println(Arrays.toString(list.stream().map(n -> n.value).toArray()));
+        list = Utilities.postOrder(root);
+        System.out.println(Arrays.toString(list.stream().map(n -> n.value).toArray()));
     }
 }

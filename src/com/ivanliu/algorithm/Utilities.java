@@ -487,4 +487,111 @@ public class Utilities {
 //
 //    }
 
+    /**
+     * ------------------------------------------
+     *  Linked List
+     * ------------------------------------------
+     */
+    public static boolean hasCycle(ListNode node) {
+        if (node == null) return false;
+        if (node.next == null) return false;
+        ListNode p1 = node;
+        ListNode p2 = node.next;
+        while (p1 != null && p2 != null) {
+            if (p1 == p2) return true;
+            p1 = p1.next;
+            if (p2.next == null) return false;
+            else p2 = p2.next.next;
+        }
+        return false;
+    }
+
+    /**
+     * ------------------------------------------
+     *  Tree
+     * ------------------------------------------
+     */
+    private static List<List<TreeNodeBinary>> dfsPaths;
+    public static List<List<TreeNodeBinary>> dfs(TreeNodeBinary node) {
+        dfsPaths = new ArrayList<>();
+        dfs(node, new ArrayList<>());
+        return dfsPaths;
+    }
+    private static void dfs(TreeNodeBinary node, List<TreeNodeBinary> path) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            List<TreeNodeBinary> copy = new ArrayList<>(path);
+            copy.add(node);
+            dfsPaths.add(copy);
+            return;
+        }
+        path.add(node);
+        if (node.left != null) {
+            dfs(node.left, path);
+        }
+        if (node.right != null) {
+            dfs(node.right, path);
+        }
+        path.remove(node);
+    }
+    public static List<TreeNodeBinary> preOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        preOrder(node, nodeList);
+        return nodeList;
+    }
+    private static void preOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        nodeList.add(node);
+        if (node.left != null) {
+            preOrder(node.left, nodeList);
+        }
+        if (node.right != null) {
+            preOrder(node.right, nodeList);
+        }
+    }
+
+    public static List<TreeNodeBinary> inOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        inOrder(node, nodeList);
+        return nodeList;
+    }
+    private static void inOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        if (node.left != null) {
+            inOrder(node.left, nodeList);
+        }
+        nodeList.add(node);
+        if (node.right != null) {
+            inOrder(node.right, nodeList);
+        }
+    }
+
+    public static List<TreeNodeBinary> postOrder(TreeNodeBinary node) {
+        List<TreeNodeBinary> nodeList = new ArrayList<>();
+        postOrder(node, nodeList);
+        return nodeList;
+    }
+    private static void postOrder(TreeNodeBinary node, List<TreeNodeBinary> nodeList) {
+        if (node == null) return;
+        if (node.left == null && node.right == null) {
+            nodeList.add(node);
+            return;
+        }
+        if (node.left != null) {
+            postOrder(node.left, nodeList);
+        }
+        if (node.right != null) {
+            postOrder(node.right, nodeList);
+        }
+        nodeList.add(node);
+    }
+
 }
